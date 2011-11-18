@@ -3,6 +3,8 @@ package com.publizar.publizaraldia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import services.AuthenticateService;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -75,8 +77,11 @@ public class MainActivity extends Activity {
 		@Override
 		protected Integer doInBackground(String... params) {
 			String email = params[0];
+			String password = params[1];
 			int operationResult = 0;
 			if (checkEmailCorrect(email) == true) {
+				AuthenticateService authenticate = new AuthenticateService();
+				authenticate.authenticateUser(email, password);
 				operationResult = 1;
 			}
 			return operationResult;

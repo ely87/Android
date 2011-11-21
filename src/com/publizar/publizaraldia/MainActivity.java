@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	private String username;
 	private String userpwd;
 	private AlertDialog.Builder loginAlert;
-	
+	private String error = null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,11 +78,19 @@ public class MainActivity extends Activity {
 		protected Integer doInBackground(String... params) {
 			String email = params[0];
 			String password = params[1];
+			String result = null;
+			
 			int operationResult = 0;
 			if (checkEmailCorrect(email) == true) {
 				AuthenticateService authenticate = new AuthenticateService();
-				authenticate.authenticateUser(email, password);
-				operationResult = 1;
+				result = authenticate.authenticateUser(email, password);
+				if(result.equalsIgnoreCase(email)){
+					operationResult = 1;
+				}else{
+					error = result;
+					operationResult = 0; 
+				}
+				
 			}
 			return operationResult;
 		}
@@ -91,7 +99,11 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Integer operationResult) {
 			loginDialog.cancel();
 			if(operationResult == 0){
-				loginAlert.setMessage("El formato del correo no es válido.Por favor ingrese de nuevo el correo electrónico");
+				loginAlert.setMessage(error);
+				loginAlert.create().show();
+			}
+			else{
+				loginAlert.setMessage("El usuario fue autenticado exitosamente");
 				loginAlert.create().show();
 			}
 		}

@@ -1,9 +1,9 @@
 package services;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import connection.HttpClient;
 
@@ -13,24 +13,59 @@ public class AuthenticateService {
 		String url = "http://publizar.com.ve/api/api.php?o=login&e=" + email
 				+ "&p=" + password;
 		String response = null;
+		String result = null;
 
 		HttpClient httpClient = new HttpClient();
 		response = httpClient.getHTTPRequest(url);
 
-		validateUserGson(response);
+		result = validateUserGson(response);
 
-		return response;
+		return result;
 	}
 
 	public String validateUserGson(String result) {
 		String resultGson = null;
-		JsonElement jsonParser = new JsonParser().parse(result);
-		JsonArray jsonArray = jsonParser.getAsJsonArray();
-		Object user = null;
-		for (int i = 0; i < jsonArray.size(); i++) {
-			Gson gson = new Gson();
-			user = gson.fromJson(jsonArray.get(i), Object.class);
+
+		String prueba = null;
+
+		String error = null;
+
+		JSONArray jsonArray;
+
+		JSONObject jsonObject = null;
+
+		try {
+
+			jsonArray = new JSONArray(result);
+
+			jsonObject = jsonArray.getJSONObject(0);
+
+			prueba = jsonObject.getString("user_login");
+
+			if (prueba != null) {
+
+				resultGson = prueba;
+
+			}
+
+		} catch (JSONException e) {
+
+			try {
+
+				error = jsonObject.getString("error");
+
+			} catch (JSONException e1) {
+
+				// TODO Auto-generated catch block
+
+				e1.printStackTrace();
+
+			}
+
+			resultGson = error;
+
 		}
+
 		return resultGson;
 	}
 }

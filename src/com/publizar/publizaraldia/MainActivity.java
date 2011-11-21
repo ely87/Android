@@ -3,8 +3,11 @@ package com.publizar.publizaraldia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import persistence.UserDAO;
+
 import services.AuthenticateService;
 
+import Domain.User;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,6 +29,7 @@ public class MainActivity extends Activity {
 	private String userpwd;
 	private AlertDialog.Builder loginAlert;
 	private String error = null;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,8 +50,7 @@ public class MainActivity extends Activity {
 		loginAlert.setTitle("Inicio sesión");
 		loginAlert.setPositiveButton("Ok", null);
 		loginAlert.setCancelable(true);
-		
-		
+
 		Button.OnClickListener validateUserOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
@@ -79,18 +82,26 @@ public class MainActivity extends Activity {
 			String email = params[0];
 			String password = params[1];
 			String result = null;
-			
+
 			int operationResult = 0;
 			if (checkEmailCorrect(email) == true) {
 				AuthenticateService authenticate = new AuthenticateService();
 				result = authenticate.authenticateUser(email, password);
-				if(result.equalsIgnoreCase(email)){
-					operationResult = 1;
-				}else{
+				if (result.equalsIgnoreCase(email)) {
+					UserDAO userDao = new UserDAO();
+					userDao.initialize(applicationContext);
+					boolean bool = insertUser(email, password);
+					if (bool == true) {
+						operationResult = 1;
+					}
+					else {
+						operationResult = 0;
+					}
+				} else {
 					error = result;
-					operationResult = 0; 
+					operationResult = 0;
 				}
-				
+
 			}
 			return operationResult;
 		}
@@ -98,12 +109,12 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(Integer operationResult) {
 			loginDialog.cancel();
-			if(operationResult == 0){
+			if (operationResult == 0) {
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
-			}
-			else{
-				loginAlert.setMessage("El usuario fue autenticado exitosamente");
+			} else {
+				loginAlert
+						.setMessage("El usuario fue autenticado exitosamente");
 				loginAlert.create().show();
 			}
 		}
@@ -120,6 +131,33 @@ public class MainActivity extends Activity {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean insertUser(String email, String password) {
+		String tableName = "users";
+		boolean bool = false;
+		UserDAO userDAO = new UserDAO();
+		bool = userDAO.isTableEmpty(tableName);
+		User user = new User();
+		if (bool == true) {
+			user.setEmail(email);
+			user.setPassword(password);
+			userDAO.insert(user);
+			bool = true;
+		} else {
+			user = userDAO.selectUser(email);
+			if (user == null) {
+				user.setEmail(email);
+				user.setPassword(password);
+				userDAO.insert(user);
+				bool = true;
+				userDAO.delete(user);
+			} else {
+				bool = true;
+			}
+		}
+		return bool;
+
 	}
 
 }

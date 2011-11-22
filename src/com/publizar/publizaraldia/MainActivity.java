@@ -3,17 +3,21 @@ package com.publizar.publizaraldia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import domain.User;
+
 import persistence.UserDAO;
 
 import services.AuthenticateService;
 
-import Domain.User;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -67,6 +71,28 @@ public class MainActivity extends Activity {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.sign_out_menu, menu);
+		return true;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.sign_out:
+			User user = new User();
+			UserDAO userDAO = new UserDAO();
+			user = userDAO.selectUser(username);
+			userDAO.delete(user);
+			userDAO.exportDatabase();
+			break;
+		}
+		return true;
+	}
+
 	public class CallWebServiceTask extends AsyncTask<String, Void, Integer> {
 
 		protected Context applicationContext;
@@ -82,19 +108,17 @@ public class MainActivity extends Activity {
 			String email = params[0];
 			String password = params[1];
 			String result = null;
-
+			UserDAO userDao = new UserDAO();
 			int operationResult = 0;
 			if (checkEmailCorrect(email) == true) {
 				AuthenticateService authenticate = new AuthenticateService();
 				result = authenticate.authenticateUser(email, password);
 				if (result.equalsIgnoreCase(email)) {
-					UserDAO userDao = new UserDAO();
 					userDao.initialize(applicationContext);
 					boolean bool = insertUser(email, password);
 					if (bool == true) {
 						operationResult = 1;
-					}
-					else {
+					} else {
 						operationResult = 0;
 					}
 				} else {
@@ -103,6 +127,7 @@ public class MainActivity extends Activity {
 				}
 
 			}
+			userDao.exportDatabase();
 			return operationResult;
 		}
 
@@ -139,6 +164,7 @@ public class MainActivity extends Activity {
 		UserDAO userDAO = new UserDAO();
 		bool = userDAO.isTableEmpty(tableName);
 		User user = new User();
+		User user2 = new User();
 		if (bool == true) {
 			user.setEmail(email);
 			user.setPassword(password);
@@ -147,13 +173,14 @@ public class MainActivity extends Activity {
 		} else {
 			user = userDAO.selectUser(email);
 			if (user == null) {
-				user.setEmail(email);
-				user.setPassword(password);
-				userDAO.insert(user);
+				user2.setEmail(email);
+				user2.setPassword(password);
+				userDAO.insert(user2);
 				bool = true;
-				userDAO.delete(user);
+
 			} else {
 				bool = true;
+
 			}
 		}
 		return bool;

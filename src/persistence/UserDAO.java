@@ -1,18 +1,27 @@
 package persistence;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-import Domain.User;
+import domain.User;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.util.Log;
 
 public class UserDAO {
 
 	private static SQLiteDatabase db;
 
 	public void initialize(Context context) {
+		context.deleteDatabase("publizar_db.db");
 		db = context.openOrCreateDatabase("publizar_db.db",
 				SQLiteDatabase.CREATE_IF_NECESSARY, null);
 		createTable(db, "users");
@@ -112,7 +121,8 @@ public class UserDAO {
 		User user = new User();
 		Cursor cursor = null;
 		cursor = db.rawQuery(
-				"SELECT idUser, email,password FROM users WHERE email = ?", new String[]{email});
+				"SELECT idUser, email,password FROM users WHERE email = ?",
+				new String[] { email });
 		try {
 			if (cursor.getCount() > 0) {
 				int idIndex = cursor.getColumnIndex("idUser");
@@ -142,8 +152,8 @@ public class UserDAO {
 			db.beginTransaction();
 
 			// delete this record
-			String delete = "DELETE FROM users WHERE idUser='" + user.getIdUser()
-					+ "'";
+			String delete = "DELETE FROM users WHERE idUser='"
+					+ user.getIdUser() + "'";
 			db.execSQL(delete);
 
 			db.setTransactionSuccessful();
@@ -152,4 +162,36 @@ public class UserDAO {
 		}
 	}
 
+	public boolean exportDatabase() {
+		File dbFile = new File(Environment.getDataDirectory()
+				+ "/data/com.publizar.publizaraldia/databases/publizar_db.db");
+
+		File exportDir = new File(Environment.getExternalStorageDirectory(), "");
+		if (!exportDir.exists()) {
+			exportDir.mkdirs();
+		}
+		File file = new File(exportDir, dbFile.getName());
+
+		try {
+			file.createNewFile();
+			this.copyFile(dbFile, file);
+			return true;
+		} catch (IOException e) {
+			Log.e("mypck", e.getMessage(), e);
+			return false;
+		}
+	}
+
+	public void copyFile(File src, File dst) throws IOException {
+		FileChannel inChannel = new FileInputStream(src).getChannel();
+		FileChannel outChannel = new FileOutputStream(dst).getChannel();
+		try {
+			inChannel.transferTo(0, inChannel.size(), outChannel);
+		} finally {
+			if (inChannel != null)
+				inChannel.close();
+			if (outChannel != null)
+				outChannel.close();
+		}
+	}
 }

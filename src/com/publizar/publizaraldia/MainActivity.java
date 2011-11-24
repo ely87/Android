@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -138,9 +139,11 @@ public class MainActivity extends Activity {
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {
-				loginAlert
-						.setMessage("El usuario fue autenticado exitosamente");
-				loginAlert.create().show();
+				String emailUser = email.getText().toString();
+				Intent intent = new Intent(MainActivity.this, TimelineActivity.class);
+				intent.putExtra("email", emailUser);
+				startActivity(intent);
+				
 			}
 		}
 	}

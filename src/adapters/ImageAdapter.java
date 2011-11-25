@@ -5,61 +5,59 @@ import java.util.ArrayList;
 import com.publizar.publizaraldia.R;
 
 import domain.Promotion;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ImageAdapter extends ArrayAdapter<Promotion> {
-	private ArrayList<Promotion> promotions;
-	private Activity activity;
-	public ImageManager imageManager;
+public class ImageAdapter extends BaseAdapter {
 
-	public ImageAdapter(Activity a, int textViewResourceId, ArrayList<Promotion> promotions) {
-		super(a, textViewResourceId, promotions);
+	private Activity activity;
+	private String[] data;
+	private static LayoutInflater inflater = null;
+	public ImageLoader imageLoader;
+	private ArrayList<Promotion> promotions;
+
+	public ImageAdapter(Activity a, String[] d, ArrayList<Promotion> promotions) {
 		this.promotions = promotions;
 		activity = a;
-
-		imageManager = 
-			new ImageManager(activity.getApplicationContext());
+		data = d;
+		inflater = (LayoutInflater) activity
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		imageLoader = new ImageLoader(activity.getApplicationContext());
 	}
 
-	public static class ViewHolder{
-		public TextView title;
-		public TextView excerpt;
-		public ImageView image;
+	public int getCount() {
+		return data.length;
 	}
 
-	@Override
+	public Object getItem(int position) {
+		return position;
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
-		ViewHolder holder;
-		if (v == null) {		
-			LayoutInflater vi = 
-				(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.list_items, null);
-			holder = new ViewHolder();
-			holder.title = (TextView) v.findViewById(R.id.promo_title);
-			holder.excerpt = (TextView) v.findViewById(R.id.promo_excerpt);
-			holder.image = (ImageView) v.findViewById(R.id.promo_image);
-			v.setTag(holder);
-		}
-		else
-			holder=(ViewHolder)v.getTag();
+		View vi = convertView;
+		if (convertView == null)
+			vi = inflater.inflate(R.layout.list_items, null);
 
 		final Promotion promotion = promotions.get(position);
-		if (promotion != null) {
-			holder.title.setText(promotion.getName());
-			holder.excerpt.setText(promotion.getExcerpt());
-			Object tag = promotion.getImageUrl();
-			holder.image.setTag(tag);
-			imageManager.displayImage(promotion.getImageUrl(), activity, holder.image);
-		}
-		return v;
-	}
 
+		TextView title = (TextView) vi.findViewById(R.id.promo_title);
+		TextView excerpt = (TextView) vi.findViewById(R.id.promo_excerpt);
+
+		title.setText(promotion.getName());
+		excerpt.setText(promotion.getExcerpt());
+		ImageView image = (ImageView) vi.findViewById(R.id.promo_image);
+		imageLoader.DisplayImage(data[position], image);
+		return vi;
+	}
 }

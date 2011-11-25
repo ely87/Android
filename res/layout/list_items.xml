@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/promo_image"
         android:gravity="left"
-        android:shadowColor="#545554"
         android:textColor="#454545"
         android:textSize="14dip"
         android:textStyle="bold" >
@@ -31,7 +30,6 @@
         android:layout_below="@id/promo_title"
         android:layout_toRightOf="@+id/promo_image"
         android:gravity="left"
-        android:shadowColor="#545554"
         android:textColor="#454545"
         android:textSize="12dip" >
     </TextView>

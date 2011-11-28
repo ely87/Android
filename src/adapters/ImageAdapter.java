@@ -52,10 +52,29 @@ public class ImageAdapter extends BaseAdapter {
 		final Promotion promotion = promotions.get(position);
 
 		TextView title = (TextView) vi.findViewById(R.id.promo_title);
-		TextView excerpt = (TextView) vi.findViewById(R.id.promo_excerpt);
-
+		TextView discount = (TextView) vi.findViewById(R.id.promo_discount);
+		TextView price = (TextView) vi.findViewById(R.id.promo_amount);
+		TextView date = (TextView) vi.findViewById(R.id.promo_due);
+		TextView date_text = (TextView) vi.findViewById(R.id.promo_due_text);
 		title.setText(promotion.getName());
-		excerpt.setText(promotion.getExcerpt());
+
+		if ((!promotion.getDiscount().equalsIgnoreCase(""))
+				|| (!promotion.getPromotional_price().equalsIgnoreCase(""))) {
+			discount.setText(promotion.getDiscount());
+			price.setText(promotion.getPromotional_price());
+		} else {
+			discount.setText("-");
+			price.setText("-");
+		}
+		if (promotion.getDue_date().equalsIgnoreCase("0")) {
+			date_text.setText("Finaliza");
+			date.setText("Hoy");
+		} else if (promotion.getDue_date().equalsIgnoreCase("15305")) {
+			date.setText("-");
+		} else {
+			date_text.setText("Finaliza en");
+			date.setText(promotion.getDue_date() + " dias");
+		}
 		ImageView image = (ImageView) vi.findViewById(R.id.promo_image);
 		imageLoader.DisplayImage(data[position], image);
 		return vi;

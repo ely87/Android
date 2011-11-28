@@ -1,6 +1,5 @@
 package domain;
 
-import java.sql.Date;
 
 public class Promotion {
 
@@ -13,7 +12,7 @@ public class Promotion {
 	private String original_price;
 	private String promotional_price;
 	private String discount;
-	private Date due_date;
+	private String due_date;
 	private String url_complete;
 	private String excerpt;
 
@@ -101,11 +100,11 @@ public class Promotion {
 		this.discount = discount;
 	}
 
-	public Date getDue_date() {
+	public String getDue_date() {
 		return due_date;
 	}
 
-	public void setDue_date(Date due_date) {
+	public void setDue_date(String due_date) {
 		this.due_date = due_date;
 	}
 

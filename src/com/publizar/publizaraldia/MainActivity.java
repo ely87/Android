@@ -140,7 +140,7 @@ public class MainActivity extends Activity {
 				loginAlert.create().show();
 			} else {
 				String emailUser = email.getText().toString();
-				Intent intent = new Intent(MainActivity.this, TimelineActivity.class);
+				Intent intent = new Intent(MainActivity.this, AllPromosActivity.class);
 				intent.putExtra("email", emailUser);
 				startActivity(intent);
 				

@@ -49,7 +49,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:hint="Correo electronico" >
+                    android:hint="Correo electronico"
+                    android:text="khaterine.publizar@gmail.com" >
                 </EditText>
             </TableRow>
 
@@ -68,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:background="#00000000"
                     android:hint="Contrasena"
-                    android:password="true" >
+                    android:password="true"
+                    android:text="Castellano01" >
                 </EditText>
             </TableRow>
         </TableLayout>

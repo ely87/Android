@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/promo_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:layout_toRightOf="@+id/promo_detail_image"
+            android:gravity="left"
+            android:text="Loren ipsum dolor sit amet"
+            android:textColor="#454545"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/promo_detail_due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/promo_detail_title"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/promo_detail_image"
+            android:gravity="left"
+            android:text="Expira en"
+            android:textColor="#454545"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/promo_detail_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/promo_detail_due"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/promo_detail_image"
+            android:gravity="left"
+            android:text="Adquierela en"
+            android:textColor="#454545"
+            android:textSize="12dp"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/promo_detail_image"
+            android:layout_width="150dip"
+            android:layout_height="100dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#4d4f4e" >
+    </LinearLayout>
+
+</RelativeLayout>

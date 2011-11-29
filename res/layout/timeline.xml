@@ -18,10 +18,4 @@
         android:background="#4d4f4e" >
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Clear Cache" />
-
 </LinearLayout>

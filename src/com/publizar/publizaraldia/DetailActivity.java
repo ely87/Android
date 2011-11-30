@@ -92,11 +92,12 @@ public class DetailActivity extends Activity {
 		double fPart = value - iPart;
 		String result = null;
 
-		if (fPart < 1) {
+		if (fPart == 0) {
+			result = String.valueOf(iPart);
+
+		} else {
 			df = new DecimalFormat("0.000");
 			result = df.format(value);
-		} else {
-			result = String.valueOf(iPart);
 		}
 		return result;
 

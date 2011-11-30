@@ -56,12 +56,12 @@ public class ImageAdapter extends BaseAdapter {
 		TextView price = (TextView) vi.findViewById(R.id.promo_amount);
 		TextView date = (TextView) vi.findViewById(R.id.promo_due);
 		TextView date_text = (TextView) vi.findViewById(R.id.promo_due_text);
-		title.setText(promotion.getName());
+		title.setText(promotion.getTitle());
 
 		if ((!promotion.getDiscount().equalsIgnoreCase(""))
-				|| (!promotion.getPromotional_price().equalsIgnoreCase(""))) {
+				|| (!promotion.getSaved_price().equalsIgnoreCase(""))) {
 			discount.setText(promotion.getDiscount());
-			price.setText(promotion.getPromotional_price());
+			price.setText(promotion.getSaved_price());
 		} else {
 			discount.setText("-");
 			price.setText("-");

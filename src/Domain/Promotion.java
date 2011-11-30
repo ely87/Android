@@ -1,31 +1,39 @@
 package domain;
 
-
 public class Promotion {
 
 	private int id;
-	private String name;
 	private String description;
-	private String imageUrl;
-	private String status;
-	private String website;
-	private String original_price;
-	private String promotional_price;
-	private String discount;
-	private String due_date;
-	private String url_complete;
 	private String excerpt;
+	private String title;
+	private String id_comerce;
+	private String image_url;
+	private String discount;
+	private String saved_price;
+	private String original_price;
+	private String promo_company;
+	private String due_date;
+	private String promo_complete_url;
+	private String foursquare;
+	private String comerce;
+	private String comerce_tlf;
+	private String website_comerce;
+	private String twitter;
+	private String facebook;
+	private String contact_email;
+	private String form_link;
+	private String status;
 
-	public String getExcerpt() {
-		return excerpt;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setExcerpt(String excerpt) {
-		this.excerpt = excerpt;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Promotion() {
-
+		super();
 	}
 
 	public int getId() {
@@ -36,14 +44,6 @@ public class Promotion {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -52,44 +52,36 @@ public class Promotion {
 		this.description = description;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getExcerpt() {
+		return excerpt;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setExcerpt(String excerpt) {
+		this.excerpt = excerpt;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getWebsite() {
-		return website;
+	public String getId_comerce() {
+		return id_comerce;
 	}
 
-	public void setWebsite(String website) {
-		this.website = website;
+	public void setId_comerce(String id_comerce) {
+		this.id_comerce = id_comerce;
 	}
 
-	public String getOriginal_price() {
-		return original_price;
+	public String getImage_url() {
+		return image_url;
 	}
 
-	public void setOriginal_price(String original_price) {
-		this.original_price = original_price;
-	}
-
-	public String getPromotional_price() {
-		return promotional_price;
-	}
-
-	public void setPromotional_price(String promotional_price) {
-		this.promotional_price = promotional_price;
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
 	}
 
 	public String getDiscount() {
@@ -100,6 +92,30 @@ public class Promotion {
 		this.discount = discount;
 	}
 
+	public String getSaved_price() {
+		return saved_price;
+	}
+
+	public void setSaved_price(String saved_price) {
+		this.saved_price = saved_price;
+	}
+
+	public String getOriginal_price() {
+		return original_price;
+	}
+
+	public void setOriginal_price(String original_price) {
+		this.original_price = original_price;
+	}
+
+	public String getPromo_company() {
+		return promo_company;
+	}
+
+	public void setPromo_company(String promo_company) {
+		this.promo_company = promo_company;
+	}
+
 	public String getDue_date() {
 		return due_date;
 	}
@@ -108,12 +124,76 @@ public class Promotion {
 		this.due_date = due_date;
 	}
 
-	public String getUrl_complete() {
-		return url_complete;
+	public String getPromo_complete_url() {
+		return promo_complete_url;
 	}
 
-	public void setUrl_complete(String url_complete) {
-		this.url_complete = url_complete;
+	public void setPromo_complete_url(String promo_complete_url) {
+		this.promo_complete_url = promo_complete_url;
+	}
+
+	public String getFoursquare() {
+		return foursquare;
+	}
+
+	public void setFoursquare(String foursquare) {
+		this.foursquare = foursquare;
+	}
+
+	public String getComerce() {
+		return comerce;
+	}
+
+	public void setComerce(String comerce) {
+		this.comerce = comerce;
+	}
+
+	public String getComerce_tlf() {
+		return comerce_tlf;
+	}
+
+	public void setComerce_tlf(String comerce_tlf) {
+		this.comerce_tlf = comerce_tlf;
+	}
+
+	public String getWebsite_comerce() {
+		return website_comerce;
+	}
+
+	public void setWebsite_comerce(String website_comerce) {
+		this.website_comerce = website_comerce;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getContact_email() {
+		return contact_email;
+	}
+
+	public void setContact_email(String contact_email) {
+		this.contact_email = contact_email;
+	}
+
+	public String getForm_link() {
+		return form_link;
+	}
+
+	public void setForm_link(String form_link) {
+		this.form_link = form_link;
 	}
 
 }

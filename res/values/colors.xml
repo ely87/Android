@@ -3,4 +3,6 @@
 	<color name="custom_theme_color">#ffffff</color>
 	<color name="lime_green">#b3d236</color> 
 	<color name="white">#ffffff</color> 
+	<color name="blue">#19b3e7</color> 
+	<color name="black">#171717</color>
 </resources>

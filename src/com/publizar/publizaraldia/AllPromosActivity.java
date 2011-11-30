@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 //import android.widget.Button;
 import android.widget.AdapterView;
@@ -30,8 +31,10 @@ public class AllPromosActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.timeline);
-
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.navigation_bar);
 		mStrings = getPromotions(100);
 		list = (ListView) findViewById(R.id.imagelist);
 		adapter = new ImageAdapter(this, mStrings, promotions);
@@ -40,18 +43,24 @@ public class AllPromosActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
 				Promotion promotion = promotions.get(position);
+				PromotionServices promotionServices = new PromotionServices();
+				promotion = promotionServices.getExtraInformation(promotion);
 				Intent intent = new Intent(AllPromosActivity.this,
 						DetailActivity.class);
-				intent.putExtra("Promo_image", promotion.getImageUrl());
-				intent.putExtra("Promo_title", promotion.getName());
+				intent.putExtra("Promo_image", promotion.getImage_url());
+				intent.putExtra("Promo_title", promotion.getTitle());
 				intent.putExtra("Promo_due", promotion.getDue_date());
+				intent.putExtra("Promo_company", promotion.getPromo_company());
+				intent.putExtra("Promo_comerce", promotion.getComerce());
+				intent.putExtra("Promo_price", promotion.getSaved_price());
+				intent.putExtra("Promo_original_price", promotion.getOriginal_price());
+				intent.putExtra("Promo_discount", promotion.getDiscount());
 				startActivity(intent);
 			}
 		});
 		// Button b = (Button) findViewById(R.id.button1);
 		// b.setOnClickListener(listener);
 	}
-
 
 	public OnClickListener listener = new OnClickListener() {
 		public void onClick(View arg0) {
@@ -79,7 +88,7 @@ public class AllPromosActivity extends Activity {
 		String[] promotionsResult = new String[promotions.size()];
 
 		for (int i = 0; i < promotions.size(); i++) {
-			promotionsResult[i] = promotions.get(i).getImageUrl();
+			promotionsResult[i] = promotions.get(i).getImage_url();
 		}
 		return promotionsResult;
 	}

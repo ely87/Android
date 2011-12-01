@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:gravity="center_horizontal" >
+    android:gravity="top"
+    android:orientation="vertical" >
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="60dp"
+        android:padding="10dp" >
+
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="492dp"
-            android:layout_gravity="fill_horizontal"
-            android:layout_toRightOf="@+id/promo_detail_image"
-            android:gravity="right"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:layout_height="466dp"
+            android:gravity="top"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/promo_detail_title"
@@ -74,7 +74,7 @@
                 android:text="Compralo por " />
 
             <Button
-                android:id="@+id/Button02"
+                android:id="@+id/promo_add_favourites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/promo_detail_button_buy"
@@ -87,8 +87,8 @@
                 android:id="@+id/Button03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/Button02"
-                android:layout_alignBottom="@+id/Button02"
+                android:layout_alignBaseline="@+id/promo_add_favourites"
+                android:layout_alignBottom="@+id/promo_add_favourites"
                 android:layout_alignRight="@+id/promo_detail_button_buy"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
@@ -98,7 +98,7 @@
                 android:id="@+id/promo_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Button02"
+                android:layout_below="@+id/promo_add_favourites"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Precio original"
@@ -136,6 +136,7 @@
                 android:layout_alignLeft="@+id/promo_detail_text"
                 android:layout_below="@+id/promo_detail_text"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:textColor="#454545" />
 
             <TextView
@@ -145,6 +146,7 @@
                 android:layout_alignBaseline="@+id/promo_detail_op"
                 android:layout_alignBottom="@+id/promo_detail_op"
                 android:layout_alignLeft="@+id/promo_detail_text2"
+                android:gravity="center"
                 android:textColor="#454545" />
 
             <TextView
@@ -153,6 +155,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/promo_detail_op"
                 android:layout_alignRight="@+id/promo_detail_text3"
+                android:gravity="center"
+                android:textColor="#454545" />
+
+            <TextView
+                android:id="@+id/promo_detail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/promo_detail_op"
+                android:layout_alignBottom="@+id/promo_detail_op"
+                android:layout_alignParentLeft="true"
+                android:text="TextView"
                 android:textColor="#454545" />
         </RelativeLayout>
     </ScrollView>

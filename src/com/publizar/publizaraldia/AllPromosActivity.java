@@ -53,8 +53,10 @@ public class AllPromosActivity extends Activity {
 				intent.putExtra("Promo_company", promotion.getPromo_company());
 				intent.putExtra("Promo_comerce", promotion.getComerce());
 				intent.putExtra("Promo_price", promotion.getSaved_price());
-				intent.putExtra("Promo_original_price", promotion.getOriginal_price());
+				intent.putExtra("Promo_original_price",
+						promotion.getOriginal_price());
 				intent.putExtra("Promo_discount", promotion.getDiscount());
+				intent.putExtra("Promo_description", promotion.getDescription());
 				startActivity(intent);
 			}
 		});

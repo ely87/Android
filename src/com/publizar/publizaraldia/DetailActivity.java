@@ -36,6 +36,7 @@ public class DetailActivity extends Activity {
 	private String promo_original_price;
 	private String promo_discount;
 	private String promo_description;
+	private String promo_website;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class DetailActivity extends Activity {
 		promo_original_price = intent.getStringExtra("Promo_original_price");
 		promo_discount = intent.getStringExtra("Promo_discount");
 		promo_description = intent.getStringExtra("Promo_description");
+		promo_website = intent.getStringExtra("Promo_website");
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
 		detail_image = (ImageView) findViewById(R.id.promo_detail_image);
@@ -68,6 +70,22 @@ public class DetailActivity extends Activity {
 		promo_detail_text3 = (TextView) findViewById(R.id.promo_detail_text3);
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		setDetailsPromotion();
+
+		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
+
+			public void onClick(View v) {
+
+				Intent intent = new Intent(DetailActivity.this,
+						WebLoaderActivity.class);
+				intent.putExtra("Promo_website", promo_website);
+				startActivity(intent);
+
+				// Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				// Uri.parse("http://www.google.com"));
+				// / startActivity(browserIntent);
+			}
+		};
+		button_url.setOnClickListener(launchBrowserOnClickListener);
 	}
 
 	public void setDetailsPromotion() {
@@ -77,13 +95,22 @@ public class DetailActivity extends Activity {
 		if (promo_company.length() > 0) {
 			detail_promo_company.setText(promo_company);
 			button_url.setText("Compralo por  " + promo_price);
-			double original_price = Float.valueOf(promo_original_price
-					.substring(4, promo_original_price.length()));
-			double price = Float.valueOf(promo_price.substring(4,
-					promo_price.length()));
+			String saved_price = null;
 
-			double saved_value = original_price - price;
-			String saved_price = getCalculatedValue(saved_value);
+			if (promo_original_price.length() == 0) {
+				saved_price = String.valueOf(0);
+				promo_original_price = promo_price;
+				promo_discount = "sin descuento";
+			} else {
+				double original_price = Float.valueOf(promo_original_price
+						.substring(4, promo_original_price.length()));
+				double price = Float.valueOf(promo_price.substring(4,
+						promo_price.length()));
+				double saved_value = original_price - price;
+
+				saved_price = getCalculatedValue(saved_value);
+			}
+
 			detail_original_price.setText(promo_original_price);
 			detail_saved_price.setText("Bs. " + saved_price);
 			detail_discount.setText(promo_discount);
@@ -102,6 +129,7 @@ public class DetailActivity extends Activity {
 	}
 
 	public String getCalculatedValue(double value) {
+
 		DecimalFormat df = null;
 		long iPart = (long) value;
 		double fPart = value - iPart;

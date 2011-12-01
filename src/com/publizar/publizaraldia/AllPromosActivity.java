@@ -57,6 +57,8 @@ public class AllPromosActivity extends Activity {
 						promotion.getOriginal_price());
 				intent.putExtra("Promo_discount", promotion.getDiscount());
 				intent.putExtra("Promo_description", promotion.getDescription());
+				intent.putExtra("Promo_website",
+						promotion.getPromo_complete_url());
 				startActivity(intent);
 			}
 		});

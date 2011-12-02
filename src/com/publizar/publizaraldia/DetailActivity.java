@@ -1,6 +1,10 @@
 package com.publizar.publizaraldia;
 
 import java.text.DecimalFormat;
+
+import domain.Promotion;
+
+import services.PromotionServices;
 import adapters.ImageLoader;
 import android.app.Activity;
 import android.content.Intent;
@@ -26,10 +30,12 @@ public class DetailActivity extends Activity {
 	private TextView promo_detail_text3;
 	public ImageLoader imageLoader;
 	private Button button_url;
+	private Button button_send;
 
 	private String title;
 	private String image;
 	private String due_date;
+	private String promo_id;
 	private String promo_company;
 	private String promo_comerce;
 	private String promo_price;
@@ -37,6 +43,7 @@ public class DetailActivity extends Activity {
 	private String promo_discount;
 	private String promo_description;
 	private String promo_website;
+	private String email;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +52,7 @@ public class DetailActivity extends Activity {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.navigation_bar);
 		Intent intent = getIntent();
+		promo_id = intent.getStringExtra("Promo_id");
 		title = intent.getStringExtra("Promo_title");
 		image = intent.getStringExtra("Promo_image");
 		due_date = intent.getStringExtra("Promo_due");
@@ -55,6 +63,7 @@ public class DetailActivity extends Activity {
 		promo_discount = intent.getStringExtra("Promo_discount");
 		promo_description = intent.getStringExtra("Promo_description");
 		promo_website = intent.getStringExtra("Promo_website");
+		email = intent.getStringExtra("Email");
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
 		detail_image = (ImageView) findViewById(R.id.promo_detail_image);
@@ -69,6 +78,8 @@ public class DetailActivity extends Activity {
 		promo_detail_text2 = (TextView) findViewById(R.id.promo_detail_text2);
 		promo_detail_text3 = (TextView) findViewById(R.id.promo_detail_text3);
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
+		button_send = (Button) findViewById(R.id.promo_send_promotion);
+
 		setDetailsPromotion();
 
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
@@ -79,13 +90,21 @@ public class DetailActivity extends Activity {
 						WebLoaderActivity.class);
 				intent.putExtra("Promo_website", promo_website);
 				startActivity(intent);
-
-				// Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-				// Uri.parse("http://www.google.com"));
-				// / startActivity(browserIntent);
 			}
 		};
+
+		Button.OnClickListener sendEmailPromotionOnClickListener = new Button.OnClickListener() {
+
+			public void onClick(View v) {
+				PromotionServices promotionServices = new PromotionServices();
+				Promotion promotion = new Promotion();
+				promotion.setId(Integer.valueOf(promo_id));
+				promotionServices.sendPromotionInformation(promotion, email);
+			}
+		};
+
 		button_url.setOnClickListener(launchBrowserOnClickListener);
+		button_send.setOnClickListener(sendEmailPromotionOnClickListener);
 	}
 
 	public void setDetailsPromotion() {
@@ -100,10 +119,12 @@ public class DetailActivity extends Activity {
 			if (promo_original_price.length() == 0) {
 				saved_price = String.valueOf(0);
 				promo_original_price = promo_price;
-				promo_discount = "sin descuento";
+				promo_discount = "Sin descuento";
 			} else {
-				double original_price = Float.valueOf(promo_original_price
-						.substring(4, promo_original_price.length()));
+				String result = promo_original_price.substring(4,
+						promo_original_price.length());
+				result = result.replace(".", "");
+				double original_price = Float.valueOf(result);
 				double price = Float.valueOf(promo_price.substring(4,
 						promo_price.length()));
 				double saved_value = original_price - price;

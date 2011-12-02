@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 import connection.HttpClient;
 import domain.Promotion;
 
@@ -101,5 +103,15 @@ public class PromotionServices {
 			e.printStackTrace();
 		}
 		return promotion;
+	}
+
+	public boolean sendPromotionInformation(Promotion promotion, String email) {
+		String url = "";
+
+		Gson gson = new Gson();
+		String json = gson.toJson(promotion);
+
+		return false;
+
 	}
 }

@@ -27,6 +27,7 @@ public class AllPromosActivity extends Activity {
 	private ImageAdapter adapter;
 	private String[] mStrings = null;
 	private ArrayList<Promotion> promotions;
+	private String email;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,10 @@ public class AllPromosActivity extends Activity {
 		list = (ListView) findViewById(R.id.imagelist);
 		adapter = new ImageAdapter(this, mStrings, promotions);
 		list.setAdapter(adapter);
+
+		Intent intent = getIntent();
+		email = intent.getStringExtra("email");
+
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
@@ -47,6 +52,7 @@ public class AllPromosActivity extends Activity {
 				promotion = promotionServices.getExtraInformation(promotion);
 				Intent intent = new Intent(AllPromosActivity.this,
 						DetailActivity.class);
+				intent.putExtra("Promo_id", promotion.getId());
 				intent.putExtra("Promo_image", promotion.getImage_url());
 				intent.putExtra("Promo_title", promotion.getTitle());
 				intent.putExtra("Promo_due", promotion.getDue_date());
@@ -59,6 +65,7 @@ public class AllPromosActivity extends Activity {
 				intent.putExtra("Promo_description", promotion.getDescription());
 				intent.putExtra("Promo_website",
 						promotion.getPromo_complete_url());
+				intent.putExtra("Email", email);
 				startActivity(intent);
 			}
 		});

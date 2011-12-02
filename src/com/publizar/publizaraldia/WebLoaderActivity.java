@@ -37,11 +37,11 @@ public class WebLoaderActivity extends Activity {
 																// supported by
 																// ROM
 		promo_website = intent.getStringExtra("Promo_website");
-		mProgress = ProgressDialog.show(this, "Loading",
-				"Please wait for a moment...");
+		mProgress = ProgressDialog.show(this, "Cargando",
+				"Por favor espere un momento...");
 		// Load URL
 
-		if (promo_website.contains("pdf")) {
+		if (promo_website.contains(".pdf")) {
 			mWebView.loadUrl("http://docs.google.com/gview?embedded=true&url="
 					+ promo_website);
 

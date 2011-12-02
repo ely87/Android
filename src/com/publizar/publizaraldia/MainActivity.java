@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 		case R.id.sign_out:
 			User user = new User();
 			UserDAO userDAO = new UserDAO();
-			user = userDAO.selectUser(username);
+			user = userDAO.selectUser();
 			userDAO.delete(user);
 			userDAO.exportDatabase();
 			break;
@@ -139,11 +139,10 @@ public class MainActivity extends Activity {
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {
-				String emailUser = email.getText().toString();
-				Intent intent = new Intent(MainActivity.this, AllPromosActivity.class);
-				intent.putExtra("email", emailUser);
+				Intent intent = new Intent(MainActivity.this,
+						AllPromosActivity.class);
 				startActivity(intent);
-				
+
 			}
 		}
 	}
@@ -174,7 +173,7 @@ public class MainActivity extends Activity {
 			userDAO.insert(user);
 			bool = true;
 		} else {
-			user = userDAO.selectUser(email);
+			user = userDAO.selectUser();
 			if (user == null) {
 				user2.setEmail(email);
 				user2.setPassword(password);

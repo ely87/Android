@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-
 import connection.HttpClient;
 import domain.Promotion;
 
@@ -105,13 +103,11 @@ public class PromotionServices {
 		return promotion;
 	}
 
-	public boolean sendPromotionInformation(Promotion promotion, String email) {
-		String url = "";
-
-		Gson gson = new Gson();
-		String json = gson.toJson(promotion);
-
-		return false;
-
+	public void sendEmailPromotion(String id, String email) {
+		String url = "http://www.publizar.com/api/api.php?o=sendbymail&i=" + id
+				+ "&u=" + email;
+		HttpClient httpClient = new HttpClient();
+		httpClient.getHTTPRequest(url);
 	}
+
 }

@@ -117,12 +117,10 @@ public class UserDAO {
 		}
 	}
 
-	public User selectUser(String email) {
+	public User selectUser() {
 		User user = new User();
 		Cursor cursor = null;
-		cursor = db.rawQuery(
-				"SELECT idUser, email,password FROM users WHERE email = ?",
-				new String[] { email });
+		cursor = db.rawQuery("SELECT * FROM users", null);
 		try {
 			if (cursor.getCount() > 0) {
 				int idIndex = cursor.getColumnIndex("idUser");

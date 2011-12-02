@@ -7,11 +7,12 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:fillViewport="true" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-             android:layout_height="466dp"
+            android:layout_height="fill_parent"
             android:layout_gravity="fill_horizontal"
             android:layout_toRightOf="@+id/promo_detail_image"
             android:gravity="right"
@@ -74,7 +75,7 @@
                 android:text="Compralo por " />
 
             <Button
-                android:id="@+id/promo_send_promotion"
+                android:id="@+id/promo_favourite_promotion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/promo_detail_button_buy"
@@ -84,11 +85,11 @@
                 android:text="Agregar a mis favoritos" />
 
             <Button
-                android:id="@+id/Button03"
+                android:id="@+id/promo_send_promotion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_send_promotion"
-                android:layout_alignBottom="@+id/promo_send_promotion"
+                android:layout_alignBaseline="@+id/promo_favourite_promotion"
+                android:layout_alignBottom="@+id/promo_favourite_promotion"
                 android:layout_alignRight="@+id/promo_detail_button_buy"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
@@ -98,7 +99,7 @@
                 android:id="@+id/promo_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_send_promotion"
+                android:layout_below="@+id/promo_favourite_promotion"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Precio original"
@@ -123,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/promo_detail_text"
                 android:layout_alignBottom="@+id/promo_detail_text"
-                android:layout_alignRight="@+id/Button03"
+                android:layout_alignRight="@+id/promo_send_promotion"
                 android:layout_weight="1"
                 android:text="Te ahorras"
                 android:textColor="#454545"

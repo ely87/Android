@@ -2,7 +2,10 @@ package com.publizar.publizaraldia;
 
 import java.text.DecimalFormat;
 
+import persistence.UserDAO;
+
 import domain.Promotion;
+import domain.User;
 
 import services.PromotionServices;
 import adapters.ImageLoader;
@@ -43,7 +46,6 @@ public class DetailActivity extends Activity {
 	private String promo_discount;
 	private String promo_description;
 	private String promo_website;
-	private String email;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +65,6 @@ public class DetailActivity extends Activity {
 		promo_discount = intent.getStringExtra("Promo_discount");
 		promo_description = intent.getStringExtra("Promo_description");
 		promo_website = intent.getStringExtra("Promo_website");
-		email = intent.getStringExtra("Email");
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
 		detail_image = (ImageView) findViewById(R.id.promo_detail_image);
@@ -99,7 +100,10 @@ public class DetailActivity extends Activity {
 				PromotionServices promotionServices = new PromotionServices();
 				Promotion promotion = new Promotion();
 				promotion.setId(Integer.valueOf(promo_id));
-				promotionServices.sendPromotionInformation(promotion, email);
+				UserDAO userDAO = new UserDAO();
+				User user = new User();
+				user = userDAO.selectUser();
+				promotionServices.sendEmailPromotion(promo_id, user.getEmail());
 			}
 		};
 
@@ -160,9 +164,13 @@ public class DetailActivity extends Activity {
 			result = String.valueOf(iPart);
 
 		} else {
+
 			df = new DecimalFormat("0.000");
 			result = df.format(value);
+			// int index = result.lastIndexOf('.');
+			// result.
 		}
+
 		return result;
 
 	}

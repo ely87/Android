@@ -25,7 +25,6 @@ public final class R {
         public static final int rounded_borders=0x7f020004;
     }
     public static final class id {
-        public static final int Button03=0x7f08000f;
         public static final int RelativeLayout01=0x7f080000;
         public static final int TextView01=0x7f080018;
         public static final int TextView02=0x7f08001a;
@@ -52,8 +51,9 @@ public final class R {
         public static final int promo_discount=0x7f080005;
         public static final int promo_due=0x7f080007;
         public static final int promo_due_text=0x7f080004;
+        public static final int promo_favourite_promotion=0x7f08000e;
         public static final int promo_image=0x7f080001;
-        public static final int promo_send_promotion=0x7f08000e;
+        public static final int promo_send_promotion=0x7f08000f;
         public static final int promo_table=0x7f080003;
         public static final int promo_title=0x7f080002;
         public static final int rel_webpage_whole=0x7f08001f;

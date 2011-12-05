@@ -3,25 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ffffff"
-    android:gravity="center_horizontal" >
+    android:orientation="vertical" >
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginBottom="60dp"
         android:fillViewport="true" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="fill_horizontal"
-            android:layout_toRightOf="@+id/promo_detail_image"
-            android:gravity="right"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp" >
 
             <TextView
                 android:id="@+id/promo_detail_title"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/promo_detail_image"
                 android:layout_toRightOf="@+id/promo_detail_image"
@@ -31,7 +29,7 @@
 
             <TextView
                 android:id="@+id/promo_detail_due"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/promo_detail_title"
                 android:layout_gravity="fill_horizontal"
@@ -45,7 +43,7 @@
 
             <TextView
                 android:id="@+id/promo_detail_company"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/promo_detail_due"
                 android:layout_gravity="fill_horizontal"
@@ -160,9 +158,8 @@
                 android:id="@+id/promo_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_detail_op"
-                android:layout_alignBottom="@+id/promo_detail_op"
-                android:layout_alignParentLeft="true"
+                android:layout_marginTop="2dp"
+				android:layout_below="@+id/promo_detail_op"
                 android:text="TextView"
                 android:textColor="#454545" />
         </RelativeLayout>
@@ -175,5 +172,10 @@
         android:layout_alignParentBottom="true"
         android:background="#4d4f4e" >
     </LinearLayout>
+
+    <!--
+                             android:layout_alignBaseline="@+id/promo_detail_op"
+                android:layout_alignBottom="@+id/promo_detail_op"
+    -->
 
 </RelativeLayout>

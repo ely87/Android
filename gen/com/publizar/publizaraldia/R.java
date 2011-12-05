@@ -41,13 +41,13 @@ public final class R {
         public static final int promo_detail_d=0x7f080014;
         public static final int promo_detail_description=0x7f080016;
         public static final int promo_detail_due=0x7f08000b;
-        public static final int promo_detail_image=0x7f080009;
+        public static final int promo_detail_image=0x7f08000a;
         public static final int promo_detail_op=0x7f080013;
         public static final int promo_detail_sp=0x7f080015;
         public static final int promo_detail_text=0x7f080010;
         public static final int promo_detail_text2=0x7f080011;
         public static final int promo_detail_text3=0x7f080012;
-        public static final int promo_detail_title=0x7f08000a;
+        public static final int promo_detail_title=0x7f080009;
         public static final int promo_discount=0x7f080005;
         public static final int promo_due=0x7f080007;
         public static final int promo_due_text=0x7f080004;

@@ -10,6 +10,8 @@ import domain.User;
 import services.PromotionServices;
 import adapters.ImageLoader;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,6 +48,7 @@ public class DetailActivity extends Activity {
 	private String promo_discount;
 	private String promo_description;
 	private String promo_website;
+	private AlertDialog.Builder email_alert;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +69,29 @@ public class DetailActivity extends Activity {
 		promo_description = intent.getStringExtra("Promo_description");
 		promo_website = intent.getStringExtra("Promo_website");
 		imageLoader = new ImageLoader(this.getApplicationContext());
+
+		email_alert = new AlertDialog.Builder(this);
+		email_alert
+				.setMessage(
+						"¿Está seguro que desea enviarse la promoción por correo?")
+				.setCancelable(false)
+				.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						PromotionServices promotionServices = new PromotionServices();
+						Promotion promotion = new Promotion();
+						promotion.setId(Integer.valueOf(promo_id));
+						UserDAO userDAO = new UserDAO();
+						User user = new User();
+						user = userDAO.selectUser();
+						promotionServices.sendEmailPromotion(promo_id,
+								user.getEmail());
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 
 		detail_image = (ImageView) findViewById(R.id.promo_detail_image);
 		detail_title = (TextView) findViewById(R.id.promo_detail_title);
@@ -97,13 +123,7 @@ public class DetailActivity extends Activity {
 		Button.OnClickListener sendEmailPromotionOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
-				PromotionServices promotionServices = new PromotionServices();
-				Promotion promotion = new Promotion();
-				promotion.setId(Integer.valueOf(promo_id));
-				UserDAO userDAO = new UserDAO();
-				User user = new User();
-				user = userDAO.selectUser();
-				promotionServices.sendEmailPromotion(promo_id, user.getEmail());
+				email_alert.show();
 			}
 		};
 

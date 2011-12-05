@@ -87,7 +87,7 @@ public class UserDAO {
 		try {
 			List<User> all = new ArrayList<User>();
 
-			cursor = db.rawQuery("SELECT * FROM tickets", null);
+			cursor = db.rawQuery("SELECT * FROM users", null);
 
 			if (cursor.getCount() > 0) {
 				int idIndex = cursor.getColumnIndex("id");

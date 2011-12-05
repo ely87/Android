@@ -2,6 +2,7 @@ package com.publizar.publizaraldia;
 
 import java.text.DecimalFormat;
 
+import persistence.PromotionDAO;
 import persistence.UserDAO;
 
 import domain.Promotion;
@@ -36,6 +37,7 @@ public class DetailActivity extends Activity {
 	public ImageLoader imageLoader;
 	private Button button_url;
 	private Button button_send;
+	private Button button_save_promotion;
 
 	private String title;
 	private String image;
@@ -48,6 +50,7 @@ public class DetailActivity extends Activity {
 	private String promo_discount;
 	private String promo_description;
 	private String promo_website;
+	private String promo_excerpt;
 	private AlertDialog.Builder email_alert;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class DetailActivity extends Activity {
 		promo_discount = intent.getStringExtra("Promo_discount");
 		promo_description = intent.getStringExtra("Promo_description");
 		promo_website = intent.getStringExtra("Promo_website");
+
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
 		email_alert = new AlertDialog.Builder(this);
@@ -106,6 +110,7 @@ public class DetailActivity extends Activity {
 		promo_detail_text3 = (TextView) findViewById(R.id.promo_detail_text3);
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		button_send = (Button) findViewById(R.id.promo_send_promotion);
+		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
 
 		setDetailsPromotion();
 
@@ -127,8 +132,22 @@ public class DetailActivity extends Activity {
 			}
 		};
 
+		Button.OnClickListener saveFavouritePromotionOnClickListener = new Button.OnClickListener() {
+
+			public void onClick(View v) {
+				PromotionDAO promotionDAO = new PromotionDAO();
+				promotionDAO.initialize(DetailActivity.this);
+				Promotion promotion = new Promotion();
+				promotion = setPromotion();
+				promotionDAO.insert(promotion);
+				promotionDAO.exportDatabase();
+			}
+		};
+
 		button_url.setOnClickListener(launchBrowserOnClickListener);
 		button_send.setOnClickListener(sendEmailPromotionOnClickListener);
+		button_save_promotion
+				.setOnClickListener(saveFavouritePromotionOnClickListener);
 	}
 
 	public void setDetailsPromotion() {
@@ -192,6 +211,27 @@ public class DetailActivity extends Activity {
 		}
 
 		return result;
+
+	}
+
+	public Promotion setPromotion() {
+		Promotion promotion_storage;
+		promotion_storage = new Promotion();
+
+		promotion_storage.setId(Integer.valueOf(promo_id));
+		promotion_storage.setDescription(promo_description);
+		promotion_storage.setExcerpt(promo_excerpt);
+		promotion_storage.setImage_url(image);
+		promotion_storage.setDue_date(due_date);
+		promotion_storage.setPromo_company(promo_company);
+		promotion_storage.setComerce(promo_comerce);
+		promotion_storage.setSaved_price(promo_price);
+		promotion_storage.setOriginal_price(promo_original_price);
+		promotion_storage.setDiscount(promo_discount);
+		promotion_storage.setPromo_complete_url(promo_website);
+		promotion_storage.setStatus("favorito");
+		promotion_storage.setTitle(title);
+		return promotion_storage;
 
 	}
 }

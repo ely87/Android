@@ -28,10 +28,11 @@ public final class R {
         public static final int RelativeLayout01=0x7f080000;
         public static final int TextView01=0x7f080018;
         public static final int TextView02=0x7f08001a;
-        public static final int account=0x7f080024;
-        public static final int close=0x7f080022;
+        public static final int account=0x7f080025;
+        public static final int close=0x7f080023;
         public static final int footer=0x7f080017;
-        public static final int imagelist=0x7f08001e;
+        public static final int imageView1=0x7f08001e;
+        public static final int imagelist=0x7f08001f;
         public static final int loginButton=0x7f08001c;
         public static final int loginEmail=0x7f080019;
         public static final int loginPassword=0x7f08001b;
@@ -56,21 +57,22 @@ public final class R {
         public static final int promo_send_promotion=0x7f08000f;
         public static final int promo_table=0x7f080003;
         public static final int promo_title=0x7f080002;
-        public static final int rel_webpage_whole=0x7f08001f;
-        public static final int sign_out=0x7f080025;
+        public static final int rel_webpage_whole=0x7f080020;
+        public static final int sign_out=0x7f080026;
         public static final int textView1=0x7f08001d;
-        public static final int timeline=0x7f080021;
+        public static final int timeline=0x7f080022;
         public static final int title=0x7f080008;
-        public static final int todas=0x7f080023;
-        public static final int webview=0x7f080020;
+        public static final int todas=0x7f080024;
+        public static final int webview=0x7f080021;
     }
     public static final class layout {
         public static final int list_items=0x7f030000;
         public static final int navigation_bar=0x7f030001;
         public static final int promo_detail=0x7f030002;
         public static final int sign_in=0x7f030003;
-        public static final int timeline=0x7f030004;
-        public static final int web_view=0x7f030005;
+        public static final int testfavourite=0x7f030004;
+        public static final int timeline=0x7f030005;
+        public static final int web_view=0x7f030006;
     }
     public static final class menu {
         public static final int navigation_menu=0x7f070000;

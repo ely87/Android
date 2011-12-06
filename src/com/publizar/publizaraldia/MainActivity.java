@@ -3,9 +3,8 @@ package com.publizar.publizaraldia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import domain.User;
-
-import persistence.UserDAO;
+import persistence.FileDatabaseHelper;
+import persistence.UserHelper;
 
 import services.AuthenticateService;
 
@@ -14,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,6 +34,8 @@ public class MainActivity extends Activity {
 	private String userpwd;
 	private AlertDialog.Builder loginAlert;
 	private String error = null;
+	private UserHelper userHelper = new UserHelper(this);
+	private FileDatabaseHelper fileDatabase;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.sign_in);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.navigation_bar);
+		fileDatabase = new FileDatabaseHelper();
 
 		email = (EditText) findViewById(R.id.loginEmail);
 		password = (EditText) findViewById(R.id.loginPassword);
@@ -84,11 +87,10 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.sign_out:
-			User user = new User();
-			UserDAO userDAO = new UserDAO();
-			user = userDAO.selectUser();
-			userDAO.delete(user);
-			userDAO.exportDatabase();
+			userHelper.open();
+			userHelper.deleteUser(1);
+			userHelper.close();
+			fileDatabase.exportDatabase();
 			break;
 		}
 		return true;
@@ -109,14 +111,19 @@ public class MainActivity extends Activity {
 			String email = params[0];
 			String password = params[1];
 			String result = null;
-			UserDAO userDao = new UserDAO();
+
 			int operationResult = 0;
 			if (checkEmailCorrect(email) == true) {
 				AuthenticateService authenticate = new AuthenticateService();
 				result = authenticate.authenticateUser(email, password);
 				if (result.equalsIgnoreCase(email)) {
-					userDao.initialize(applicationContext);
-					boolean bool = insertUser(email, password);
+					userHelper.open();
+					Cursor c = userHelper.fetchUser(1);
+					if (c.getCount() == 0) {
+						userHelper.createUser(email, password);
+					}
+					userHelper.close();
+					boolean bool = true;
 					if (bool == true) {
 						operationResult = 1;
 					} else {
@@ -128,7 +135,7 @@ public class MainActivity extends Activity {
 				}
 
 			}
-			userDao.exportDatabase();
+			fileDatabase.exportDatabase();
 			return operationResult;
 		}
 
@@ -158,35 +165,6 @@ public class MainActivity extends Activity {
 		} else {
 			return false;
 		}
-	}
-
-	public boolean insertUser(String email, String password) {
-		String tableName = "users";
-		boolean bool = false;
-		UserDAO userDAO = new UserDAO();
-		bool = userDAO.isTableEmpty(tableName);
-		User user = new User();
-		User user2 = new User();
-		if (bool == true) {
-			user.setEmail(email);
-			user.setPassword(password);
-			userDAO.insert(user);
-			bool = true;
-		} else {
-			user = userDAO.selectUser();
-			if (user == null) {
-				user2.setEmail(email);
-				user2.setPassword(password);
-				userDAO.insert(user2);
-				bool = true;
-
-			} else {
-				bool = true;
-
-			}
-		}
-		return bool;
-
 	}
 
 }

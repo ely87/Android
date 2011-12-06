@@ -28,6 +28,7 @@
         <activity android:name=".AllPromosActivity"></activity>
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".WebLoaderActivity"></activity>
+        <activity android:name=".TestDetailActivity"></activity>
     </application>
 
 </manifest>

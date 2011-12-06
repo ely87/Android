@@ -2,11 +2,11 @@ package com.publizar.publizaraldia;
 
 import java.text.DecimalFormat;
 
-import persistence.PromotionDAO;
-import persistence.UserDAO;
+import persistence.FileDatabaseHelper;
+import persistence.PromotionHelper;
+import persistence.UserHelper;
 
 import domain.Promotion;
-import domain.User;
 
 import services.PromotionServices;
 import adapters.ImageLoader;
@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -51,7 +52,11 @@ public class DetailActivity extends Activity {
 	private String promo_description;
 	private String promo_website;
 	private String promo_excerpt;
+	private String promo_idcomerce;
 	private AlertDialog.Builder email_alert;
+	private PromotionHelper promotionHelper = new PromotionHelper(this);
+	private UserHelper userHelper = new UserHelper(this);
+	private FileDatabaseHelper fileDatabase;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +65,7 @@ public class DetailActivity extends Activity {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.navigation_bar);
 		Intent intent = getIntent();
+		fileDatabase = new FileDatabaseHelper();
 		promo_id = intent.getStringExtra("Promo_id");
 		title = intent.getStringExtra("Promo_title");
 		image = intent.getStringExtra("Promo_image");
@@ -71,6 +77,8 @@ public class DetailActivity extends Activity {
 		promo_discount = intent.getStringExtra("Promo_discount");
 		promo_description = intent.getStringExtra("Promo_description");
 		promo_website = intent.getStringExtra("Promo_website");
+		promo_excerpt = intent.getStringExtra("Promo_excerpt");
+		promo_idcomerce = intent.getStringExtra("Promo_idcomerce");
 
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
@@ -84,11 +92,10 @@ public class DetailActivity extends Activity {
 						PromotionServices promotionServices = new PromotionServices();
 						Promotion promotion = new Promotion();
 						promotion.setId(Integer.valueOf(promo_id));
-						UserDAO userDAO = new UserDAO();
-						User user = new User();
-						user = userDAO.selectUser();
+						userHelper.open();
+						Cursor c = userHelper.fetchAllUser();
 						promotionServices.sendEmailPromotion(promo_id,
-								user.getEmail());
+								c.getString(2));
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -135,12 +142,36 @@ public class DetailActivity extends Activity {
 		Button.OnClickListener saveFavouritePromotionOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
-				PromotionDAO promotionDAO = new PromotionDAO();
-				promotionDAO.initialize(DetailActivity.this);
 				Promotion promotion = new Promotion();
 				promotion = setPromotion();
-				promotionDAO.insert(promotion);
-				promotionDAO.exportDatabase();
+
+				promotionHelper.open();
+
+				Cursor c = promotionHelper.fetchPromotions(promotion.getId());
+				if (c.getCount() == 0) {
+					promotionHelper.createPromotion(
+							String.valueOf(promotion.getId()),
+							promotion.getDescription(), promotion.getExcerpt(),
+							promotion.getTitle(), promotion.getId_comerce(),
+							promotion.getImage_url(), promotion.getDiscount(),
+							promotion.getSaved_price(),
+							promotion.getOriginal_price(),
+							promotion.getPromo_company(),
+							promotion.getDue_date(),
+							promotion.getPromo_complete_url(),
+							promotion.getFoursquare(), promotion.getComerce(),
+							promotion.getComerce_tlf(),
+							promotion.getWebsite_comerce(),
+							promotion.getTwitter(), promotion.getFacebook(),
+							promotion.getContact_email(),
+							promotion.getForm_link(), promotion.getStatus());
+				}
+				promotionHelper.close();
+				fileDatabase.exportDatabase();
+				Intent intent = new Intent(DetailActivity.this,
+						TestDetailActivity.class);
+				intent.putExtra("Promo_id", promo_id);
+				startActivity(intent);
 			}
 		};
 
@@ -231,6 +262,7 @@ public class DetailActivity extends Activity {
 		promotion_storage.setPromo_complete_url(promo_website);
 		promotion_storage.setStatus("favorito");
 		promotion_storage.setTitle(title);
+		promotion_storage.setId_comerce(promo_idcomerce);
 		return promotion_storage;
 
 	}

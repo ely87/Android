@@ -63,6 +63,7 @@ public class AllPromosActivity extends Activity {
 				intent.putExtra("Promo_website",
 						promotion.getPromo_complete_url());
 				intent.putExtra("Promo_excerpt", promotion.getExcerpt());
+				intent.putExtra("Promo_idcomerce",promotion.getId_comerce());
 				startActivity(intent);
 			}
 		});

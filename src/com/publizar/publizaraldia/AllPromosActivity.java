@@ -44,9 +44,6 @@ public class AllPromosActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
 				Promotion promotion = promotions.get(position);
-				// PromotionServices promotionServices = new
-				// PromotionServices();
-				// promotion = promotionServices.getExtraInformation(promotion);
 				Intent intent = new Intent(AllPromosActivity.this,
 						DetailActivity.class);
 				intent.putExtra("Promo_id", String.valueOf(promotion.getId()));

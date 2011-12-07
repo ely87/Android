@@ -155,11 +155,101 @@
                 android:textColor="#454545" />
 
             <TextView
+                android:id="@+id/promo_detail_name_comerce_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_op"
+                android:text="Nombre del comercio:"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_detail_name_comerce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_op"
+                android:layout_toRightOf="@+id/promo_detail_name_comerce_text"
+                android:textColor="#454545"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/promo_detail_tlf_comerce_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_name_comerce"
+                android:text="Telf:"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_detail_tlf_comerce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_name_comerce"
+                android:layout_toRightOf="@+id/promo_detail_tlf_comerce_text"
+                android:textColor="#454545"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/promo_detail_email_comerce_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_tlf_comerce"
+                android:text="Correo:"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_detail_email_comerce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_tlf_comerce"
+                android:layout_toRightOf="@+id/promo_detail_email_comerce_text"
+                android:textColor="#454545"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/promo_detail_twitter_comerce_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_email_comerce"
+                android:text="Twitter:"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_detail_twitter_comerce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_email_comerce"
+                android:layout_toRightOf="@+id/promo_detail_twitter_comerce_text"
+                android:textColor="#454545"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/promo_detail_facebook_comerce_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_twitter_comerce"
+                android:text="Facebook:"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_detail_facebook_comerce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promo_detail_twitter_comerce"
+                android:layout_toRightOf="@+id/promo_detail_facebook_comerce_text"
+                android:textColor="#454545"
+                android:textStyle="normal" />
+
+            <TextView
                 android:id="@+id/promo_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-				android:layout_below="@+id/promo_detail_op"
-                android:text="TextView"
+                android:layout_below="@+id/promo_detail_facebook_comerce"
+                android:text="Descripcion"
                 android:textColor="#454545" />
         </RelativeLayout>
     </ScrollView>
@@ -171,10 +261,5 @@
         android:layout_alignParentBottom="true"
         android:background="#4d4f4e" >
     </LinearLayout>
-
-    <!--
-                             android:layout_alignBaseline="@+id/promo_detail_op"
-                android:layout_alignBottom="@+id/promo_detail_op"
-    -->
 
 </RelativeLayout>

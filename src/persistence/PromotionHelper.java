@@ -187,11 +187,15 @@ public class PromotionHelper {
 
 	public byte[] setImageFavourites(String imageId) {
 		// select the data
-		Cursor cursor = mDb.query(true, DATABASE_TABLE, new String[] { 
-				KEY_IMAGEURL }, KEY_ROWID + "="
-				+ imageId, null, null, null, null, null);
+		Cursor cursor = mDb.query(true, DATABASE_TABLE,
+				new String[] { KEY_IMAGEURL }, KEY_ROWID + "=" + imageId, null,
+				null, null, null, null);
+
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
 		// get it as a ByteArray
-		byte[] imageByteArray = cursor.getBlob(1);
+		byte[] imageByteArray = cursor.getBlob(0);
 		// the cursor is not needed anymore
 		cursor.close();
 

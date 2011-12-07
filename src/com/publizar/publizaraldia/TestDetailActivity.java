@@ -27,6 +27,7 @@ public class TestDetailActivity extends Activity {
 		promotionHelper = new PromotionHelper(this);
 		// Bitmap theImage = BitmapFactory.decodeStream(imageStream);
 
+		promotionHelper.open();
 		byte[] imageByteArray = promotionHelper.setImageFavourites(id);
 		java.io.ByteArrayInputStream imageStream = new java.io.ByteArrayInputStream(
 				imageByteArray);
@@ -36,5 +37,6 @@ public class TestDetailActivity extends Activity {
 		imageView.setAdjustViewBounds(true);
 
 		imageView.setImageBitmap(BitmapFactory.decodeStream(imageStream));
+		promotionHelper.close();
 	}
 }

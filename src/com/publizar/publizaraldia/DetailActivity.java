@@ -7,15 +7,18 @@ import persistence.PromotionHelper;
 import persistence.UserHelper;
 
 import domain.Promotion;
-
 import services.PromotionServices;
 import adapters.ImageLoader;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -35,6 +38,16 @@ public class DetailActivity extends Activity {
 	private TextView promo_detail_text1;
 	private TextView promo_detail_text2;
 	private TextView promo_detail_text3;
+	private TextView detail_name_comerce;
+	private TextView detail_tlf_comerce;
+	private TextView detail_email_comerce;
+	private TextView detail_twitter_comerce;
+	private TextView detail_facebook_comerce;
+	private TextView detail_name_comerce_text;
+	private TextView detail_tlf_comerce_text;
+	private TextView detail_email_comerce_text;
+	private TextView detail_twitter_comerce_text;
+	private TextView detail_facebook_comerce_text;
 	public ImageLoader imageLoader;
 	private Button button_url;
 	private Button button_send;
@@ -57,6 +70,7 @@ public class DetailActivity extends Activity {
 	private PromotionHelper promotionHelper = new PromotionHelper(this);
 	private UserHelper userHelper = new UserHelper(this);
 	private FileDatabaseHelper fileDatabase;
+	private Promotion initial_promotion;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,9 +107,9 @@ public class DetailActivity extends Activity {
 						Promotion promotion = new Promotion();
 						promotion.setId(Integer.valueOf(promo_id));
 						userHelper.open();
-						Cursor c = userHelper.fetchAllUser();
+						Cursor c = userHelper.fetchUser(1);
 						promotionServices.sendEmailPromotion(promo_id,
-								c.getString(2));
+								c.getString(1));
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -115,11 +129,20 @@ public class DetailActivity extends Activity {
 		promo_detail_text1 = (TextView) findViewById(R.id.promo_detail_text);
 		promo_detail_text2 = (TextView) findViewById(R.id.promo_detail_text2);
 		promo_detail_text3 = (TextView) findViewById(R.id.promo_detail_text3);
+		detail_name_comerce = (TextView) findViewById(R.id.promo_detail_name_comerce);
+		detail_tlf_comerce = (TextView) findViewById(R.id.promo_detail_tlf_comerce);
+		detail_email_comerce = (TextView) findViewById(R.id.promo_detail_email_comerce);
+		detail_twitter_comerce = (TextView) findViewById(R.id.promo_detail_twitter_comerce);
+		detail_facebook_comerce = (TextView) findViewById(R.id.promo_detail_facebook_comerce);
+		detail_name_comerce_text = (TextView) findViewById(R.id.promo_detail_name_comerce_text);
+		detail_tlf_comerce_text = (TextView) findViewById(R.id.promo_detail_tlf_comerce_text);
+		detail_email_comerce_text = (TextView) findViewById(R.id.promo_detail_email_comerce_text);
+		detail_twitter_comerce_text = (TextView) findViewById(R.id.promo_detail_twitter_comerce_text);
+		detail_facebook_comerce_text = (TextView) findViewById(R.id.promo_detail_facebook_comerce_text);
+
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		button_send = (Button) findViewById(R.id.promo_send_promotion);
 		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
-
-		setDetailsPromotion();
 
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
 
@@ -168,10 +191,7 @@ public class DetailActivity extends Activity {
 				}
 				promotionHelper.close();
 				fileDatabase.exportDatabase();
-				Intent intent = new Intent(DetailActivity.this,
-						TestDetailActivity.class);
-				intent.putExtra("Promo_id", promo_id);
-				startActivity(intent);
+
 			}
 		};
 
@@ -179,6 +199,84 @@ public class DetailActivity extends Activity {
 		button_send.setOnClickListener(sendEmailPromotionOnClickListener);
 		button_save_promotion
 				.setOnClickListener(saveFavouritePromotionOnClickListener);
+		new CallWebServiceTask().execute();
+	}
+
+	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
+
+		protected Context applicationContext;
+		protected int result;
+
+		@Override
+		protected void onPreExecute() {
+			setDetailsPromotion();
+			initial_promotion = new Promotion();
+			initial_promotion = setPromotion();
+		}
+
+		@Override
+		protected Promotion doInBackground(String... params) {
+
+			PromotionServices promotionService = new PromotionServices();
+			Promotion promotion = new Promotion();
+			promotion = promotionService.getExtraInformation(initial_promotion);
+			return promotion;
+
+			// return operationResult;
+		}
+
+		@Override
+		protected void onPostExecute(Promotion promo_result) {
+
+			if (!promo_result.getComerce().equalsIgnoreCase("null")
+					&& !(promo_result.getComerce().length() == 0)) {
+				detail_name_comerce.setText(" " + promo_result.getComerce());
+			} else {
+				detail_name_comerce_text.setVisibility(View.GONE);
+				detail_name_comerce.setVisibility(View.GONE);
+			}
+
+			if (!promo_result.getComerce_tlf().equalsIgnoreCase("null")
+					&& !(promo_result.getComerce_tlf().length() == 0)) {
+				detail_tlf_comerce.setText(" " + promo_result.getComerce_tlf());
+			} else {
+				detail_tlf_comerce.setVisibility(View.GONE);
+				detail_tlf_comerce_text.setVisibility(View.GONE);
+			}
+			if (!promo_result.getContact_email().equalsIgnoreCase("null")
+					&& !(promo_result.getContact_email().length() == 0)) {
+				detail_email_comerce.setText(" "
+						+ promo_result.getContact_email());
+			} else {
+				detail_email_comerce.setVisibility(View.GONE);
+				detail_email_comerce_text.setVisibility(View.GONE);
+			}
+			if (!promo_result.getTwitter().equalsIgnoreCase("null")
+					&& !(promo_result.getTwitter().length() == 0)) {
+				detail_twitter_comerce.setText(Html.fromHtml("<a href="
+						+ "http://www.twitter.com/"+promo_result.getTwitter() + ">"
+						+ promo_result.getTwitter() + "</a>"));
+				detail_twitter_comerce.setMovementMethod(LinkMovementMethod
+						.getInstance());
+
+			} else {
+				detail_twitter_comerce.setVisibility(View.GONE);
+				detail_twitter_comerce_text.setVisibility(View.GONE);
+			}
+			if (!promo_result.getFacebook().equalsIgnoreCase("null")
+					&& !(promo_result.getFacebook().length() == 0)) {
+				detail_facebook_comerce.setText(Html.fromHtml("<a href="
+						+ promo_result.getFacebook() + ">"
+						+ promo_result.getFacebook() + "</a>"));
+				detail_facebook_comerce.setMovementMethod(LinkMovementMethod
+						.getInstance());
+
+			} else {
+				detail_facebook_comerce.setVisibility(View.GONE);
+				detail_facebook_comerce_text.setVisibility(View.GONE);
+			}
+
+		}
 	}
 
 	public void setDetailsPromotion() {

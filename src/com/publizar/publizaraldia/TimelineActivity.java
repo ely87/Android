@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class TimelineActivity extends Activity {
@@ -29,11 +28,11 @@ public class TimelineActivity extends Activity {
 
 		mStrings = getPromotions(100);
 		list = (ListView) findViewById(R.id.imagelist);
-		adapter = new ImageAdapter(this, mStrings,promotions);
+		adapter = new ImageAdapter(this, mStrings, promotions);
 		list.setAdapter(adapter);
 
-		Button b = (Button) findViewById(R.id.button1);
-		b.setOnClickListener(listener);
+		// Button b = (Button) findViewById(R.id.button1);
+		// b.setOnClickListener(listener);
 	}
 
 	public OnClickListener listener = new OnClickListener() {
@@ -54,7 +53,7 @@ public class TimelineActivity extends Activity {
 		String[] promotionsResult = new String[promotions.size()];
 
 		for (int i = 0; i < promotions.size(); i++) {
-			promotionsResult[i] = promotions.get(i).getImageUrl();
+			promotionsResult[i] = promotions.get(i).getImage_url();
 		}
 		return promotionsResult;
 	}

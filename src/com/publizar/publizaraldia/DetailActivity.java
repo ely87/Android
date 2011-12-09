@@ -24,6 +24,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.text.util.Linkify;
 
 public class DetailActivity extends Activity {
 
@@ -52,6 +53,8 @@ public class DetailActivity extends Activity {
 	private Button button_url;
 	private Button button_send;
 	private Button button_save_promotion;
+	//private Button shareButton;
+	private Button mapButton;
 
 	private String title;
 	private String image;
@@ -143,6 +146,11 @@ public class DetailActivity extends Activity {
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		button_send = (Button) findViewById(R.id.promo_send_promotion);
 		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
+		// shareButton = (Button) findViewById(R.id.shareButton);
+		// shareButton.setVisibility(View.VISIBLE);
+		// shareButton.setText("Compartir");
+
+		mapButton = (Button) findViewById(R.id.button_maps);
 
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
 
@@ -195,11 +203,23 @@ public class DetailActivity extends Activity {
 			}
 		};
 
+		Button.OnClickListener mapsOnClickListener = new Button.OnClickListener() {
+
+			public void onClick(View v) {
+				Intent intent = new Intent(DetailActivity.this,
+						MapsActivity.class);
+				startActivity(intent);
+			}
+		};
+
 		button_url.setOnClickListener(launchBrowserOnClickListener);
 		button_send.setOnClickListener(sendEmailPromotionOnClickListener);
 		button_save_promotion
 				.setOnClickListener(saveFavouritePromotionOnClickListener);
+		mapButton.setOnClickListener(mapsOnClickListener);
+
 		new CallWebServiceTask().execute();
+
 	}
 
 	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
@@ -239,6 +259,10 @@ public class DetailActivity extends Activity {
 			if (!promo_result.getComerce_tlf().equalsIgnoreCase("null")
 					&& !(promo_result.getComerce_tlf().length() == 0)) {
 				detail_tlf_comerce.setText(" " + promo_result.getComerce_tlf());
+				promo_result.getComerce_tlf().replace("(", "");
+				promo_result.getComerce_tlf().replace(")", "");
+				promo_result.getComerce_tlf().replace(".", "");
+				Linkify.addLinks(detail_tlf_comerce, Linkify.PHONE_NUMBERS);
 			} else {
 				detail_tlf_comerce.setVisibility(View.GONE);
 				detail_tlf_comerce_text.setVisibility(View.GONE);
@@ -254,8 +278,8 @@ public class DetailActivity extends Activity {
 			if (!promo_result.getTwitter().equalsIgnoreCase("null")
 					&& !(promo_result.getTwitter().length() == 0)) {
 				detail_twitter_comerce.setText(Html.fromHtml("<a href="
-						+ "http://www.twitter.com/"+promo_result.getTwitter() + ">"
-						+ promo_result.getTwitter() + "</a>"));
+						+ "http://www.twitter.com/" + promo_result.getTwitter()
+						+ ">" + promo_result.getTwitter() + "</a>"));
 				detail_twitter_comerce.setMovementMethod(LinkMovementMethod
 						.getInstance());
 

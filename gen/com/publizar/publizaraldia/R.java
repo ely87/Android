@@ -27,23 +27,24 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout01=0x7f080000;
-        public static final int TextView01=0x7f080026;
-        public static final int TextView02=0x7f080028;
-        public static final int account=0x7f080033;
-        public static final int close=0x7f080031;
-        public static final int footer=0x7f080025;
-        public static final int imageView1=0x7f08002c;
-        public static final int imagelist=0x7f08002d;
-        public static final int loginButton=0x7f08002a;
-        public static final int loginEmail=0x7f080027;
-        public static final int loginPassword=0x7f080029;
+        public static final int TextView01=0x7f080027;
+        public static final int TextView02=0x7f080029;
+        public static final int account=0x7f080034;
+        public static final int button_maps=0x7f080024;
+        public static final int close=0x7f080032;
+        public static final int footer=0x7f080026;
+        public static final int imageView1=0x7f08002d;
+        public static final int imagelist=0x7f08002e;
+        public static final int loginButton=0x7f08002b;
+        public static final int loginEmail=0x7f080028;
+        public static final int loginPassword=0x7f08002a;
         public static final int mainlayout=0x7f080008;
         public static final int mapview=0x7f080009;
         public static final int promo_amount=0x7f080006;
         public static final int promo_detail_button_buy=0x7f080011;
         public static final int promo_detail_company=0x7f080010;
         public static final int promo_detail_d=0x7f080018;
-        public static final int promo_detail_description=0x7f080024;
+        public static final int promo_detail_description=0x7f080025;
         public static final int promo_detail_due=0x7f08000f;
         public static final int promo_detail_email_comerce=0x7f08001f;
         public static final int promo_detail_email_comerce_text=0x7f08001e;
@@ -70,15 +71,15 @@ public final class R {
         public static final int promo_send_promotion=0x7f080013;
         public static final int promo_table=0x7f080003;
         public static final int promo_title=0x7f080002;
-        public static final int rel_webpage_whole=0x7f08002e;
+        public static final int rel_webpage_whole=0x7f08002f;
         public static final int satelite_button=0x7f08000a;
-        public static final int sign_out=0x7f080034;
+        public static final int sign_out=0x7f080035;
         public static final int street_button=0x7f08000b;
-        public static final int textView1=0x7f08002b;
-        public static final int timeline=0x7f080030;
+        public static final int textView1=0x7f08002c;
+        public static final int timeline=0x7f080031;
         public static final int title=0x7f08000c;
-        public static final int todas=0x7f080032;
-        public static final int webview=0x7f08002f;
+        public static final int todas=0x7f080033;
+        public static final int webview=0x7f080030;
     }
     public static final class layout {
         public static final int list_items=0x7f030000;

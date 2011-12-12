@@ -1,13 +1,19 @@
 package com.publizar.publizaraldia;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import services.LocationServices;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+
+import domain.LocationPromotion;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -41,23 +47,38 @@ public class MapsActivity extends MapActivity implements LocationListener {
 
 	GeoPoint p = null;
 
-	double latitude = 18.9599990845, longitude = 72.819999694;
+	double latitude = 10.478001, longitude = -66.924891;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.location_map);
 
+		Intent intent = getIntent();
+		String foursquare = intent.getStringExtra("Foursquare");
+		LocationServices locationServices = new LocationServices();
 
+		String url = "https://api.foursquare.com/v2/venues/search?ll="
+				+ latitude
+				+ ","
+				+ longitude
+				+ "&oauth_token=GXH3U5SYQ0RNQNVATDT1FM5T1VMBI12FBYOX3RPYBV04VVRF"
+				+ "&v=20111212&query='" + foursquare + "'&radius=5000";
+		ArrayList<LocationPromotion> allLocations = new ArrayList<LocationPromotion>();
+		allLocations = locationServices.getLocationVenue(url);
 		// Creating and initializing Map
-		gMapView = (MapView) findViewById(R.id.mapview);
-		p = new GeoPoint((int) (latitude * 1000000),
-				(int) (longitude * 1000000));
+
+		for (int i = 0; i < allLocations.size(); i++) {
+			gMapView = (MapView) findViewById(R.id.mapview);
+			p = new GeoPoint((int) (latitude * 1000000),
+					(int) (longitude * 1000000));
+			
+			
+		}
 		gMapView.setSatellite(true);
 		mc = gMapView.getController();
 		mc.setCenter(p);
 		mc.setZoom(14);
-
 		// Add a location mark
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
 		List<Overlay> list = gMapView.getOverlays();
@@ -76,8 +97,7 @@ public class MapsActivity extends MapActivity implements LocationListener {
 		// travel by
 		// user is greater than 500m from current location.
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f,
-				this);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	/* This method is called when use position will get changed */

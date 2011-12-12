@@ -53,7 +53,7 @@ public class DetailActivity extends Activity {
 	private Button button_url;
 	private Button button_send;
 	private Button button_save_promotion;
-	//private Button shareButton;
+	// private Button shareButton;
 	private Button mapButton;
 
 	private String title;
@@ -74,6 +74,8 @@ public class DetailActivity extends Activity {
 	private UserHelper userHelper = new UserHelper(this);
 	private FileDatabaseHelper fileDatabase;
 	private Promotion initial_promotion;
+	double latitude = 10.478001, longitude = -66.924891;
+	Promotion promoResult;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -208,6 +210,7 @@ public class DetailActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(DetailActivity.this,
 						MapsActivity.class);
+				intent.putExtra("Foursquare", promoResult.getFoursquare());
 				startActivity(intent);
 			}
 		};
@@ -218,6 +221,7 @@ public class DetailActivity extends Activity {
 				.setOnClickListener(saveFavouritePromotionOnClickListener);
 		mapButton.setOnClickListener(mapsOnClickListener);
 
+		mapButton.setVisibility(View.GONE);
 		new CallWebServiceTask().execute();
 
 	}
@@ -232,6 +236,7 @@ public class DetailActivity extends Activity {
 			setDetailsPromotion();
 			initial_promotion = new Promotion();
 			initial_promotion = setPromotion();
+
 		}
 
 		@Override
@@ -299,6 +304,9 @@ public class DetailActivity extends Activity {
 				detail_facebook_comerce.setVisibility(View.GONE);
 				detail_facebook_comerce_text.setVisibility(View.GONE);
 			}
+
+			promoResult = promo_result;
+			mapButton.setVisibility(View.VISIBLE);
 
 		}
 	}

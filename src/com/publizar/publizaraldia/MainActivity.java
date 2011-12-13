@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 		login = (Button) findViewById(R.id.loginButton);
 		loginDialog = new ProgressDialog(this);
 		loginDialog.setIndeterminate(true);
-		loginDialog.setTitle("Iniciando sesión");
+		loginDialog.setTitle("Iniciando sesi—n");
 		loginDialog.setMessage("Espere un momento");
 
 		loginAlert = new AlertDialog.Builder(this);

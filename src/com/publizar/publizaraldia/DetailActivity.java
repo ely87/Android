@@ -104,7 +104,7 @@ public class DetailActivity extends Activity {
 		email_alert = new AlertDialog.Builder(this);
 		email_alert
 				.setMessage(
-						"¿Está seguro que desea enviarse la promoción por correo?")
+						"Esta seguro que desea enviarse la promoci—n por correo?")
 				.setCancelable(false)
 				.setPositiveButton("Si", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -276,15 +276,17 @@ public class DetailActivity extends Activity {
 					&& !(promo_result.getContact_email().length() == 0)) {
 				detail_email_comerce.setText(" "
 						+ promo_result.getContact_email());
+				Linkify.addLinks(detail_email_comerce, Linkify.EMAIL_ADDRESSES);
 			} else {
 				detail_email_comerce.setVisibility(View.GONE);
 				detail_email_comerce_text.setVisibility(View.GONE);
+
 			}
 			if (!promo_result.getTwitter().equalsIgnoreCase("null")
 					&& !(promo_result.getTwitter().length() == 0)) {
 				detail_twitter_comerce.setText(Html.fromHtml("<a href="
 						+ "http://www.twitter.com/" + promo_result.getTwitter()
-						+ ">" + promo_result.getTwitter() + "</a>"));
+						+ ">" + " @"+promo_result.getTwitter() + "</a>"));
 				detail_twitter_comerce.setMovementMethod(LinkMovementMethod
 						.getInstance());
 
@@ -294,11 +296,9 @@ public class DetailActivity extends Activity {
 			}
 			if (!promo_result.getFacebook().equalsIgnoreCase("null")
 					&& !(promo_result.getFacebook().length() == 0)) {
-				detail_facebook_comerce.setText(Html.fromHtml("<a href="
-						+ promo_result.getFacebook() + ">"
-						+ promo_result.getFacebook() + "</a>"));
-				detail_facebook_comerce.setMovementMethod(LinkMovementMethod
-						.getInstance());
+				detail_facebook_comerce.setText("" + promo_result.getFacebook());
+				Linkify.addLinks(detail_facebook_comerce, Linkify.WEB_URLS);
+			
 
 			} else {
 				detail_facebook_comerce.setVisibility(View.GONE);
@@ -329,8 +329,11 @@ public class DetailActivity extends Activity {
 						promo_original_price.length());
 				result = result.replace(".", "");
 				double original_price = Float.valueOf(result);
-				double price = Float.valueOf(promo_price.substring(4,
-						promo_price.length()));
+				String result_price = promo_price.substring(4,
+						promo_price.length());
+				result_price = result_price.replace(".", "");
+
+				double price = Float.valueOf(result_price);
 				double saved_value = original_price - price;
 
 				saved_price = getCalculatedValue(saved_value);

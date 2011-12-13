@@ -69,7 +69,7 @@ public class ImageAdapter extends BaseAdapter {
 		if (promotion.getDue_date().equalsIgnoreCase("0")) {
 			date_text.setText("Finaliza");
 			date.setText("Hoy");
-		} else if (promotion.getDue_date().equalsIgnoreCase("15305")) {
+		} else if (Integer.valueOf(promotion.getDue_date()) > 15000) {
 			date.setText("-");
 		} else {
 			date_text.setText("Finaliza en");

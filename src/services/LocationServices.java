@@ -25,8 +25,9 @@ public class LocationServices {
 		String longitude;
 		ArrayList<LocationPromotion> allLocations = new ArrayList<LocationPromotion>();
 
+		JSONObject jsonObj;
 		try {
-			JSONObject jsonObj = new JSONObject(response);
+			jsonObj = new JSONObject(response);
 			JSONObject responseJSON = jsonObj.getJSONObject("response");
 			jsonArray = responseJSON.getJSONArray("venues");
 			for (int i = 0; i < jsonArray.length(); i++) {
@@ -34,18 +35,52 @@ public class LocationServices {
 				jsonObject = jsonArray.getJSONObject(i);
 				name = jsonObject.getString("name");
 				JSONObject location = jsonObject.getJSONObject("location");
-				address = location.getString("address");
-				crossStreet = location.getString("crossStreet");
-				latitude = location.getString("lat");
-				longitude = location.getString("lng");
-				locationPromotion.setAddress(address);
-				locationPromotion.setCrossStreet(crossStreet);
-				locationPromotion.setLatitude(latitude);
-				locationPromotion.setLongitude(longitude);
-				locationPromotion.setName(name);
+				if (location.has("crossStreet")) {
+					if (location.has("address")) {
+						address = location.getString("address");
+						crossStreet = location.getString("crossStreet");
+						latitude = location.getString("lat");
+						longitude = location.getString("lng");
+
+						locationPromotion.setAddress(address);
+						locationPromotion.setCrossStreet(crossStreet);
+						locationPromotion.setLatitude(latitude);
+						locationPromotion.setLongitude(longitude);
+						locationPromotion.setName(name);
+					} else {
+						latitude = location.getString("lat");
+						longitude = location.getString("lng");
+
+						locationPromotion.setAddress("");
+						locationPromotion.setCrossStreet("");
+						locationPromotion.setLatitude(latitude);
+						locationPromotion.setLongitude(longitude);
+						locationPromotion.setName(name);
+					}
+				} else {
+					if (location.has("address")) {
+						address = location.getString("address");
+						latitude = location.getString("lat");
+						longitude = location.getString("lng");
+
+						locationPromotion.setAddress(address);
+						locationPromotion.setCrossStreet("");
+						locationPromotion.setLatitude(latitude);
+						locationPromotion.setLongitude(longitude);
+						locationPromotion.setName(name);
+					} else {
+						latitude = location.getString("lat");
+						longitude = location.getString("lng");
+
+						locationPromotion.setAddress("");
+						locationPromotion.setCrossStreet("");
+						locationPromotion.setLatitude(latitude);
+						locationPromotion.setLongitude(longitude);
+						locationPromotion.setName(name);
+					}
+				}
 				allLocations.add(locationPromotion);
 			}
-
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import connection.HttpClient;
 
 public class AuthenticateService {
@@ -26,8 +25,6 @@ public class AuthenticateService {
 	public String validateUserGson(String result) {
 		String resultGson = null;
 
-		String prueba = null;
-
 		String error = null;
 
 		JSONArray jsonArray;
@@ -40,12 +37,12 @@ public class AuthenticateService {
 
 			jsonObject = jsonArray.getJSONObject(0);
 
-			prueba = jsonObject.getString("user_login");
+			JSONObject prueba = jsonObject.getJSONObject("data");
 
 			if (prueba != null) {
 
-				resultGson = prueba;
-
+				String email = prueba.getString("user_login");
+				resultGson = email;
 			}
 
 		} catch (JSONException e) {

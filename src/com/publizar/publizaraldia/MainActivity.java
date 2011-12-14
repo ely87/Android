@@ -116,22 +116,26 @@ public class MainActivity extends Activity {
 			if (checkEmailCorrect(email) == true) {
 				AuthenticateService authenticate = new AuthenticateService();
 				result = authenticate.authenticateUser(email, password);
-				if (result.equalsIgnoreCase(email)) {
-					userHelper.open();
-					Cursor c = userHelper.fetchUser(1);
-					if (c.getCount() == 0) {
-						userHelper.createUser(email, password);
-					}
-					userHelper.close();
-					boolean bool = true;
-					if (bool == true) {
-						operationResult = 1;
+				if (result != null) {
+					if (result.equalsIgnoreCase(email)) {
+						userHelper.open();
+						Cursor c = userHelper.fetchUser(1);
+						if (c.getCount() == 0) {
+							userHelper.createUser(email, password);
+						}
+						userHelper.close();
+						boolean bool = true;
+						if (bool == true) {
+							operationResult = 1;
+						} else {
+							operationResult = 0;
+						}
 					} else {
+						error = result;
 						operationResult = 0;
 					}
 				} else {
-					error = result;
-					operationResult = 0;
+					operationResult = -1;
 				}
 
 			}
@@ -143,6 +147,11 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Integer operationResult) {
 			loginDialog.cancel();
 			if (operationResult == 0) {
+				error = "La contrase–a o el correo electr—nico no son v‡lidos";
+				loginAlert.setMessage(error);
+				loginAlert.create().show();
+			} else if (operationResult == -1) {
+				error = "El usuario no es v‡lido";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {

@@ -12,6 +12,7 @@ import domain.Promotion;
 public class PromotionServices {
 
 	ArrayList<Promotion> promotions;
+	
 
 
 
@@ -104,6 +105,7 @@ public class PromotionServices {
 		}
 		return promotion;
 	}
+	
 
 	public void sendEmailPromotion(String id, String email) {
 		String url = "http://www.publizar.com/api/api.php?o=sendbymail&i=" + id

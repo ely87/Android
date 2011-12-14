@@ -19,6 +19,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -226,6 +229,26 @@ public class DetailActivity extends Activity {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.navigation_menu, menu);
+		return true;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.account:
+			Intent intent = new Intent(DetailActivity.this,
+					SettingsActivity.class);
+			startActivity(intent);
+			break;
+		}
+		return true;
+	}
+
 	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
 
 		protected Context applicationContext;
@@ -286,7 +309,7 @@ public class DetailActivity extends Activity {
 					&& !(promo_result.getTwitter().length() == 0)) {
 				detail_twitter_comerce.setText(Html.fromHtml("<a href="
 						+ "http://www.twitter.com/" + promo_result.getTwitter()
-						+ ">" + " @"+promo_result.getTwitter() + "</a>"));
+						+ ">" + " @" + promo_result.getTwitter() + "</a>"));
 				detail_twitter_comerce.setMovementMethod(LinkMovementMethod
 						.getInstance());
 
@@ -296,9 +319,9 @@ public class DetailActivity extends Activity {
 			}
 			if (!promo_result.getFacebook().equalsIgnoreCase("null")
 					&& !(promo_result.getFacebook().length() == 0)) {
-				detail_facebook_comerce.setText("" + promo_result.getFacebook());
+				detail_facebook_comerce
+						.setText("" + promo_result.getFacebook());
 				Linkify.addLinks(detail_facebook_comerce, Linkify.WEB_URLS);
-			
 
 			} else {
 				detail_facebook_comerce.setVisibility(View.GONE);

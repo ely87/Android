@@ -15,7 +15,9 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
 
         <TextView
             android:id="@+id/textView1"
@@ -25,32 +27,85 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Profile settings"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#454545" />
-        
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Profile settings"
+            android:text="Contraseña"
+            android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#454545" />
 
-        <ListView
-            android:id="@+id/listViewPassword"
+        <TableLayout
+            android:id="@+id/tablepassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView1"
             android:layout_below="@+id/textView1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp" >
-        </ListView>
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_borders"
+            android:stretchColumns="1" >
 
+            <TableRow  android:id="@+id/rowcontrasenas" >
+
+                <TextView
+                    android:id="@+id/contrasena"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Cambiar contraseña "
+                    android:textColor="#454545"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:src="@drawable/right_arrow" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textPreferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tablepassword"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Preferencias"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#454545" />
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textPreferences"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_borders"
+            android:stretchColumns="1" >
+
+            <TableRow android:id="@+id/rowcategorias" >
+
+                <TextView
+                    android:id="@+id/categorias"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Categorías"
+                    android:textColor="#454545"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:src="@drawable/right_arrow" />
+            </TableRow>
+        </TableLayout>
     </RelativeLayout>
 
 </RelativeLayout>

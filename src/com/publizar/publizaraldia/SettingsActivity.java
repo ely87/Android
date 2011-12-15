@@ -21,6 +21,9 @@ public class SettingsActivity extends Activity {
 		TableRow tablerow = (TableRow) findViewById(R.id.rowcontrasenas);
 		tablerow.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this,
+						ChangePasswordActivity.class);
+				startActivity(intent);
 			}
 		});
 

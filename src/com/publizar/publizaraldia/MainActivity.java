@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 		loginDialog.setMessage("Espere un momento");
 
 		loginAlert = new AlertDialog.Builder(this);
-		loginAlert.setTitle("Inicio sesión");
+		loginAlert.setTitle("Inicio sesi—n");
 		loginAlert.setPositiveButton("Ok", null);
 		loginAlert.setCancelable(true);
 

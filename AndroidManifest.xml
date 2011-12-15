@@ -45,6 +45,7 @@
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".ChangePreferencesActivity"></activity>
         <activity android:name=".ChangePreferencesActivity"></activity>
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

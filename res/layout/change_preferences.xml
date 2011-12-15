@@ -5,47 +5,55 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textPreferencias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Mis preferencias"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#454545"
-        android:textStyle="bold" />
-
-    <TableLayout
-        android:id="@+id/tablePreferences"
+    <ScrollView
+        android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textPreferencias"
-        android:layout_below="@+id/textPreferencias"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_borders"
-        android:stretchColumns="0" >
+        android:layout_height="fill_parent"
+        android:fillViewport="true" >
 
-        <TableRow
-            android:id="@+id/rowPreferences"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/textPreference"
+                android:id="@+id/textPreferencias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Mis preferencias"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#454545"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:id="@+id/tablePreferences"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Categoria" >
-            </TextView>
+                android:layout_alignLeft="@+id/textPreferencias"
+                android:layout_below="@+id/textPreferencias"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_borders"
+                android:stretchColumns="0" >
 
-            <CheckBox
-                android:id="@+id/checkPreference"
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true" >
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/savePreferences"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </CheckBox>
-        </TableRow>
-    </TableLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tablePreferences"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Guardar" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

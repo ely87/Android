@@ -40,4 +40,54 @@ public class UserService {
 
 		return results;
 	}
+
+	public String getSendPreferences(String email, ArrayList<String> preferences) {
+		// String[] preference = new String[preferences.size()];
+		String preference = null;
+		for (int i = 0; i < preferences.size(); i++) {
+
+			preference = preference + "," + preferences.get(i);
+		}
+
+		String pref = preference.substring(5, preference.length());
+		pref = pref.replace(" ", "%20");
+		String url = "http://www.publizar.com.ve/api/api.php?o=updatePreferences&e="
+				+ email + "&list=" + pref;
+
+		String response = null;
+		HttpClient httpClient = new HttpClient();
+		response = httpClient.getHTTPRequest(url);
+
+		try {
+			JSONObject jsonObject = new JSONObject(response);
+			response = jsonObject.getString("mensaje");
+		} catch (JSONException e) {
+			response = "Las preferencias no pudieron ser modificadas";
+		}
+		return response;
+	}
+
+	public String sendNewPassword(String email, String newpass) {
+
+		String url = "http://www.publizar.com.ve/api/api.php?o=changePassword&e="
+				+ email + "&pass=" + newpass;
+
+		String response = null;
+		HttpClient httpClient = new HttpClient();
+		response = httpClient.getHTTPRequest(url);
+		JSONObject jsonObject;
+		try {
+			jsonObject = new JSONObject(response);
+			response = jsonObject.getString("mensaje");
+		} catch (JSONException e) {
+			try {
+				jsonObject = new JSONObject(response);
+				response = jsonObject.getString("error");
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return response;
+	}
 }

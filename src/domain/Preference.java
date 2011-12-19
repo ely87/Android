@@ -1,6 +1,6 @@
 package domain;
 
-public class Category {
+public class Preference {
 	private int id;
 	private String name;
 	private int selection;

@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -39,7 +40,6 @@ public class AllPromosActivity extends Activity {
 		list = (ListView) findViewById(R.id.imagelist);
 		adapter = new ImageAdapter(this, mStrings, promotions);
 		list.setAdapter(adapter);
-
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
@@ -60,7 +60,7 @@ public class AllPromosActivity extends Activity {
 				intent.putExtra("Promo_website",
 						promotion.getPromo_complete_url());
 				intent.putExtra("Promo_excerpt", promotion.getExcerpt());
-				intent.putExtra("Promo_idcomerce",promotion.getId_comerce());
+				intent.putExtra("Promo_idcomerce", promotion.getId_comerce());
 				startActivity(intent);
 			}
 		});
@@ -81,6 +81,24 @@ public class AllPromosActivity extends Activity {
 		inflater.inflate(R.menu.navigation_menu, menu);
 		return true;
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.account:
+			Intent intent = new Intent(AllPromosActivity.this,
+					SettingsActivity.class);
+			startActivity(intent);
+			break;
+
+		case R.id.timeline:
+			Intent intentTimeline = new Intent(AllPromosActivity.this,
+					PreferencesTimelineActivity.class);
+			startActivity(intentTimeline);
+			break;
+		}
+		return true;
 	}
 
 	public String[] getPromotions(int quantity) {

@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
-
 import services.AuthenticateService;
 
 import android.app.Activity;
@@ -13,6 +12,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
-	/** Called when the activity is first created. */
+
 	private EditText email;
 	private EditText password;
 	private Button login;
@@ -36,42 +37,71 @@ public class MainActivity extends Activity {
 	private String error = null;
 	private UserHelper userHelper = new UserHelper(this);
 	private FileDatabaseHelper fileDatabase;
+	private SharedPreferences prefs;
+	private String user;
+	private String pass;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		setContentView(R.layout.sign_in);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
-		fileDatabase = new FileDatabaseHelper();
+		prefs = this.getApplicationContext().getSharedPreferences("prefs_file",
+				MODE_PRIVATE);
+		user = prefs.getString("username", null);
+		pass = prefs.getString("password", null);
+		if (user != null) {
+			Intent intent = new Intent(MainActivity.this,
+					AllPromosActivity.class);
+			startActivity(intent);
+		} else {
+			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+			setContentView(R.layout.sign_in);
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+					R.layout.navigation_bar);
+			fileDatabase = new FileDatabaseHelper();
 
-		email = (EditText) findViewById(R.id.loginEmail);
-		password = (EditText) findViewById(R.id.loginPassword);
-		login = (Button) findViewById(R.id.loginButton);
-		loginDialog = new ProgressDialog(this);
-		loginDialog.setIndeterminate(true);
-		loginDialog.setTitle("Iniciando sesión");
-		loginDialog.setMessage("Espere un momento");
+			email = (EditText) findViewById(R.id.loginEmail);
+			password = (EditText) findViewById(R.id.loginPassword);
+			login = (Button) findViewById(R.id.loginButton);
+			loginDialog = new ProgressDialog(this);
+			loginDialog.setIndeterminate(true);
+			loginDialog.setTitle("Iniciando sesión");
+			loginDialog.setMessage("Espere un momento");
 
-		loginAlert = new AlertDialog.Builder(this);
-		loginAlert.setTitle("Inicio sesión");
-		loginAlert.setPositiveButton("Ok", null);
-		loginAlert.setCancelable(true);
+			loginAlert = new AlertDialog.Builder(this);
+			loginAlert.setTitle("Inicio sesión");
+			loginAlert.setPositiveButton("Ok", null);
+			loginAlert.setCancelable(true);
 
-		Button.OnClickListener validateUserOnClickListener = new Button.OnClickListener() {
+			Button.OnClickListener validateUserOnClickListener = new Button.OnClickListener() {
 
-			public void onClick(View v) {
-				CallWebServiceTask task = new CallWebServiceTask();
-				task.applicationContext = MainActivity.this;
+				public void onClick(View v) {
+					CallWebServiceTask task = new CallWebServiceTask();
+					task.applicationContext = MainActivity.this;
 
-				username = email.getText().toString();
-				userpwd = password.getText().toString();
-				task.execute(username, userpwd);
-			}
-		};
+					if (pass == null && user == null) {
+						Editor edit = prefs.edit();
+						edit.putString("username", email.getText().toString());
+						edit.putString("password", password.getText()
+								.toString().toString());
+						edit.commit();
+					} else {
+						if (email.getText().toString().equals(user)
+								&& password.getText().toString()
+										.equalsIgnoreCase(pass)) {
+							Intent intent = new Intent(MainActivity.this,
+									AllPromosActivity.class);
+							startActivity(intent);
+						}
+					}
+					username = email.getText().toString();
+					userpwd = password.getText().toString();
+					task.execute(username, userpwd);
+				}
+			};
 
-		login.setOnClickListener(validateUserOnClickListener);
+			login.setOnClickListener(validateUserOnClickListener);
+		}
+
 
 	}
 
@@ -147,11 +177,11 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Integer operationResult) {
 			loginDialog.cancel();
 			if (operationResult == 0) {
-				error = "La contraseña o el correo electrónico no son válidos";
+				error = "La contrase–a o el correo electr—nico no son v‡lidos";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else if (operationResult == -1) {
-				error = "El usuario no es válido";
+				error = "El usuario no es v‡lido";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {

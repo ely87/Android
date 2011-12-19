@@ -245,6 +245,12 @@ public class DetailActivity extends Activity {
 					SettingsActivity.class);
 			startActivity(intent);
 			break;
+
+		case R.id.timeline:
+			Intent intentTimeline = new Intent(DetailActivity.this,
+					PreferencesTimelineActivity.class);
+			startActivity(intentTimeline);
+			break;
 		}
 		return true;
 	}

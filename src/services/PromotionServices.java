@@ -14,8 +14,6 @@ public class PromotionServices {
 	ArrayList<Promotion> promotions;
 	
 
-
-
 	public ArrayList<Promotion> getAllPromotions(String url) {
 		String response = null;
 		HttpClient httpClient = new HttpClient();

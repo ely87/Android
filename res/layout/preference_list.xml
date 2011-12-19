@@ -27,10 +27,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Contraseña"
-            android:textStyle="bold"
+            android:text="Perfil del usuario"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#454545" />
+            android:textColor="#454545"
+            android:textStyle="bold" />
 
         <TableLayout
             android:id="@+id/tablepassword"
@@ -43,7 +43,7 @@
             android:background="@drawable/rounded_borders"
             android:stretchColumns="1" >
 
-            <TableRow  android:id="@+id/rowcontrasenas" >
+            <TableRow android:id="@+id/rowcontrasenas" >
 
                 <TextView
                     android:id="@+id/contrasena"
@@ -64,17 +64,41 @@
             </TableRow>
         </TableLayout>
 
+        <TableLayout
+            android:id="@+id/tablepassword2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/tablepassword"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_borders"
+            android:stretchColumns="1" >
+
+            <TableRow android:id="@+id/rowcerrarsesion" >
+
+                <TextView
+                    android:id="@+id/contrasena"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Cerrar sesión"
+                    android:textColor="#454545"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+
         <TextView
             android:id="@+id/textPreferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tablepassword"
+            android:layout_below="@+id/tablepassword2"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="Preferencias"
-            android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#454545" />
+            android:textColor="#454545"
+            android:textStyle="bold" />
 
         <TableLayout
             android:layout_width="fill_parent"
@@ -92,7 +116,7 @@
                     android:id="@+id/categorias"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="Categorías"
+                    android:text="Mis preferencias"
                     android:textColor="#454545"
                     android:textSize="18dp"
                     android:textStyle="bold" />

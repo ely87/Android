@@ -2,6 +2,7 @@ package com.publizar.publizaraldia;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,23 @@ public class SettingsActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(SettingsActivity.this,
 						ChangePasswordActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		TableRow rowcerrarsesion = (TableRow) findViewById(R.id.rowcerrarsesion);
+		rowcerrarsesion.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				SharedPreferences prefs = getApplicationContext()
+						.getSharedPreferences("prefs_file", MODE_PRIVATE);
+
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.remove("username");
+				editor.remove("password");
+				editor.commit();
+				Intent intent = new Intent(SettingsActivity.this,
+						MainActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 			}
 		});

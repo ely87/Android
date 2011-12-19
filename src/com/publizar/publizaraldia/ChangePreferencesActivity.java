@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import persistence.UserHelper;
 
-import domain.Category;
+import domain.Preference;
 
-import services.UserService;
+import services.PreferenceService;
 import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -25,7 +25,7 @@ public class ChangePreferencesActivity extends Activity {
 
 	private UserHelper userHelper = new UserHelper(this);
 	private Button buttonPreferences;
-	private ArrayList<Category> categories;
+	private ArrayList<Preference> categories;
 	private String email;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,20 +50,20 @@ public class ChangePreferencesActivity extends Activity {
 
 	public TableLayout setTablePreferences() {
 
-		categories = new ArrayList<Category>();
+		categories = new ArrayList<Preference>();
 		userHelper.open();
 		Cursor c = userHelper.fetchUser(1);
 		email = c.getString(1);
 		userHelper.close();
-		UserService userService = new UserService();
-		categories = userService.getUserPreferences(email);
+		PreferenceService preferenceService = new PreferenceService();
+		categories = preferenceService.getUserPreferences(email);
 		// table.removeAllViews();
 		TableLayout table = null;
 		for (int i = 0; i < categories.size(); i++) {
 			table = (TableLayout) findViewById(R.id.tablePreferences);
 			// create a new TableRow
 			TableRow row = new TableRow(this);
-			Category category = new Category();
+			Preference category = new Preference();
 			category = categories.get(i);
 			TextView t = new TextView(this);
 			// set the text to "text xx"
@@ -104,13 +104,13 @@ public class ChangePreferencesActivity extends Activity {
 			}
 		}
 		ArrayList<String> preferencesChecked = new ArrayList<String>();
-		UserService userService = new UserService();
+		PreferenceService preferenceService = new PreferenceService();
 		for (int i = 0; i < categories.size(); i++) {
 			if (categories.get(i).getSelection() == 1) {
 				preferencesChecked.add(categories.get(i).getName());
 			}
 		}
-		String response = userService.getSendPreferences(email, preferencesChecked);
+		String response = preferenceService.getSendPreferences(email, preferencesChecked);
 		
 		Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 	}

@@ -3,6 +3,7 @@ package com.publizar.publizaraldia;
 import java.util.ArrayList;
 
 import domain.Preference;
+import domain.Promotion;
 import persistence.UserHelper;
 import services.PreferenceService;
 import adapters.GalleryAdapter;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 public class PreferencesTimelineActivity extends Activity {
 	private UserHelper userHelper = new UserHelper(this);
 	private String email;
+	private ArrayList<Promotion> promotions;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class PreferencesTimelineActivity extends Activity {
 	public TableLayout setTablePreferences() {
 
 		ArrayList<Preference> preferences = new ArrayList<Preference>();
+		ArrayList<Preference> preferencesChosen = new ArrayList<Preference>();
 		PreferenceService preferenceService = new PreferenceService();
 		userHelper.open();
 		Cursor c = userHelper.fetchUser(1);
@@ -48,6 +51,7 @@ public class PreferencesTimelineActivity extends Activity {
 			pref = preferences.get(i);
 			if (pref.getSelection() == 1) {
 				count++;
+				preferencesChosen.add(pref);
 			}
 		}
 
@@ -66,31 +70,44 @@ public class PreferencesTimelineActivity extends Activity {
 				t.setBackgroundColor(Color.GRAY);
 			}
 
-			PreferenceService prefService = new PreferenceService();
-			//prefService.getPromosByPreference(preferences);
+			// PreferenceService prefService = new PreferenceService();
+			// prefService.getPromosByPreference(preferences);
 			row.addView(t);
 			TableRow rowGallery = new TableRow(this);
 
+			String urls[] = null;
+			urls = getPromotions(preferencesChosen.get(i));
+			if (urls.length != 0) {
+				Gallery gallery = new Gallery(this);
+				gallery.setAdapter(new GalleryAdapter(this, urls));
+				gallery.setBackgroundColor(Color.BLUE);
+				gallery.onFling(null, null, 1000, 0);
 
-			String urls[] = new String[5];
-			urls[0] = "http://www.publizar.com.ve/wp-content/uploads/2011/12/spathumbnail.jpg";
-			urls[1] = "http://www.publizar.com.ve/wp-content/uploads/2011/12/paellathumbnail.jpg";
-			urls[2] = "http://www.publizar.com.ve/wp-content/uploads/2011/12/spathumbnail.jpg";
-			urls[3] = "http://www.publizar.com.ve/wp-content/uploads/2011/12/paellathumbnail.jpg";
-			urls[4] = "http://www.publizar.com.ve/wp-content/uploads/2011/12/spathumbnail.jpg";
-			Gallery gallery = new Gallery(this);
-			gallery.setAdapter(new GalleryAdapter(this, urls));
-			gallery.setBackgroundColor(Color.DKGRAY);
+				rowGallery.addView(gallery);
+				rowGallery.setBackgroundColor(Color.GREEN);
 
-			gallery.onFling(null, null, 1000, 0);
-			rowGallery.addView(gallery);
-			table.addView(row, new TableLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			table.addView(rowGallery, new TableLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				table.addView(row, new TableLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				table.addView(rowGallery, new TableLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			}
 		}
 
 		return table;
+	}
+
+	public String[] getPromotions(Preference preferences) {
+
+		PreferenceService prefService = new PreferenceService();
+		promotions = prefService.getPromosByPreference(preferences);
+
+		String[] promotionsResult = new String[promotions.size()];
+
+		for (int i = 0; i < promotions.size(); i++) {
+			promotionsResult[i] = promotions.get(i).getImage_url();
+		}
+
+		return promotionsResult;
 	}
 
 }

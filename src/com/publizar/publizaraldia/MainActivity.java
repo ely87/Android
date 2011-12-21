@@ -102,7 +102,6 @@ public class MainActivity extends Activity {
 			login.setOnClickListener(validateUserOnClickListener);
 		}
 
-
 	}
 
 	@Override
@@ -177,11 +176,11 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Integer operationResult) {
 			loginDialog.cancel();
 			if (operationResult == 0) {
-				error = "La contrase–a o el correo electr—nico no son v‡lidos";
+				error = "La contraseña o el correo electrónico no son válidos";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else if (operationResult == -1) {
-				error = "El usuario no es v‡lido";
+				error = "El usuario no es válido";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {

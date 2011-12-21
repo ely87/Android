@@ -1,11 +1,16 @@
 package adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class GalleryAdapter extends BaseAdapter {
 	/** The parent context */
@@ -15,10 +20,13 @@ public class GalleryAdapter extends BaseAdapter {
 	/** URL-Strings to some remote images. */
 	private String[] myRemoteImages = null;
 
+	private String[] titles = null;
+
 	/** Simple Constructor saving the 'parent' context. */
-	public GalleryAdapter(Context c, String[] images) {
+	public GalleryAdapter(Context c, String[] images, String[] title) {
 		this.myContext = c;
 		this.myRemoteImages = images;
+		this.titles = title;
 		imageLoader = new ImageLoader(c);
 	}
 
@@ -43,7 +51,8 @@ public class GalleryAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageView i = new ImageView(this.myContext);
 		// FrameLayout bottomFrameLayout = new FrameLayout(myContext);
-		RelativeLayout layout = new RelativeLayout(myContext);
+		// RelativeLayout layout = new RelativeLayout(myContext);
+		FrameLayout layout = new FrameLayout(myContext);
 
 		imageLoader.DisplayImage(myRemoteImages[position], i);
 		/* Image should be scaled as width/height are set. */
@@ -51,11 +60,17 @@ public class GalleryAdapter extends BaseAdapter {
 		// i.setAdjustViewBounds(true);
 		i.setMinimumHeight(148);
 		i.setMinimumWidth(271);
-		
-		/*TextView tvTitle = new TextView(myContext);  
-		tvTitle.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM));  
-	    tv2.setTextSize();  */
+
+		TextView tvTitle = new TextView(myContext);
+		tvTitle.setMinimumHeight(74);
+		tvTitle.setMinimumWidth(271);
+		tvTitle.setText(titles[position]);
+		tvTitle.setBackgroundColor(Color.BLACK);
+		tvTitle.setTextColor(Color.WHITE);
+		tvTitle.setTextSize(8);
+		tvTitle.setGravity(Gravity.TOP);
 		layout.addView(i);
+		layout.addView(tvTitle);
 
 		return layout;
 		// return i;

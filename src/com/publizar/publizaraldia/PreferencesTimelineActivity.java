@@ -11,8 +11,10 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-
+import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.Window;
 import android.widget.Gallery;
 import android.widget.TableLayout;
@@ -55,6 +57,9 @@ public class PreferencesTimelineActivity extends Activity {
 			}
 		}
 
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+
 		for (int i = 0; i < count; i++) {
 			table = (TableLayout) findViewById(R.id.tableGallery);
 			// create a new TableRow
@@ -70,22 +75,53 @@ public class PreferencesTimelineActivity extends Activity {
 				t.setBackgroundColor(Color.GRAY);
 			}
 
-			// PreferenceService prefService = new PreferenceService();
-			// prefService.getPromosByPreference(preferences);
+			row.setBackgroundColor(Color.MAGENTA);
 			row.addView(t);
 			TableRow rowGallery = new TableRow(this);
 
 			String urls[] = null;
 			urls = getPromotions(preferencesChosen.get(i));
+
 			if (urls.length != 0) {
+
 				Gallery gallery = new Gallery(this);
 				gallery.setAdapter(new GalleryAdapter(this, urls));
-				gallery.setBackgroundColor(Color.BLUE);
 				gallery.onFling(null, null, 1000, 0);
+				gallery.setBackgroundColor(Color.GRAY);
+				gallery.setMinimumHeight(148);
+				gallery.setSelection(0);
 
+				gallery.setLayoutParams(new TableRow.LayoutParams(
+						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+
+				int galleryWidth = dm.widthPixels;
+				int itemWidth = 271;
+				int spacing = 0;
+
+				// The offset is how much we will pull the gallery to the left
+				// in order
+				// to simulate
+				// left alignment of the first item
+				int offset;
+				if (galleryWidth <= itemWidth) {
+					offset = galleryWidth / 2 - itemWidth / 2 - spacing;
+				} else {
+					offset = galleryWidth - itemWidth - 2 * spacing;
+				}
+				// offset = 0;
+
+				// Now update the layout parameters of the gallery in order to
+				// set the
+				// left margin
+				MarginLayoutParams mlp = (MarginLayoutParams) gallery
+						.getLayoutParams();
+				mlp.setMargins(-offset, mlp.topMargin, mlp.rightMargin,
+						mlp.bottomMargin);
+
+				// gallery.setLayoutParams(mlp);
 				rowGallery.addView(gallery);
-				rowGallery.setBackgroundColor(Color.GREEN);
 
+				rowGallery.setMinimumHeight(148);
 				table.addView(row, new TableLayout.LayoutParams(
 						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 				table.addView(rowGallery, new TableLayout.LayoutParams(

@@ -15,12 +15,19 @@
             android:layout_height="fill_parent"
             android:layout_alignLeft="@+id/textPreferencias"
             android:layout_below="@+id/textPreferencias"
-            android:background="#000000" >
+            android:background="#000000"
+            android:stretchColumns="*" >
 
             <TableRow
+                android:id="@+id/tableRowGallery"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:clickable="true" >
+
+                <TextView
+                    android:id="@+id/galleryTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
             </TableRow>
         </TableLayout>
     </RelativeLayout>

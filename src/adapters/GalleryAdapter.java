@@ -1,13 +1,9 @@
 package adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -51,12 +47,14 @@ public class GalleryAdapter extends BaseAdapter {
 
 		imageLoader.DisplayImage(myRemoteImages[position], i);
 		/* Image should be scaled as width/height are set. */
-		i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		i.setAdjustViewBounds(true);
-		i.setBackgroundColor(Color.RED);
-		/* Set the Width/Height of the ImageView. */
-		i.setLayoutParams(new Gallery.LayoutParams(271, 148));
-
+		i.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		// i.setAdjustViewBounds(true);
+		i.setMinimumHeight(148);
+		i.setMinimumWidth(271);
+		
+		/*TextView tvTitle = new TextView(myContext);  
+		tvTitle.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM));  
+	    tv2.setTextSize();  */
 		layout.addView(i);
 
 		return layout;

@@ -13,6 +13,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.view.View.OnClickListener;
@@ -41,13 +44,40 @@ public class PreferencesTimelineActivity extends Activity {
 		setTablePreferences();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.navigation_menu, menu);
+		return true;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.account:
+			Intent intent = new Intent(PreferencesTimelineActivity.this,
+					SettingsActivity.class);
+			startActivity(intent);
+			break;
+
+		case R.id.todas:
+			Intent intentTodas = new Intent(PreferencesTimelineActivity.this,
+					AllPromosActivity.class);
+			startActivity(intentTodas);
+			break;
+		}
+		return true;
+	}
+
 	public TableLayout setTablePreferences() {
 
 		ArrayList<Preference> preferences = new ArrayList<Preference>();
 		ArrayList<Preference> preferencesChosen = new ArrayList<Preference>();
 		PreferenceService preferenceService = new PreferenceService();
 		userHelper.open();
-		Cursor c = userHelper.fetchUser(1);
+		int idUser = userHelper.getLastRowID();
+		Cursor c = userHelper.fetchUser(idUser);
 		email = c.getString(1);
 		userHelper.close();
 		preferences = preferenceService.getUserPreferences(email);
@@ -71,7 +101,7 @@ public class PreferencesTimelineActivity extends Activity {
 			// create a new TableRow
 			TableRow row = new TableRow(this);
 			Preference pref = new Preference();
-			pref = preferences.get(i);
+			pref = preferencesChosen.get(i);
 			final TextView t = new TextView(this);
 			if (pref.getSelection() == 1) {
 				// set the text to "text xx"
@@ -80,112 +110,114 @@ public class PreferencesTimelineActivity extends Activity {
 				t.setTextSize(14);
 				t.setBackgroundColor(Color.GRAY);
 				t.setId(i);
-			}
+				row.addView(t);
 
-			row.setBackgroundColor(Color.MAGENTA);
-			row.addView(t);
-			TableRow rowGallery = new TableRow(this);
+				TableRow rowGallery = new TableRow(this);
 
-			String urls[] = null;
-			urls = getPromotions(preferencesChosen.get(i));
+				String urls[] = null;
+				urls = getPromotions(preferencesChosen.get(i));
 
-			if (urls.length != 0) {
+				if (urls.length != 0) {
 
-				final Gallery gallery = new Gallery(this);
-				gallery.setAdapter(new GalleryAdapter(this, urls, titles));
-				gallery.onFling(null, null, 1000, 0);
-				gallery.setBackgroundColor(Color.GRAY);
-				gallery.setMinimumHeight(148);
-				gallery.setId(i);
+					final Gallery gallery = new Gallery(this);
+					gallery.setAdapter(new GalleryAdapter(this, urls, titles));
+					gallery.onFling(null, null, 1000, 0);
+					gallery.setBackgroundColor(Color.GRAY);
+					gallery.setMinimumHeight(148);
+					gallery.setId(i);
+					gallery.setSpacing(2);
+					gallery.setLayoutParams(new TableRow.LayoutParams(
+							LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
-				gallery.setLayoutParams(new TableRow.LayoutParams(
-						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+					gallery.setOnItemClickListener(new OnItemClickListener() {
+						public void onItemClick(AdapterView<?> parent, View v,
+								int position, long id) {
 
-				gallery.setOnItemClickListener(new OnItemClickListener() {
-					public void onItemClick(AdapterView<?> parent, View v,
-							int position, long id) {
+							TextView textSelected = (TextView) findViewById(t
+									.getId());
+							Preference selectedPreference = new Preference();
+							selectedPreference.setName(textSelected.getText()
+									.toString());
+							ArrayList<Promotion> resultGallery = new ArrayList<Promotion>();
+							resultGallery = getArrayPromotions(selectedPreference);
+							Promotion promotion = new Promotion();
+							promotion = resultGallery.get(position);
+							Intent intent = new Intent(
+									PreferencesTimelineActivity.this,
+									DetailActivity.class);
+							intent.putExtra("Promo_id",
+									String.valueOf(promotion.getId()));
+							intent.putExtra("Promo_image",
+									promotion.getImage_url());
+							intent.putExtra("Promo_title", promotion.getTitle());
+							intent.putExtra("Promo_due",
+									promotion.getDue_date());
+							intent.putExtra("Promo_company",
+									promotion.getPromo_company());
+							intent.putExtra("Promo_comerce",
+									promotion.getComerce());
+							intent.putExtra("Promo_price",
+									promotion.getSaved_price());
+							intent.putExtra("Promo_original_price",
+									promotion.getOriginal_price());
+							intent.putExtra("Promo_discount",
+									promotion.getDiscount());
+							intent.putExtra("Promo_description",
+									promotion.getDescription());
+							intent.putExtra("Promo_website",
+									promotion.getPromo_complete_url());
+							intent.putExtra("Promo_excerpt",
+									promotion.getExcerpt());
+							intent.putExtra("Promo_idcomerce",
+									promotion.getId_comerce());
+							startActivity(intent);
+						}
+					});
 
-						TextView textSelected = (TextView) findViewById(t
-								.getId());
-						Preference selectedPreference = new Preference();
-						selectedPreference.setName(textSelected.getText()
-								.toString());
-						ArrayList<Promotion> resultGallery = new ArrayList<Promotion>();
-						resultGallery = getArrayPromotions(selectedPreference);
-						Promotion promotion = new Promotion();
-						promotion = resultGallery.get(position);
-						Intent intent = new Intent(
-								PreferencesTimelineActivity.this,
-								DetailActivity.class);
-						intent.putExtra("Promo_id",
-								String.valueOf(promotion.getId()));
-						intent.putExtra("Promo_image", promotion.getImage_url());
-						intent.putExtra("Promo_title", promotion.getTitle());
-						intent.putExtra("Promo_due", promotion.getDue_date());
-						intent.putExtra("Promo_company",
-								promotion.getPromo_company());
-						intent.putExtra("Promo_comerce", promotion.getComerce());
-						intent.putExtra("Promo_price",
-								promotion.getSaved_price());
-						intent.putExtra("Promo_original_price",
-								promotion.getOriginal_price());
-						intent.putExtra("Promo_discount",
-								promotion.getDiscount());
-						intent.putExtra("Promo_description",
-								promotion.getDescription());
-						intent.putExtra("Promo_website",
-								promotion.getPromo_complete_url());
-						intent.putExtra("Promo_excerpt", promotion.getExcerpt());
-						intent.putExtra("Promo_idcomerce",
-								promotion.getId_comerce());
-						startActivity(intent);
+					int galleryWidth = dm.widthPixels;
+					int itemWidth = 271;
+					int spacing = 2;
 
-						/*
-						 * Toast.makeText( PreferencesTimelineActivity.this,
-						 * "Title=" + resultGallery.get(position) .getTitle(),
-						 * Toast.LENGTH_SHORT) .show();
-						 */
+					// The offset is how much we will pull the gallery to the
+					// left
+					// in order
+					// to simulate
+					// left alignment of the first item
+					int offset;
+					if (galleryWidth <= itemWidth) {
+						offset = galleryWidth / 2 - itemWidth / 2 - spacing;
+					} else {
+						offset = galleryWidth - itemWidth - 2 * spacing;
 					}
-				});
+					// offset = 0;
 
-				int galleryWidth = dm.widthPixels;
-				int itemWidth = 271;
-				int spacing = 0;
+					// Now update the layout parameters of the gallery in order
+					// to
+					// set the
+					// left margin
+					MarginLayoutParams mlp = (MarginLayoutParams) gallery
+							.getLayoutParams();
+					mlp.setMargins(-offset, mlp.topMargin, mlp.rightMargin,
+							mlp.bottomMargin);
 
-				// The offset is how much we will pull the gallery to the left
-				// in order
-				// to simulate
-				// left alignment of the first item
-				int offset;
-				if (galleryWidth <= itemWidth) {
-					offset = galleryWidth / 2 - itemWidth / 2 - spacing;
-				} else {
-					offset = galleryWidth - itemWidth - 2 * spacing;
+					rowGallery.addView(gallery);
+
+					rowGallery.setMinimumHeight(148);
+					rowGallery.setOnClickListener(new OnClickListener() {
+
+						public void onClick(View v) {
+							v.setBackgroundColor(Color.GRAY);
+						}
+					});
+					table.addView(row,
+							new TableLayout.LayoutParams(
+									LayoutParams.FILL_PARENT,
+									LayoutParams.WRAP_CONTENT));
+					table.addView(rowGallery,
+							new TableLayout.LayoutParams(
+									LayoutParams.FILL_PARENT,
+									LayoutParams.WRAP_CONTENT));
 				}
-				// offset = 0;
-
-				// Now update the layout parameters of the gallery in order to
-				// set the
-				// left margin
-				MarginLayoutParams mlp = (MarginLayoutParams) gallery
-						.getLayoutParams();
-				mlp.setMargins(-offset, mlp.topMargin, mlp.rightMargin,
-						mlp.bottomMargin);
-
-				// gallery.setLayoutParams(mlp);
-				rowGallery.addView(gallery);
-
-				rowGallery.setMinimumHeight(148);
-				rowGallery.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						v.setBackgroundColor(Color.GRAY);
-					}
-				});
-				table.addView(row, new TableLayout.LayoutParams(
-						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-				table.addView(rowGallery, new TableLayout.LayoutParams(
-						LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 			}
 		}
 

@@ -97,6 +97,7 @@ public class AllPromosActivity extends Activity {
 					PreferencesTimelineActivity.class);
 			startActivity(intentTimeline);
 			break;
+
 		}
 		return true;
 	}

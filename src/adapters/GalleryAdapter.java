@@ -5,11 +5,9 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class GalleryAdapter extends BaseAdapter {
@@ -56,15 +54,17 @@ public class GalleryAdapter extends BaseAdapter {
 
 		imageLoader.DisplayImage(myRemoteImages[position], i);
 		/* Image should be scaled as width/height are set. */
-		i.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		i.setScaleType(ImageView.ScaleType.FIT_XY);
 		// i.setAdjustViewBounds(true);
 		i.setMinimumHeight(148);
-		i.setMinimumWidth(271);
+		i.setMinimumWidth(280);
 
 		TextView tvTitle = new TextView(myContext);
 		tvTitle.setMinimumHeight(74);
 		tvTitle.setMinimumWidth(271);
-		tvTitle.setText(titles[position]);
+		tvTitle.setText(" "+ titles[position]);
+		tvTitle.setLayoutParams(new FrameLayout.LayoutParams(271, 40,
+				Gravity.BOTTOM));
 		tvTitle.setBackgroundColor(Color.BLACK);
 		tvTitle.setTextColor(Color.WHITE);
 		tvTitle.setTextSize(8);

@@ -45,12 +45,11 @@
                 </TextView>
 
                 <EditText
-                    android:id="@+id/loginEmail"
+                    android:id="@+id/registerEmail"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:hint="Correo electronico"
-                    android:text="khaterine.publizar@gmail.com" >
+                    android:hint="Correo electronico" >
                 </EditText>
             </TableRow>
 
@@ -64,24 +63,42 @@
                 </TextView>
 
                 <EditText
-                    android:id="@+id/loginPassword"
+                    android:id="@+id/registerPassword"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:hint="Contrasena"
-                    android:password="true"
-                    android:text="Castellano01" >
+                    android:hint="Contraseña"
+                    android:password="true" >
+                </EditText>
+            </TableRow>
+
+            <TableRow >
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Confirmar Password: " >
+                </TextView>
+
+                <EditText
+                    android:id="@+id/registerConfirmPassword"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:hint="Contraseña"
+                    android:password="true" >
                 </EditText>
             </TableRow>
         </TableLayout>
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Login" />
+            android:text="Suscribete gratis" />
 
         <TextView
             android:id="@+id/textView1"
@@ -98,14 +115,6 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="#4d4f4e" >
-
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="Regístrate" />
     </RelativeLayout>
 
 </RelativeLayout>

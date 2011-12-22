@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import persistence.UserHelper;
 
-import domain.Preference;
-
 import services.PreferenceService;
+import domain.Preference;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.TableRow.LayoutParams;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,8 +19,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TableRow.LayoutParams;
 
-public class ChangePreferencesActivity extends Activity {
+public class RegisterPreferenceActivity extends Activity {
 
 	private UserHelper userHelper = new UserHelper(this);
 	private Button buttonPreferences;
@@ -31,17 +31,21 @@ public class ChangePreferencesActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		setContentView(R.layout.change_preferences);
+		setContentView(R.layout.register_preferences);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.navigation_bar);
+
 		final TableLayout table = setTablePreferences();
 
-		buttonPreferences = (Button) findViewById(R.id.savePreferences);
+		buttonPreferences = (Button) findViewById(R.id.saveChoosePreferences);
 
 		Button.OnClickListener savePreferencesClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
 				showSelectedItems(table);
+				Intent intent = new Intent(RegisterPreferenceActivity.this,
+						PreferencesTimelineActivity.class);
+				startActivity(intent);
 			}
 		};
 
@@ -52,8 +56,8 @@ public class ChangePreferencesActivity extends Activity {
 
 		categories = new ArrayList<Preference>();
 		userHelper.open();
-		int id = userHelper.getLastRowID();
-		Cursor c = userHelper.fetchUser(id);
+		int idUser = userHelper.getLastRowID();
+		Cursor c = userHelper.fetchUser(idUser);
 		email = c.getString(1);
 		userHelper.close();
 		PreferenceService preferenceService = new PreferenceService();
@@ -61,7 +65,7 @@ public class ChangePreferencesActivity extends Activity {
 		// table.removeAllViews();
 		TableLayout table = null;
 		for (int i = 0; i < categories.size(); i++) {
-			table = (TableLayout) findViewById(R.id.tablePreferences);
+			table = (TableLayout) findViewById(R.id.tableChoosePreferences);
 			// create a new TableRow
 			TableRow row = new TableRow(this);
 			Preference category = new Preference();
@@ -76,9 +80,6 @@ public class ChangePreferencesActivity extends Activity {
 
 			// add the TextView and the CheckBox to the new TableRow
 			row.addView(t);
-			if (category.getSelection() == 1) {
-				check.setChecked(true);
-			}
 
 			row.addView(check);
 			// add the TableRow to the TableLayout
@@ -92,7 +93,7 @@ public class ChangePreferencesActivity extends Activity {
 
 	private void showSelectedItems(TableLayout table) {
 
-		TableLayout contact_table = (TableLayout) findViewById(R.id.tablePreferences);
+		TableLayout contact_table = (TableLayout) findViewById(R.id.tableChoosePreferences);
 
 		for (int i = 1; i < contact_table.getChildCount(); i++) {
 

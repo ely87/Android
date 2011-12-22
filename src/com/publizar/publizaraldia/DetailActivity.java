@@ -115,7 +115,8 @@ public class DetailActivity extends Activity {
 						Promotion promotion = new Promotion();
 						promotion.setId(Integer.valueOf(promo_id));
 						userHelper.open();
-						Cursor c = userHelper.fetchUser(1);
+						int idUser = userHelper.getLastRowID();
+						Cursor c = userHelper.fetchUser(idUser);
 						promotionServices.sendEmailPromotion(promo_id,
 								c.getString(1));
 					}

@@ -45,7 +45,8 @@ public class ChangePasswordActivity extends Activity {
 
 				if (newPass1.equalsIgnoreCase(newPass2)) {
 					userHelper.open();
-					Cursor c = userHelper.fetchUser(1);
+					int id = userHelper.getLastRowID();
+					Cursor c = userHelper.fetchUser(id);
 					String email = c.getString(1);
 					userHelper.close();
 					UserService userService = new UserService();

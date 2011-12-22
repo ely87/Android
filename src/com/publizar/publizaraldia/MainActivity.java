@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 	private SharedPreferences prefs;
 	private String user;
 	private String pass;
+	private Button registerUser;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class MainActivity extends Activity {
 			email = (EditText) findViewById(R.id.loginEmail);
 			password = (EditText) findViewById(R.id.loginPassword);
 			login = (Button) findViewById(R.id.loginButton);
+			registerUser = (Button) findViewById(R.id.registerButton);
 			loginDialog = new ProgressDialog(this);
 			loginDialog.setIndeterminate(true);
 			loginDialog.setTitle("Iniciando sesi—n");
@@ -99,6 +101,18 @@ public class MainActivity extends Activity {
 				}
 			};
 
+			Button.OnClickListener registerUserOnClickListener = new Button.OnClickListener() {
+
+				public void onClick(View v) {
+
+					Intent intent = new Intent(MainActivity.this,
+							RegisterUserActivity.class);
+					startActivity(intent);
+
+				}
+			};
+
+			registerUser.setOnClickListener(registerUserOnClickListener);
 			login.setOnClickListener(validateUserOnClickListener);
 		}
 
@@ -117,7 +131,8 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.sign_out:
 			userHelper.open();
-			userHelper.deleteUser(1);
+			int id = userHelper.getLastRowID();
+			userHelper.deleteUser(id);
 			userHelper.close();
 			fileDatabase.exportDatabase();
 			break;
@@ -148,7 +163,8 @@ public class MainActivity extends Activity {
 				if (result != null) {
 					if (result.equalsIgnoreCase(email)) {
 						userHelper.open();
-						Cursor c = userHelper.fetchUser(1);
+						int id = userHelper.getLastRowID();
+						Cursor c = userHelper.fetchUser(id);
 						if (c.getCount() == 0) {
 							userHelper.createUser(email, password);
 						}

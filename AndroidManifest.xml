@@ -51,6 +51,8 @@
         <activity android:name=".ChangePasswordActivity" >
         </activity>
         <activity android:name=".PreferencesTimelineActivity"></activity>
+        <activity android:name=".RegisterPreferenceActivity"></activity>
+        <activity android:name=".RegisterUserActivity"></activity>
     </application>
 
 </manifest>

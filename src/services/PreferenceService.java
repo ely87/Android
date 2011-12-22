@@ -42,6 +42,34 @@ public class PreferenceService {
 		return results;
 	}
 
+	public ArrayList<Preference> getAllPreferences() {
+		String url = "http://www.publizar.com.ve/api/api.php?o=allpreferences";
+		String response = null;
+		HttpClient httpClient = new HttpClient();
+		response = httpClient.getHTTPRequest(url);
+		JSONObject jsonObject = null;
+		String name = null;
+		String value = null;
+		ArrayList<Preference> results = new ArrayList<Preference>();
+		try {
+			JSONArray jsonArray = new JSONArray(response);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				Preference category = new Preference();
+
+				jsonObject = jsonArray.getJSONObject(i);
+				name = jsonObject.getString("nombre");
+				category.setName(name);
+				category.setSelection(Integer.valueOf(value));
+				results.add(category);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return results;
+	}
+
 	public String getSendPreferences(String email, ArrayList<String> preferences) {
 		// String[] preference = new String[preferences.size()];
 		String preference = null;

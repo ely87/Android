@@ -1,5 +1,7 @@
 package com.publizar.publizaraldia;
 
+import persistence.FileDatabaseHelper;
+import persistence.UserHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,9 @@ import android.widget.TableRow;
 
 public class SettingsActivity extends Activity {
 
+	private UserHelper userHelper = new UserHelper(this);
+	private FileDatabaseHelper fileDatabase;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,6 +23,8 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.preference_list);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.navigation_bar);
+
+		fileDatabase = new FileDatabaseHelper();
 
 		TableRow tablerow = (TableRow) findViewById(R.id.rowcontrasenas);
 		tablerow.setOnClickListener(new OnClickListener() {
@@ -31,6 +38,11 @@ public class SettingsActivity extends Activity {
 		TableRow rowcerrarsesion = (TableRow) findViewById(R.id.rowcerrarsesion);
 		rowcerrarsesion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				userHelper.open();
+				int idUser = userHelper.getLastRowID();
+				userHelper.deleteUser(idUser);
+				userHelper.close();
+				fileDatabase.exportDatabase();
 				SharedPreferences prefs = getApplicationContext()
 						.getSharedPreferences("prefs_file", MODE_PRIVATE);
 

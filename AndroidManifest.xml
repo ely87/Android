@@ -23,16 +23,16 @@
             android:required="true" >
         </uses-library>
 
-        <activity
-            android:label="@string/app_name"
-            android:name=".MainActivity" >
+        <activity android:name=".MainActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllPromosActivity" >
+        <activity
+            android:name=".AllPromosActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".DetailActivity" >
         </activity>
@@ -42,17 +42,35 @@
         </activity>
         <activity android:name=".MapsActivity" >
         </activity>
-        <activity android:name=".SettingsActivity" >
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ChangePreferencesActivity" >
+        <activity
+            android:name=".ChangePreferencesActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ChangePreferencesActivity" >
+        <activity
+            android:name=".ChangePreferencesActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ChangePasswordActivity" >
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".PreferencesTimelineActivity"></activity>
-        <activity android:name=".RegisterPreferenceActivity"></activity>
-        <activity android:name=".RegisterUserActivity"></activity>
+        <activity
+            android:name=".PreferencesTimelineActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".RegisterPreferenceActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".RegisterUserActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".AllFavouritesActivity"></activity>
     </application>
 
 </manifest>

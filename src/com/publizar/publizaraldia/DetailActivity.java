@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -27,6 +28,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.text.util.Linkify;
 
 public class DetailActivity extends Activity {
@@ -52,6 +54,7 @@ public class DetailActivity extends Activity {
 	private TextView detail_email_comerce_text;
 	private TextView detail_twitter_comerce_text;
 	private TextView detail_facebook_comerce_text;
+	private ImageView imageView;
 	public ImageLoader imageLoader;
 	private Button button_url;
 	private Button button_send;
@@ -72,6 +75,7 @@ public class DetailActivity extends Activity {
 	private String promo_website;
 	private String promo_excerpt;
 	private String promo_idcomerce;
+	private String promo_type;
 	private AlertDialog.Builder email_alert;
 	private PromotionHelper promotionHelper = new PromotionHelper(this);
 	private UserHelper userHelper = new UserHelper(this);
@@ -88,6 +92,7 @@ public class DetailActivity extends Activity {
 				R.layout.navigation_bar);
 		Intent intent = getIntent();
 		fileDatabase = new FileDatabaseHelper();
+		promo_type = intent.getStringExtra("Type");
 		promo_id = intent.getStringExtra("Promo_id");
 		title = intent.getStringExtra("Promo_title");
 		image = intent.getStringExtra("Promo_image");
@@ -203,6 +208,9 @@ public class DetailActivity extends Activity {
 							promotion.getContact_email(),
 							promotion.getForm_link(), promotion.getStatus());
 				}
+				Toast.makeText(getApplicationContext(),
+						"La promoci—n ha sido guardada en sus favoritos",
+						Toast.LENGTH_SHORT).show();
 				promotionHelper.close();
 				fileDatabase.exportDatabase();
 
@@ -251,6 +259,12 @@ public class DetailActivity extends Activity {
 			Intent intentTimeline = new Intent(DetailActivity.this,
 					PreferencesTimelineActivity.class);
 			startActivity(intentTimeline);
+			break;
+
+		case R.id.favoritos:
+			Intent intentFavoritos = new Intent(DetailActivity.this,
+					AllFavouritesActivity.class);
+			startActivity(intentFavoritos);
 			break;
 		}
 		return true;
@@ -383,7 +397,22 @@ public class DetailActivity extends Activity {
 			button_url.setText("Ver promocion");
 		}
 		detail_description.setText(promo_description);
-		imageLoader.DisplayImage(image, detail_image);
+		if (!promo_type.equalsIgnoreCase("Favourite")) {
+			imageLoader.DisplayImage(image, detail_image);
+		} else {
+			promotionHelper.open();
+			byte[] imageByteArray = promotionHelper
+					.setImageFavourites(promo_id);
+			java.io.ByteArrayInputStream imageStream = new java.io.ByteArrayInputStream(
+					imageByteArray);
+
+			imageView = (ImageView) findViewById(R.id.promo_detail_image);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			imageView.setAdjustViewBounds(true);
+
+			imageView.setImageBitmap(BitmapFactory.decodeStream(imageStream));
+			promotionHelper.close();
+		}
 	}
 
 	public String getCalculatedValue(double value) {

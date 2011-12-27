@@ -66,6 +66,12 @@ public class PreferencesTimelineActivity extends Activity {
 					AllPromosActivity.class);
 			startActivity(intentTodas);
 			break;
+		case R.id.favoritos:
+			Intent intentFavoritos = new Intent(
+					PreferencesTimelineActivity.this,
+					AllFavouritesActivity.class);
+			startActivity(intentFavoritos);
+			break;
 		}
 		return true;
 	}

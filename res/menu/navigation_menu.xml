@@ -4,13 +4,17 @@
     <item
         android:id="@+id/timeline"
         android:title="Timeline"/>
-	<item
-        android:id="@+id/close"
-        android:title="Cerca"/>
-	<item
+
+    <item
+        android:id="@+id/favoritos"
+        android:title="Favoritos"/>
+
+    <item
         android:id="@+id/todas"
         android:title="Todas"/>
-	<item
+
+    <item
         android:id="@+id/account"
         android:title="Cuenta"/>
+
 </menu>

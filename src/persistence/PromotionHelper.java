@@ -128,6 +128,25 @@ public class PromotionHelper {
 
 	}
 
+	public int getLastRowID() {
+		int lastId = 0;
+		Cursor c = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
+				KEY_DESCRIPTION, KEY_EXCERPT, KEY_TITLE, KEY_IDCOMERCE,
+				KEY_IMAGEURL, KEY_DISCOUNT, KEY_SAVEDPRICE, KEY_ORIGINALPRICE,
+				KEY_PROMOCOMPANY, KEY_DUEDATE, KEY_PROMOCOMPLETEURL,
+				KEY_FOURSQUARE, KEY_COMERCE, KEY_COMERCETLF,
+				KEY_WEBSITECOMERCE, KEY_TWITTER, KEY_FACEBOOK,
+				KEY_CONTACTEMAIL, KEY_FORMLINK, KEY_STATUS }, null, null, null,
+				null, KEY_ROWID + " DESC");
+		if (c != null && c.moveToFirst()) {
+			lastId = Integer.valueOf(c.getString(0)); // The 0 is the column
+														// index, we only have 1
+			// column, so the index is 0
+		}
+		return lastId;
+
+	}
+
 	public boolean updatePromotion(int empId, String description,
 			String excerpt, String title, String id_comerce, String image_url,
 			String discount, String saved_price, String original_price,

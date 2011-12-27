@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/promo_image_favourites"
+        android:layout_width="100dip"
+        android:layout_height="80dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/promo_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/promo_image_favourites"
+        android:gravity="left"
+        android:textColor="#454545"
+        android:textSize="14dip"
+        android:textStyle="bold" >
+    </TextView>
+
+    <TableLayout
+        android:id="@+id/promo_table1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/promo_title1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/promo_image_favourites"
+        android:background="@color/white"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Ahorras"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Pagas"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/promo_due_text1"
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Finaliza"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="normal" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/promo_discount1"
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Ahorras"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_amount1"
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Pagas"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promo_due1"
+                android:layout_span="1"
+                android:gravity="left"
+                android:text="Finaliza"
+                android:textColor="#454545"
+                android:textSize="12dip"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

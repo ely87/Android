@@ -22,7 +22,7 @@ public final class R {
         public static final int banner=0x7f020000;
         public static final int gmarkerimage=0x7f020001;
         public static final int header_background=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
+        public static final int ic_launcher_publizar=0x7f020003;
         public static final int list_selector=0x7f020004;
         public static final int right_arrow=0x7f020005;
         public static final int rounded_borders=0x7f020006;

@@ -61,7 +61,7 @@
                 android:layout_height="100dip"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/ic_launcher" />
+                android:src="@color/black" />
 
             <Button
                 android:id="@+id/promo_detail_button_buy"

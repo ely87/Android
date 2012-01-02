@@ -2,41 +2,47 @@ package com.publizar.publizaraldia;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import services.LocationServices;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.Projection;
 
 import domain.LocationPromotion;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-public class MapsActivity extends MapActivity implements LocationListener {
+public class MapsActivity extends MapActivity {
 
-	private MapView map = null;
-	private MyLocationOverlay me = null;
-	private SitesOverlay sites = null;
-	private ArrayList<LocationPromotion> allLocations;
+	private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 100; // in
+																			// Meters
+	private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in
+	private MapView map = null; // Milliseconds
+	private Double latitude;
+	private Double longitude;
 	private String foursquare;
-	private String latitude = "10.478001";
-	private String longitude = "-66.924891";
-	private Button buttonSatellite;
-	private Button buttonStreet;
+	private SitesOverlay sites = null;
+	private MyLocationOverlay me = null;
+	private ArrayList<LocationPromotion> allLocations;
+
+	protected LocationManager locationManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,67 +54,41 @@ public class MapsActivity extends MapActivity implements LocationListener {
 
 		map = (MapView) findViewById(R.id.mapview);
 
-		map.getController().setCenter(
-				getPoint(Double.valueOf(latitude), Double.valueOf(longitude)));
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		
+		Location location = showCurrentLocation();
+
+		latitude = location.getLatitude();
+		longitude = location.getLongitude();
+		map.getController().setCenter(getPoint(latitude, longitude));
 		map.getController().setZoom(14);
 		map.setBuiltInZoomControls(true);
+		map.setSatellite(false);
 
 		Intent intent = getIntent();
 		foursquare = intent.getStringExtra("Foursquare");
-		sites = new SitesOverlay(latitude, longitude);
+		sites = new SitesOverlay(String.valueOf(latitude),
+				String.valueOf(longitude));
 		map.getOverlays().add(sites);
 
 		me = new MyLocationOverlay(this, map);
 		map.getOverlays().add(me);
 
-		buttonSatellite = (Button) findViewById(R.id.satelite_button);
-		buttonStreet = (Button) findViewById(R.id.street_button);
-
-		Button.OnClickListener setSatelliteViewOnClickListener = new Button.OnClickListener() {
-
-			public void onClick(View v) {
-				map.setSatellite(true);
-				map.setStreetView(false);
-			}
-		};
-
-		Button.OnClickListener setStreetViewOnClickListener = new Button.OnClickListener() {
-
-			public void onClick(View v) {
-				map.setSatellite(false);
-				map.setStreetView(true);
-			}
-		};
-
-		buttonSatellite.setOnClickListener(setSatelliteViewOnClickListener);
-		buttonStreet.setOnClickListener(setStreetViewOnClickListener);
 	}
 
-	public void onLocationChanged(Location location) {
+	protected Location showCurrentLocation() {
+
+		Location location = locationManager
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
 		if (location != null) {
-			double lat = location.getLatitude();
-			double lng = location.getLongitude();
-			sites = new SitesOverlay(String.valueOf(lat), String.valueOf(lng));
-			map.getOverlays().add(sites);
-
-			me = new MyLocationOverlay(this, map);
-			map.getOverlays().add(me);
 		}
+		return location;
 	}
 
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
+	private GeoPoint getPoint(double lat, double lon) {
+		return (new GeoPoint((int) (lat * 1000000.0), (int) (lon * 1000000.0)));
 	}
 
 	@Override
@@ -117,30 +97,10 @@ public class MapsActivity extends MapActivity implements LocationListener {
 		return false;
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_S) {
-			map.setSatellite(!map.isSatellite());
-			return (true);
-		} else if (keyCode == KeyEvent.KEYCODE_Z) {
-			map.displayZoomControls(true);
-			return (true);
-		} else if (keyCode == KeyEvent.KEYCODE_H) {
-			sites.toggleHeart();
-
-			return (true);
-		}
-
-		return (super.onKeyDown(keyCode, event));
-	}
-
-	private GeoPoint getPoint(double lat, double lon) {
-		return (new GeoPoint((int) (lat * 1000000.0), (int) (lon * 1000000.0)));
-	}
-
 	private class SitesOverlay extends ItemizedOverlay<CustomItem> {
 		private Drawable heart = null;
 		private List<CustomItem> items = new ArrayList<CustomItem>();
+		private Context context = getApplicationContext();
 
 		public SitesOverlay(String latitude, String longitude) {
 			super(null);
@@ -183,6 +143,23 @@ public class MapsActivity extends MapActivity implements LocationListener {
 		public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 			super.draw(canvas, mapView, shadow);
 
+		}
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+			// ---when user lifts his finger---
+			if (event.getAction() == 1) {
+				GeoPoint p = mapView.getProjection().fromPixels(
+						(int) event.getX(), (int) event.getY());
+				sites = new SitesOverlay(
+						String.valueOf(p.getLatitudeE6() / 1E6),
+						String.valueOf(p.getLongitudeE6() / 1E6));
+				map.getOverlays().add(sites);
+
+				me = new MyLocationOverlay(context, map);
+				map.getOverlays().add(me);
+			}
+			return false;
 		}
 
 		@Override
@@ -293,4 +270,5 @@ public class MapsActivity extends MapActivity implements LocationListener {
 			isHeart = !isHeart;
 		}
 	}
+
 }

@@ -9,14 +9,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import domain.Promotion;
 
@@ -41,6 +44,15 @@ public class AllFavouritesActivity extends Activity {
 
 		adapter = new FavouriteAdapter(this, promotions);
 		list.setAdapter(adapter);
+		list.setOnKeyListener(new OnKeyListener() {
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					Toast.makeText(getApplicationContext(), "On Key Pressed",
+							Toast.LENGTH_SHORT).show();
+				}
+				return false;
+			}
+		});
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {

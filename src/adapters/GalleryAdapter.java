@@ -57,7 +57,7 @@ public class GalleryAdapter extends BaseAdapter {
 		i.setScaleType(ImageView.ScaleType.FIT_XY);
 		// i.setAdjustViewBounds(true);
 		i.setMinimumHeight(148);
-		i.setMinimumWidth(280);
+		i.setMinimumWidth(200);
 
 		TextView tvTitle = new TextView(myContext);
 		tvTitle.setMinimumHeight(74);

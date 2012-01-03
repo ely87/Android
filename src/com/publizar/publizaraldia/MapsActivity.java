@@ -6,20 +6,15 @@ import services.LocationServices;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
-import com.google.android.maps.Projection;
-
 import domain.LocationPromotion;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -27,13 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class MapsActivity extends MapActivity {
 
-	private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 100; // in
-																			// Meters
-	private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in
 	private MapView map = null; // Milliseconds
 	private Double latitude;
 	private Double longitude;
@@ -56,7 +47,6 @@ public class MapsActivity extends MapActivity {
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		
 		Location location = showCurrentLocation();
 
 		latitude = location.getLatitude();
@@ -174,16 +164,6 @@ public class MapsActivity extends MapActivity {
 		@Override
 		public int size() {
 			return (items.size());
-		}
-
-		void toggleHeart() {
-			CustomItem focus = getFocus();
-
-			if (focus != null) {
-				focus.toggleHeart();
-			}
-
-			map.invalidate();
 		}
 
 		private Drawable getMarker(int resource) {

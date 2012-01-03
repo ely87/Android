@@ -59,6 +59,7 @@ public class FavouriteAdapter extends BaseAdapter {
 		TextView price = (TextView) vi.findViewById(R.id.promo_amount1);
 		TextView date = (TextView) vi.findViewById(R.id.promo_due1);
 		TextView date_text = (TextView) vi.findViewById(R.id.promo_due_text1);
+		imageView = (ImageView) vi.findViewById(R.id.promo_image_favourites);
 		title.setText(promotion.getTitle());
 
 		if ((!promotion.getDiscount().equalsIgnoreCase(""))
@@ -84,7 +85,6 @@ public class FavouriteAdapter extends BaseAdapter {
 		java.io.ByteArrayInputStream imageStream = new java.io.ByteArrayInputStream(
 				imageByteArray);
 
-		imageView = (ImageView) vi.findViewById(R.id.promo_image_favourites);
 		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		imageView.setAdjustViewBounds(true);
 

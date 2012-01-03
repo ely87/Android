@@ -9,18 +9,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import domain.Promotion;
 
 public class AllFavouritesActivity extends Activity {
@@ -30,6 +32,7 @@ public class AllFavouritesActivity extends Activity {
 	private FavouriteAdapter adapter;
 	private ArrayList<Promotion> promotions;
 	private PromotionHelper promotionHelper;
+	private ImageButton buttonDelete;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,15 +47,6 @@ public class AllFavouritesActivity extends Activity {
 
 		adapter = new FavouriteAdapter(this, promotions);
 		list.setAdapter(adapter);
-		list.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					Toast.makeText(getApplicationContext(), "On Key Pressed",
-							Toast.LENGTH_SHORT).show();
-				}
-				return false;
-			}
-		});
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
@@ -77,9 +71,9 @@ public class AllFavouritesActivity extends Activity {
 				intent.putExtra("Promo_idcomerce", promotion.getId_comerce());
 				startActivity(intent);
 			}
+
 		});
-		// Button b = (Button) findViewById(R.id.button1);
-		// b.setOnClickListener(listener);
+
 	}
 
 	public OnClickListener listener = new OnClickListener() {
@@ -92,7 +86,7 @@ public class AllFavouritesActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.navigation_menu, menu);
+		inflater.inflate(R.menu.favourite_menu, menu);
 		return true;
 
 	}
@@ -100,18 +94,28 @@ public class AllFavouritesActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.account:
-			Intent intent = new Intent(AllFavouritesActivity.this,
-					SettingsActivity.class);
-			startActivity(intent);
-			break;
+		case R.id.delete:
+			for (int i = 0; i < list.getChildCount(); i++) {
+				RelativeLayout itemLayout = (RelativeLayout) list.getChildAt(i);
+				CheckBox cb = (CheckBox) itemLayout
+						.findViewById(R.id.checkBox1);
+				cb.setVisibility(View.VISIBLE);
 
-		case R.id.timeline:
-			Intent intentTimeline = new Intent(AllFavouritesActivity.this,
-					PreferencesTimelineActivity.class);
-			startActivity(intentTimeline);
-			break;
+			}
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+					R.layout.navigation_bar2);
+			RelativeLayout navigationBar2 = (RelativeLayout) findViewById(R.id.navigation_bar_delete);
+			buttonDelete = (ImageButton) navigationBar2.getChildAt(1);
+			OnClickListener deleteFavouritesOnClickListener = new Button.OnClickListener() {
 
+				public void onClick(View v) {
+					deleteFavourites();
+				}
+			};
+
+			buttonDelete.setOnClickListener(deleteFavouritesOnClickListener);
+
+			break;
 		}
 		return true;
 	}
@@ -143,4 +147,27 @@ public class AllFavouritesActivity extends Activity {
 
 	}
 
+	public boolean deleteFavourites() {
+		boolean result = false;
+		promotionHelper.open();
+		for (int i = 0; i < list.getChildCount(); i++) {
+			RelativeLayout itemLayout = (RelativeLayout) list.getChildAt(i);
+			CheckBox cb = (CheckBox) itemLayout.findViewById(R.id.checkBox1);
+			if (cb.isChecked()) {
+				TextView title = (TextView) itemLayout
+						.findViewById(R.id.promo_title1);
+				for (int j = 0; j < promotions.size(); j++) {
+					Promotion promotion = new Promotion();
+					promotion = promotions.get(j);
+					if (title.getText().toString()
+							.equalsIgnoreCase(promotion.getTitle())) {
+						promotionHelper.deletePromotion(promotion.getId());
+					}
+				}
+
+			}
+		}
+		promotionHelper.close();
+		return result;
+	}
 }

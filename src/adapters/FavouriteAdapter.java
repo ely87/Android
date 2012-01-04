@@ -92,4 +92,20 @@ public class FavouriteAdapter extends BaseAdapter {
 		promotionHelper.close();
 		return vi;
 	}
+
+	public void delete(Promotion promotionDelete) {
+		Promotion promotion = promotionDelete;
+		for (int i = 0; i < promotions.size(); i++) {
+			if (promotions.get(i).getId() == promotion.getId()) {
+				promotions.remove(i);
+			}
+		}
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+	}
+
 }

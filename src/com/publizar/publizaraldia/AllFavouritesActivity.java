@@ -46,7 +46,9 @@ public class AllFavouritesActivity extends Activity {
 		list = (ListView) findViewById(R.id.imagelist1);
 
 		adapter = new FavouriteAdapter(this, promotions);
+
 		list.setAdapter(adapter);
+
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
@@ -162,6 +164,7 @@ public class AllFavouritesActivity extends Activity {
 					if (title.getText().toString()
 							.equalsIgnoreCase(promotion.getTitle())) {
 						promotionHelper.deletePromotion(promotion.getId());
+						adapter.delete(promotion);
 					}
 				}
 

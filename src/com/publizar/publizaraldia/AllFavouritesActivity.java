@@ -168,6 +168,8 @@ public class AllFavouritesActivity extends Activity {
 					}
 				}
 
+			} else {
+				cb.setChecked(false);
 			}
 		}
 		promotionHelper.close();

@@ -357,7 +357,14 @@ public class DetailActivity extends Activity {
 
 	public void setDetailsPromotion() {
 		detail_title.setText(title);
-		detail_due.setText("Expira en " + due_date + " dias");
+		int days = Integer.valueOf(due_date);
+		if (days > 14000) {
+			detail_due.setText("");
+		} else if (days == 0) {
+			detail_due.setText("Expira hoy");
+		} else {
+			detail_due.setText("Expira en " + due_date + " dias");
+		}
 
 		if (promo_company.length() > 0) {
 			detail_promo_company.setText(promo_company);

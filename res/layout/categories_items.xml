@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/promo_image_categories"
+        android:layout_width="50dip"
+        android:layout_height="40dip"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"
+        android:src="@color/black" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/promo_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/promo_image_categories"
+        android:text="Bacon Ipsum"
+        android:textColor="#454545"
+        android:textSize="14dip"
+        android:textStyle="bold" />
+
+</RelativeLayout>

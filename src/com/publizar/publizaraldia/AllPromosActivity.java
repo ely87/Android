@@ -11,11 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 //import android.widget.Button;
 import android.widget.AdapterView;
@@ -32,10 +28,7 @@ public class AllPromosActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.timeline);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 		mStrings = getPromotions(100);
 		list = (ListView) findViewById(R.id.imagelist);
 		adapter = new ImageAdapter(this, mStrings, promotions);
@@ -75,38 +68,6 @@ public class AllPromosActivity extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 	};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.navigation_menu, menu);
-		return true;
-
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.account:
-			Intent intent = new Intent(AllPromosActivity.this,
-					SettingsActivity.class);
-			startActivity(intent);
-			break;
-
-		case R.id.timeline:
-			Intent intentTimeline = new Intent(AllPromosActivity.this,
-					PreferencesTimelineActivity.class);
-			startActivity(intentTimeline);
-			break;
-		case R.id.favoritos:
-			Intent intentFavoritos = new Intent(AllPromosActivity.this,
-					AllFavouritesActivity.class);
-			startActivity(intentFavoritos);
-			break;
-
-		}
-		return true;
-	}
 
 	public String[] getPromotions(int quantity) {
 		String searchUrl = "http://www.publizar.com.ve/api/api.php?o=allpromos&l="

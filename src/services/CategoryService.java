@@ -46,9 +46,10 @@ public class CategoryService {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				Category category = new Category();
 				jsonObject = jsonArray.getJSONObject(i);
-				category.setName(jsonObject.getString("nombre"));
-				category.setSlug(jsonObject.getString("slug"));
-				category.setImage(jsonObject.getString("url"));
+				JSONObject section = jsonObject.getJSONObject("section");
+				category.setName(section.getString("nombre"));
+				category.setSlug(section.getString("tag"));
+				category.setImage(section.getString("url"));
 				categories.add(category);
 			}
 		} catch (JSONException e) {
@@ -66,12 +67,15 @@ public class CategoryService {
 		specialSections = getSpecialSections();
 		categories = getCategories();
 
-		for (int i = 0; i < specialSections.size(); i++) {
-			all.add(specialSections.get(i));
-		}
+		int totalSize = specialSections.size() + categories.size();
 
-		for (int i = 0; i < categories.size(); i++) {
-			// acordarme preguntar a fernando
+		for (int i = 0; i < totalSize; i++) {
+			if (i < specialSections.size()) {
+				all.add(specialSections.get(i));
+			} else {
+				int j = categories.size() - (totalSize - i);
+				all.add(categories.get(j));
+			}
 		}
 		return all;
 	}

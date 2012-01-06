@@ -18,15 +18,15 @@ public class CategoryAdapter extends BaseAdapter {
 	private static LayoutInflater inflater = null;
 	public ImageLoader imageLoader;
 	private ArrayList<Category> categories;
-	private String[] data;
+	private ImageView image;
 
-	public CategoryAdapter(Activity a, ArrayList<Category> categories,
-			String[] data) {
+	public CategoryAdapter(Activity a, ArrayList<Category> categories) {
 		this.categories = categories;
 		activity = a;
-		this.data = data;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		imageLoader = new ImageLoader(activity.getApplicationContext());
+
 	}
 
 	public int getCount() {
@@ -43,9 +43,11 @@ public class CategoryAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View vi = convertView;
-		if (convertView == null)
-			vi = inflater.inflate(R.layout.categories_items, null);
 
+		if (convertView == null) {
+			vi = inflater.inflate(R.layout.categories_items, null);
+			image = (ImageView) vi.findViewById(R.id.promo_image_categories);
+		}
 		final Category category = categories.get(position);
 
 		TextView title = (TextView) vi.findViewById(R.id.promo_category);
@@ -53,9 +55,8 @@ public class CategoryAdapter extends BaseAdapter {
 		title.setText(category.getName());
 
 		if (category.getImage() != null) {
-			ImageView image = (ImageView) vi
-					.findViewById(R.id.promo_image_categories);
-			imageLoader.DisplayImage(data[position], image);
+
+			imageLoader.DisplayImage(category.getImage(), image);
 		} else {
 			ImageView image = (ImageView) vi
 					.findViewById(R.id.promo_image_categories);
@@ -63,5 +64,4 @@ public class CategoryAdapter extends BaseAdapter {
 		}
 		return vi;
 	}
-
 }

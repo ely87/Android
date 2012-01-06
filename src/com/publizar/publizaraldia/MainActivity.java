@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 		pass = prefs.getString("password", null);
 		if (user != null) {
 			Intent intent = new Intent(MainActivity.this,
-					AllPromosActivity.class);
+					TabBarActivity.class);
 			startActivity(intent);
 		} else {
 			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 								&& password.getText().toString()
 										.equalsIgnoreCase(pass)) {
 							Intent intent = new Intent(MainActivity.this,
-									AllPromosActivity.class);
+									TabBarActivity.class);
 							startActivity(intent);
 						}
 					}
@@ -201,7 +201,7 @@ public class MainActivity extends Activity {
 				loginAlert.create().show();
 			} else {
 				Intent intent = new Intent(MainActivity.this,
-						AllPromosActivity.class);
+						TabBarActivity.class);
 				startActivity(intent);
 
 			}

@@ -55,14 +55,15 @@ public class GalleryAdapter extends BaseAdapter {
 		imageLoader.DisplayImage(myRemoteImages[position], i);
 		/* Image should be scaled as width/height are set. */
 		i.setScaleType(ImageView.ScaleType.FIT_XY);
+		i.setBackgroundColor(Color.CYAN);
 		// i.setAdjustViewBounds(true);
 		i.setMinimumHeight(148);
-		i.setMinimumWidth(200);
+		i.setMinimumWidth(271);
 
 		TextView tvTitle = new TextView(myContext);
 		tvTitle.setMinimumHeight(74);
 		tvTitle.setMinimumWidth(271);
-		tvTitle.setText(" "+ titles[position]);
+		tvTitle.setText(" " + titles[position]);
 		tvTitle.setLayoutParams(new FrameLayout.LayoutParams(271, 40,
 				Gravity.BOTTOM));
 		tvTitle.setBackgroundColor(Color.BLACK);

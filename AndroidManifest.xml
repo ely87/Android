@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.publizar.publizaraldia"
+<manifest package="com.publizar.publizaraldia"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk android:minSdkVersion="7" />
 
@@ -72,6 +71,12 @@
         </activity>
         <activity android:name=".AllFavouritesActivity" >
         </activity>
+        <activity android:name=".AllCategoriesActivity" >
+        </activity>
+        <activity android:name=".TabBarActivity" >
+        </activity>
+        <activity android:name=".SlidingDownActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

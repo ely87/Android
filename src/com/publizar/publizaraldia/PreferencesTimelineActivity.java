@@ -15,13 +15,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.TableLayout;
@@ -37,10 +34,7 @@ public class PreferencesTimelineActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.preferences_timeline);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 		setTablePreferences();
 	}
 
@@ -50,30 +44,6 @@ public class PreferencesTimelineActivity extends Activity {
 		inflater.inflate(R.menu.navigation_menu, menu);
 		return true;
 
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.account:
-			Intent intent = new Intent(PreferencesTimelineActivity.this,
-					SettingsActivity.class);
-			startActivity(intent);
-			break;
-
-		case R.id.todas:
-			Intent intentTodas = new Intent(PreferencesTimelineActivity.this,
-					AllPromosActivity.class);
-			startActivity(intentTodas);
-			break;
-		case R.id.favoritos:
-			Intent intentFavoritos = new Intent(
-					PreferencesTimelineActivity.this,
-					AllFavouritesActivity.class);
-			startActivity(intentFavoritos);
-			break;
-		}
-		return true;
 	}
 
 	public TableLayout setTablePreferences() {
@@ -129,7 +99,7 @@ public class PreferencesTimelineActivity extends Activity {
 					gallery.setAdapter(new GalleryAdapter(this, urls, titles));
 					gallery.onFling(null, null, 1000, 0);
 					gallery.setBackgroundColor(Color.GRAY);
-					gallery.setMinimumHeight(148);
+					gallery.setMinimumHeight(155);
 					gallery.setId(i);
 					gallery.setSpacing(2);
 					gallery.setLayoutParams(new TableRow.LayoutParams(

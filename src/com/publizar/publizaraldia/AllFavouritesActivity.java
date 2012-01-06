@@ -37,10 +37,7 @@ public class AllFavouritesActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.all_favourites);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 		promotionHelper = new PromotionHelper(this);
 		promotions = getPromotions();
 		list = (ListView) findViewById(R.id.imagelist1);

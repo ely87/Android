@@ -10,12 +10,5 @@
         android:layout_weight="1"
         android:background="@drawable/list_selector" />
 
-    <LinearLayout
-        android:id="@+id/footer"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="#4d4f4e" >
-    </LinearLayout>
-
+    
 </RelativeLayout>

@@ -22,9 +22,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,10 +84,7 @@ public class DetailActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.promo_detail);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 		Intent intent = getIntent();
 		fileDatabase = new FileDatabaseHelper();
 		promo_type = intent.getStringExtra("Type");
@@ -246,29 +241,7 @@ public class DetailActivity extends Activity {
 
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.account:
-			Intent intent = new Intent(DetailActivity.this,
-					SettingsActivity.class);
-			startActivity(intent);
-			break;
-
-		case R.id.timeline:
-			Intent intentTimeline = new Intent(DetailActivity.this,
-					PreferencesTimelineActivity.class);
-			startActivity(intentTimeline);
-			break;
-
-		case R.id.favoritos:
-			Intent intentFavoritos = new Intent(DetailActivity.this,
-					AllFavouritesActivity.class);
-			startActivity(intentFavoritos);
-			break;
-		}
-		return true;
-	}
+	
 
 	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
 

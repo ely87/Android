@@ -16,11 +16,10 @@ public class CategoryAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private static LayoutInflater inflater = null;
-	public ImageLoader imageLoader;
+	private ImageLoader imageLoader;
 	private ArrayList<Category> categories;
-	private ImageView image;
 
-	public CategoryAdapter(Activity a, ArrayList<Category> categories) {
+	public CategoryAdapter(Context c, Activity a, ArrayList<Category> categories) {
 		this.categories = categories;
 		activity = a;
 		inflater = (LayoutInflater) activity
@@ -46,7 +45,7 @@ public class CategoryAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			vi = inflater.inflate(R.layout.categories_items, null);
-			image = (ImageView) vi.findViewById(R.id.promo_image_categories);
+
 		}
 		final Category category = categories.get(position);
 
@@ -54,14 +53,17 @@ public class CategoryAdapter extends BaseAdapter {
 
 		title.setText(category.getName());
 
-		if (category.getImage() != null) {
-
+		if (category.isImageContainer()) {
+			ImageView image = (ImageView) vi
+					.findViewById(R.id.promo_image_categories);
 			imageLoader.DisplayImage(category.getImage(), image);
-		} else {
+			image.setVisibility(View.VISIBLE);
+		} else if (!category.isImageContainer()) {
 			ImageView image = (ImageView) vi
 					.findViewById(R.id.promo_image_categories);
 			image.setVisibility(View.GONE);
 		}
+
 		return vi;
 	}
 }

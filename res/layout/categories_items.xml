@@ -9,9 +9,10 @@
         android:id="@+id/promo_image_categories"
         android:layout_width="50dip"
         android:layout_height="40dip"
-        android:layout_margin="10dp"
         android:layout_centerVertical="true"
-        android:src="@color/black" >
+        android:layout_margin="10dp"
+        android:src="@color/black"
+        android:visibility="invisible" >
     </ImageView>
 
     <TextView
@@ -24,5 +25,15 @@
         android:textColor="#454545"
         android:textSize="14dip"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/promo_image_arrow"
+        android:layout_width="50dip"
+        android:layout_height="40dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/right_arrow" >
+    </ImageView>
 
 </RelativeLayout>

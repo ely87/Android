@@ -13,12 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
@@ -32,7 +29,6 @@ public class AllFavouritesActivity extends Activity {
 	private FavouriteAdapter adapter;
 	private ArrayList<Promotion> promotions;
 	private PromotionHelper promotionHelper;
-	private ImageButton buttonDelete;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,18 +97,8 @@ public class AllFavouritesActivity extends Activity {
 				cb.setVisibility(View.VISIBLE);
 
 			}
-			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-					R.layout.navigation_bar2);
-			RelativeLayout navigationBar2 = (RelativeLayout) findViewById(R.id.navigation_bar_delete);
-			buttonDelete = (ImageButton) navigationBar2.getChildAt(1);
-			OnClickListener deleteFavouritesOnClickListener = new Button.OnClickListener() {
 
-				public void onClick(View v) {
-					deleteFavourites();
-				}
-			};
-
-			buttonDelete.setOnClickListener(deleteFavouritesOnClickListener);
+			deleteFavourites();
 
 			break;
 		}
@@ -172,4 +158,17 @@ public class AllFavouritesActivity extends Activity {
 		promotionHelper.close();
 		return result;
 	}
+
+	public void onResume() {
+		promotions = getPromotions();
+		list = (ListView) findViewById(R.id.imagelist1);
+
+		adapter = new FavouriteAdapter(this, promotions);
+
+		list.setAdapter(adapter);
+
+		adapter.notifyDataSetChanged();
+		super.onResume();
+	}
+
 }

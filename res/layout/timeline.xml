@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -8,8 +8,25 @@
         android:id="@+id/imagelist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/list_selector"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/list_selector" />
 
+    <SlidingDrawer
+        android:id="@+id/slidingDrawer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:content="@+id/content"
+        android:handle="@+id/handle" >
 
-</LinearLayout>
+        <ImageView
+            android:id="@id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="40px"
+            android:src="@drawable/sliding_drawer_handle_bottom" />
+
+        <include
+            android:id="@id/content"
+            layout="@layout/all_categories" />
+    </SlidingDrawer>
+
+</FrameLayout>

@@ -70,13 +70,20 @@ public class ImageAdapter extends BaseAdapter {
 			date_text.setText("Finaliza");
 			date.setText("Hoy");
 		} else if (Integer.valueOf(promotion.getDue_date()) > 15000) {
+
 			date.setText("-");
 		} else {
 			date_text.setText("Finaliza en");
 			date.setText(promotion.getDue_date() + " dias");
+
 		}
 		ImageView image = (ImageView) vi.findViewById(R.id.promo_image);
 		imageLoader.DisplayImage(data[position], image);
 		return vi;
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
 	}
 }

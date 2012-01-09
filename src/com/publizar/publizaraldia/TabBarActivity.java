@@ -40,11 +40,7 @@ public class TabBarActivity extends TabActivity implements OnTabChangeListener {
 		spec = tabHost.newTabSpec("Time").setIndicator("Timeline")
 				.setContent(intent);
 		tabHost.addTab(spec);
-		
-		intent = new Intent().setClass(this, SlidingDownActivity.class);
-		spec = tabHost.newTabSpec("Categorias").setIndicator("Categorias")
-				.setContent(intent);
-		tabHost.addTab(spec);
+
 
 	}
 

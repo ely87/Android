@@ -10,4 +10,12 @@
         android:layout_weight="1"
         android:background="@drawable/list_selector" />
 
+    <Button
+        android:id="@+id/button_open"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Abrir"
+        android:visibility="gone" />
+
 </RelativeLayout>

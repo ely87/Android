@@ -86,4 +86,8 @@ public class GalleryAdapter extends BaseAdapter {
 		return Math.max(0, 1.0f / (float) Math.pow(2, Math.abs(offset)));
 	}
 
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+	}
 }

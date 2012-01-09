@@ -33,14 +33,14 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borders"
-            android:stretchColumns="1" >
+            android:stretchColumns="0" >
 
             <TableRow android:id="@+id/rowcontrasenas" >
 
                 <TextView
                     android:id="@+id/contrasena"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="30dip"
                     android:text="Cambiar contraseña "
                     android:textColor="#454545"
                     android:textSize="18dp"
@@ -48,11 +48,12 @@
 
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dip"
+                    android:layout_height="30dip"
                     android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:src="@drawable/right_arrow" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" >
+                </ImageView>
             </TableRow>
         </TableLayout>
 
@@ -100,7 +101,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borders"
-            android:stretchColumns="1" >
+            android:stretchColumns="0" >
 
             <TableRow android:id="@+id/rowcategorias" >
 
@@ -115,11 +116,12 @@
 
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dip"
+                    android:layout_height="30dip"
                     android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:src="@drawable/right_arrow" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" >
+                </ImageView>
             </TableRow>
         </TableLayout>
     </RelativeLayout>

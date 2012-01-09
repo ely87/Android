@@ -5,6 +5,15 @@ public class Category {
 	private String name;
 	private String slug;
 	private String image;
+	private boolean imageContainer;
+	
+	public boolean isImageContainer() {
+		return imageContainer;
+	}
+
+	public void setImageContainer(boolean imageContainer) {
+		this.imageContainer = imageContainer;
+	}
 
 	public String getName() {
 		return name;

@@ -26,21 +26,20 @@ public class TabBarActivity extends TabActivity implements OnTabChangeListener {
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, AllFavouritesActivity.class);
-		spec = tabHost.newTabSpec("Favoritos").setIndicator("Favoritos")
-				.setContent(intent);
-		tabHost.addTab(spec);
-
-		intent = new Intent().setClass(this, SettingsActivity.class);
-		spec = tabHost.newTabSpec("Cuenta").setIndicator("Cuenta")
-				.setContent(intent);
-		tabHost.addTab(spec);
-
 		intent = new Intent().setClass(this, PreferencesTimelineActivity.class);
 		spec = tabHost.newTabSpec("Time").setIndicator("Timeline")
 				.setContent(intent);
 		tabHost.addTab(spec);
 
+		intent = new Intent().setClass(this, CalendarListActivity.class);
+		spec = tabHost.newTabSpec("Calendario").setIndicator("Calendario")
+				.setContent(intent);
+		tabHost.addTab(spec);
+
+		intent = new Intent().setClass(this, SettingsActivity.class);
+		spec = tabHost.newTabSpec("Preferencias").setIndicator("Preferencias")
+				.setContent(intent);
+		tabHost.addTab(spec);
 
 	}
 

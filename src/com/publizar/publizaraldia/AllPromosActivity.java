@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import services.CategoryService;
 import services.PromotionServices;
-
 import domain.Category;
 import domain.Promotion;
-
 import adapters.CategoryAdapter;
 import adapters.ImageAdapter;
 import android.app.Activity;

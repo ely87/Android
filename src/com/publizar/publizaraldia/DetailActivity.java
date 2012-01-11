@@ -241,8 +241,6 @@ public class DetailActivity extends Activity {
 
 	}
 
-	
-
 	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
 
 		protected Context applicationContext;
@@ -330,15 +328,18 @@ public class DetailActivity extends Activity {
 
 	public void setDetailsPromotion() {
 		detail_title.setText(title);
-		int days = Integer.valueOf(due_date);
-		if (days > 14000) {
-			detail_due.setText("");
-		} else if (days == 0) {
-			detail_due.setText("Expira hoy");
+		if (promo_type.equalsIgnoreCase("Calendar")) {
+			detail_due.setText(due_date);
 		} else {
-			detail_due.setText("Expira en " + due_date + " dias");
+			int days = Integer.valueOf(due_date);
+			if (days > 14000) {
+				detail_due.setText("");
+			} else if (days == 0) {
+				detail_due.setText("Expira hoy");
+			} else {
+				detail_due.setText("Expira en " + due_date + " dias");
+			}
 		}
-
 		if (promo_company.length() > 0) {
 			detail_promo_company.setText(promo_company);
 			button_url.setText("Compralo por  " + promo_price);

@@ -94,6 +94,7 @@
             android:textStyle="bold" />
 
         <TableLayout
+            android:id="@+id/tablePreferencias"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView1"
@@ -110,6 +111,51 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:text="Mis preferencias"
+                    android:textColor="#454545"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="50dip"
+                    android:layout_height="30dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" >
+                </ImageView>
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textFavoritos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tablePreferencias"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Favoritos"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#454545"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:id="@+id/tableFavoritos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textFavoritos"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_borders"
+            android:stretchColumns="0" >
+
+            <TableRow android:id="@+id/rowfavoritos" >
+
+                <TextView
+                    android:id="@+id/favoritos"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Mis favoritos"
                     android:textColor="#454545"
                     android:textSize="18dp"
                     android:textStyle="bold" />

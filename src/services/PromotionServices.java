@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import connection.HttpClient;
 import domain.Promotion;
 
 public class PromotionServices {
 
 	ArrayList<Promotion> promotions;
-	
 
 	public ArrayList<Promotion> getAllPromotions(String url) {
 		String response = null;
@@ -103,7 +101,6 @@ public class PromotionServices {
 		}
 		return promotion;
 	}
-	
 
 	public void sendEmailPromotion(String id, String email) {
 		String url = "http://www.publizar.com/api/api.php?o=sendbymail&i=" + id
@@ -112,4 +109,78 @@ public class PromotionServices {
 		httpClient.getHTTPRequest(url);
 	}
 
+	public ArrayList<Promotion> getPromosByMonths() {
+		ArrayList<Promotion> promotions = new ArrayList<Promotion>();
+
+		String url = "http://www.publizar.com.ve/api/api.php?o=getpcal";
+
+		String response = null;
+		HttpClient httpClient = new HttpClient();
+		response = httpClient.getHTTPRequest(url);
+		JSONObject jsonObject = null;
+		JSONArray jsonArrayPromotions = null;
+		try {
+			JSONArray jsonArray = new JSONArray(response);
+
+			for (int i = 0; i < jsonArray.length(); i++) {
+				jsonObject = jsonArray.getJSONObject(i);
+				jsonArrayPromotions = jsonObject.getJSONArray("promociones");
+				if (jsonArrayPromotions != null) {
+					for (int j = 0; j < jsonArrayPromotions.length(); j++) {
+						JSONArray jsonArrayInside = jsonArrayPromotions
+								.getJSONArray(j);
+
+						for (int k = 0; k < jsonArrayInside.length(); k++) {
+							JSONObject jsonObjectInside = jsonArrayInside
+									.getJSONObject(k);
+							String id = jsonObjectInside.getString("id");
+							String description = jsonObjectInside
+									.getString("content");
+							String title = jsonObjectInside.getString("title");
+							String urlImage = jsonObjectInside
+									.getString("imagen");
+							String discount = jsonObjectInside
+									.getString("descuento");
+							String price = jsonObjectInside.getString("precio");
+							String original_price = jsonObjectInside
+									.getString("precio original");
+							String date = jsonObjectInside
+									.getString("fecha_vencimiento");
+							String id_comerce = jsonObjectInside
+									.getString("comercio");
+							String company = jsonObjectInside
+									.getString("empresa");
+							String promo_link = jsonObjectInside
+									.getString("promo_link");
+							String dia = jsonObjectInside.getString("dia");
+							String mes = jsonObjectInside.getString("mes");
+							Promotion promotion = new Promotion();
+							promotion.setId(Integer.valueOf(id));
+							promotion.setDescription(description);
+							promotion.setTitle(title);
+							promotion.setId_comerce(id_comerce);
+							promotion.setImage_url(urlImage);
+							promotion.setDiscount(discount);
+							promotion.setSaved_price(price);
+							promotion.setOriginal_price(original_price);
+							promotion.setPromo_company(company);
+							promotion.setDue_date(date);
+							promotion.setPromo_complete_url(promo_link);
+							promotion.setStatus("server");
+							promotion.setDay(dia);
+							promotion.setMonth(mes);
+							promotions.add(promotion);
+						}
+					}
+				}
+
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return promotions;
+	}
 }

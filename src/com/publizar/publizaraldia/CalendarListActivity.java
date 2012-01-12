@@ -80,10 +80,13 @@ public class CalendarListActivity extends Activity {
 						promotion.getPromo_complete_url());
 				intent.putExtra("Promo_excerpt", promotion.getExcerpt());
 				intent.putExtra("Promo_idcomerce", promotion.getId_comerce());
+				intent.putExtra("Promo_day", promotion.getDay());
+				intent.putExtra("Promo_month", promotion.getMonth());
 				startActivity(intent);
 
 			}
 		});
+
 	}
 
 	public ArrayList<Promotion> getPromotionsByMonths(String month,
@@ -118,4 +121,5 @@ public class CalendarListActivity extends Activity {
 
 		return promotionSelected;
 	}
+
 }

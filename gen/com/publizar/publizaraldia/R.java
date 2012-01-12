@@ -96,8 +96,9 @@ containing a value of this type.
         public static final int TextView02=0x7f04005c;
         public static final int TextViewCont=0x7f040010;
         public static final int TextViewCont2=0x7f040012;
+        public static final int addevent=0x7f040070;
         public static final int bottomToTop=0x7f040001;
-        public static final int buttonDelete=0x7f04002d;
+        public static final int buttonShare=0x7f04002d;
         public static final int button_maps=0x7f040057;
         public static final int button_open=0x7f040006;
         public static final int categorias=0x7f040038;
@@ -105,7 +106,7 @@ containing a value of this type.
         public static final int checkBox1=0x7f040019;
         public static final int content=0x7f04006c;
         public static final int contrasena=0x7f040031;
-        public static final int delete=0x7f040070;
+        public static final int delete=0x7f040071;
         public static final int favoritos=0x7f04003c;
         public static final int footer=0x7f040059;
         public static final int galleryTitle=0x7f04003f;
@@ -182,7 +183,7 @@ containing a value of this type.
         public static final int saveChoosePreferences=0x7f040064;
         public static final int savePassword=0x7f040014;
         public static final int savePreferences=0x7f040018;
-        public static final int sign_out=0x7f040071;
+        public static final int sign_out=0x7f040072;
         public static final int slidingDrawer=0x7f04006b;
         public static final int street_button=0x7f04002a;
         public static final int tableChoosePreferences=0x7f040063;
@@ -230,9 +231,10 @@ containing a value of this type.
         public static final int web_view=0x7f030017;
     }
     public static final class menu {
-        public static final int favourite_menu=0x7f080000;
-        public static final int navigation_menu=0x7f080001;
-        public static final int sign_out_menu=0x7f080002;
+        public static final int calendar_menu=0x7f080000;
+        public static final int favourite_menu=0x7f080001;
+        public static final int navigation_menu=0x7f080002;
+        public static final int sign_out_menu=0x7f080003;
     }
     public static final class string {
         public static final int app_name=0x7f060001;

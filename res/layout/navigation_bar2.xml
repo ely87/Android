@@ -22,11 +22,11 @@
     </TextView>
 
     <ImageButton
-        android:id="@+id/buttonDelete"
+        android:id="@+id/buttonShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/share_button" />
+        android:background="@drawable/share_button"/>
 
 </RelativeLayout>

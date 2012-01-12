@@ -1,11 +1,10 @@
 package com.publizar.publizaraldia;
 
 import java.text.DecimalFormat;
-
+import java.util.Calendar;
 import persistence.FileDatabaseHelper;
 import persistence.PromotionHelper;
 import persistence.UserHelper;
-
 import domain.Promotion;
 import services.PromotionServices;
 import adapters.ImageLoader;
@@ -22,7 +21,9 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,17 +75,23 @@ public class DetailActivity extends Activity {
 	private String promo_excerpt;
 	private String promo_idcomerce;
 	private String promo_type;
+	private String promo_day;
+	private String promo_month;
 	private AlertDialog.Builder email_alert;
 	private PromotionHelper promotionHelper = new PromotionHelper(this);
 	private UserHelper userHelper = new UserHelper(this);
 	private FileDatabaseHelper fileDatabase;
 	private Promotion initial_promotion;
 	double latitude = 10.478001, longitude = -66.924891;
+	private Button buttonShare;
 	Promotion promoResult;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.promo_detail);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.navigation_bar2);
 		Intent intent = getIntent();
 		fileDatabase = new FileDatabaseHelper();
 		promo_type = intent.getStringExtra("Type");
@@ -101,6 +108,11 @@ public class DetailActivity extends Activity {
 		promo_website = intent.getStringExtra("Promo_website");
 		promo_excerpt = intent.getStringExtra("Promo_excerpt");
 		promo_idcomerce = intent.getStringExtra("Promo_idcomerce");
+
+		if (promo_type.equalsIgnoreCase("Calendar")) {
+			promo_day = intent.getStringExtra("Promo_day");
+			promo_month = intent.getStringExtra("Promo_month");
+		}
 
 		imageLoader = new ImageLoader(this.getApplicationContext());
 
@@ -152,10 +164,7 @@ public class DetailActivity extends Activity {
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		button_send = (Button) findViewById(R.id.promo_send_promotion);
 		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
-		// shareButton = (Button) findViewById(R.id.shareButton);
-		// shareButton.setVisibility(View.VISIBLE);
-		// shareButton.setText("Compartir");
-
+		buttonShare = (Button) findViewById(R.id.buttonShare);
 		mapButton = (Button) findViewById(R.id.button_maps);
 
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
@@ -173,6 +182,13 @@ public class DetailActivity extends Activity {
 
 			public void onClick(View v) {
 				email_alert.show();
+			}
+		};
+
+		Button.OnClickListener shareButtonOnClickListener = new Button.OnClickListener() {
+
+			public void onClick(View v) {
+				share();
 			}
 		};
 
@@ -227,7 +243,7 @@ public class DetailActivity extends Activity {
 		button_save_promotion
 				.setOnClickListener(saveFavouritePromotionOnClickListener);
 		mapButton.setOnClickListener(mapsOnClickListener);
-
+		buttonShare.setOnClickListener(shareButtonOnClickListener);
 		mapButton.setVisibility(View.GONE);
 		new CallWebServiceTask().execute();
 
@@ -236,9 +252,25 @@ public class DetailActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.navigation_menu, menu);
-		return true;
+		boolean result = false;
+		if (promo_type.equalsIgnoreCase("Calendar")) {
+			inflater.inflate(R.menu.calendar_menu, menu);
+			result = true;
+		} else {
+			result = false;
+		}
+		return result;
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.addevent:
+			addEvent();
+			break;
+		}
+		return true;
 	}
 
 	public class CallWebServiceTask extends AsyncTask<String, Void, Promotion> {
@@ -418,6 +450,15 @@ public class DetailActivity extends Activity {
 
 	}
 
+	public void share() {
+		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+		sharingIntent.setType("text/plain");
+		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
+		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
+		startActivity(Intent.createChooser(sharingIntent, "Share using"));
+
+	}
+
 	public Promotion setPromotion() {
 		Promotion promotion_storage;
 		promotion_storage = new Promotion();
@@ -437,6 +478,72 @@ public class DetailActivity extends Activity {
 		promotion_storage.setTitle(title);
 		promotion_storage.setId_comerce(promo_idcomerce);
 		return promotion_storage;
+
+	}
+
+	private void addEvent() {
+
+		Intent intent = new Intent(Intent.ACTION_EDIT);
+		intent.setType("vnd.android.cursor.item/event");
+
+		Calendar calendar = parseDate();
+		intent.putExtra("beginTime", calendar.getTimeInMillis());
+		intent.putExtra("allDay", true);
+		intent.putExtra("endTime", calendar.getTimeInMillis());
+		intent.putExtra("title", title);
+		intent.putExtra("eventStatus", 1);
+		intent.putExtra("visibility", 0);
+		intent.putExtra("transparency", 0);
+		intent.putExtra("hasAlarm", 1);
+		intent.putExtra("description", promo_description);
+		intent.putExtra("EVENT_LOCATION", promo_comerce);
+
+		try {
+			startActivity(intent);
+		} catch (Exception e) {
+			Toast.makeText(this.getApplicationContext(),
+					"Sorry, no compatible calendar is found!",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
+	public Calendar parseDate() {
+		int day = Integer.valueOf(promo_day);
+		int month = 0;
+		if (promo_month.equalsIgnoreCase("enero")) {
+			month = 0;
+		} else if (promo_month.equalsIgnoreCase("febrero")) {
+			month = 1;
+		} else if (promo_month.equalsIgnoreCase("marzo")) {
+			month = 2;
+		} else if (promo_month.equalsIgnoreCase("abril")) {
+			month = 3;
+		} else if (promo_month.equalsIgnoreCase("mayo")) {
+			month = 4;
+		} else if (promo_month.equalsIgnoreCase("junio")) {
+			month = 5;
+		} else if (promo_month.equalsIgnoreCase("julio")) {
+			month = 6;
+		} else if (promo_month.equalsIgnoreCase("agosto")) {
+			month = 7;
+		} else if (promo_month.equalsIgnoreCase("septiembre")) {
+			month = 8;
+		} else if (promo_month.equalsIgnoreCase("octubre")) {
+			month = 9;
+		} else if (promo_month.equalsIgnoreCase("noviembre")) {
+			month = 10;
+		} else if (promo_month.equalsIgnoreCase("diciembre")) {
+			month = 11;
+		}
+
+		int dateCount = due_date.length();
+		int yearCount = dateCount - 4;
+		int year = Integer.valueOf(due_date.substring(yearCount, dateCount));
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+
+		return calendar;
 
 	}
 }

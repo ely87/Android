@@ -183,4 +183,23 @@ public class PromotionServices {
 
 		return promotions;
 	}
+
+	public String getPromosLinkPublizar(String id) {
+
+		String url = "http://publizar.com.ve/api/api.php?o=getPromoLink&i="
+				+ id;
+		String link = null;
+		String response = null;
+		HttpClient httpClient = new HttpClient();
+		response = httpClient.getHTTPRequest(url);
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(response);
+			link = jsonObject.getString("link");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return link;
+	}
 }

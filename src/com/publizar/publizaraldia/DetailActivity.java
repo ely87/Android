@@ -25,7 +25,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.text.util.Linkify;
@@ -58,7 +60,7 @@ public class DetailActivity extends Activity {
 	private Button button_url;
 	private Button button_send;
 	private Button button_save_promotion;
-	// private Button shareButton;
+	private ImageButton buttonShare;
 	private Button mapButton;
 
 	private String title;
@@ -83,7 +85,6 @@ public class DetailActivity extends Activity {
 	private FileDatabaseHelper fileDatabase;
 	private Promotion initial_promotion;
 	double latitude = 10.478001, longitude = -66.924891;
-	private Button buttonShare;
 	Promotion promoResult;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -164,9 +165,11 @@ public class DetailActivity extends Activity {
 		button_url = (Button) findViewById(R.id.promo_detail_button_buy);
 		button_send = (Button) findViewById(R.id.promo_send_promotion);
 		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
-		buttonShare = (Button) findViewById(R.id.buttonShare);
+
 		mapButton = (Button) findViewById(R.id.button_maps);
 
+		RelativeLayout navigationBar2 = (RelativeLayout) findViewById(R.id.navigation_bar_share);
+		buttonShare = (ImageButton) navigationBar2.getChildAt(1);
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
@@ -451,11 +454,16 @@ public class DetailActivity extends Activity {
 	}
 
 	public void share() {
+
 		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 		sharingIntent.setType("text/plain");
-		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
-		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
-		startActivity(Intent.createChooser(sharingIntent, "Share using"));
+		PromotionServices promotionServices = new PromotionServices();
+		String link = promotionServices.getPromosLinkPublizar(promo_id);
+		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, title + " "
+				+ link + " (via @publizar)");
+		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+				"Promocion: " + title);
+		startActivity(Intent.createChooser(sharingIntent, "Compartir usando"));
 
 	}
 

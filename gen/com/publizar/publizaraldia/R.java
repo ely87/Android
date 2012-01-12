@@ -123,7 +123,7 @@ containing a value of this type.
         public static final int loginEmail=0x7f040065;
         public static final int loginPassword=0x7f040066;
         public static final int mapview=0x7f040028;
-        public static final int navigation_bar_delete=0x7f04002c;
+        public static final int navigation_bar_share=0x7f04002c;
         public static final int password1=0x7f040011;
         public static final int password2=0x7f040013;
         public static final int promo_amount=0x7f040026;

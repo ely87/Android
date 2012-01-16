@@ -143,4 +143,9 @@ public class SeparatedListAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+	}
 }

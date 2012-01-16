@@ -3,10 +3,11 @@ package com.publizar.publizaraldia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import connection.VerifyConnection;
+
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
 import services.AuthenticateService;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,9 +18,6 @@ import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -45,13 +43,14 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		prefs = this.getApplicationContext().getSharedPreferences("prefs_file",
 				MODE_PRIVATE);
 		user = prefs.getString("username", null);
 		pass = prefs.getString("password", null);
 		if (user != null) {
-			Intent intent = new Intent(MainActivity.this,
-					TabBarActivity.class);
+			Intent intent = new Intent(MainActivity.this, TabBarActivity.class);
+			//
 			startActivity(intent);
 		} else {
 			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -118,28 +117,6 @@ public class MainActivity extends Activity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.sign_out_menu, menu);
-		return true;
-
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.sign_out:
-			userHelper.open();
-			int id = userHelper.getLastRowID();
-			userHelper.deleteUser(id);
-			userHelper.close();
-			fileDatabase.exportDatabase();
-			break;
-		}
-		return true;
-	}
-
 	public class CallWebServiceTask extends AsyncTask<String, Void, Integer> {
 
 		protected Context applicationContext;
@@ -157,34 +134,47 @@ public class MainActivity extends Activity {
 			String result = null;
 
 			int operationResult = 0;
-			if (checkEmailCorrect(email) == true) {
-				AuthenticateService authenticate = new AuthenticateService();
-				result = authenticate.authenticateUser(email, password);
-				if (result != null) {
-					if (result.equalsIgnoreCase(email)) {
-						userHelper.open();
-						int id = userHelper.getLastRowID();
-						Cursor c = userHelper.fetchUser(id);
-						if (c.getCount() == 0) {
-							userHelper.createUser(email, password);
-						}
-						userHelper.close();
-						boolean bool = true;
-						if (bool == true) {
-							operationResult = 1;
+			VerifyConnection connection = new VerifyConnection(
+					applicationContext);
+			boolean wifi = false;
+			boolean mobile = false;
+
+			wifi = connection.haveNetworkWiFiConnection();
+			mobile = connection.haveNetworkMobileConnection();
+			if (wifi || mobile) {
+				if (checkEmailCorrect(email) == true) {
+					AuthenticateService authenticate = new AuthenticateService();
+					result = authenticate.authenticateUser(email, password);
+					if (result != null) {
+						if (result.equalsIgnoreCase(email)) {
+							userHelper.open();
+							int id = userHelper.getLastRowID();
+							Cursor c = userHelper.fetchUser(id);
+							if (c.getCount() == 0) {
+								userHelper.createUser(email, password);
+							}
+							userHelper.close();
+							boolean bool = true;
+							if (bool == true) {
+								operationResult = 1;
+								fileDatabase.exportDatabase();
+							} else {
+								operationResult = 0;
+							}
 						} else {
+							error = result;
 							operationResult = 0;
 						}
 					} else {
-						error = result;
-						operationResult = 0;
+						operationResult = -1;
 					}
 				} else {
-					operationResult = -1;
+					operationResult = -0;
 				}
-
+			} else {
+				operationResult = -2;
 			}
-			fileDatabase.exportDatabase();
+
 			return operationResult;
 		}
 
@@ -197,6 +187,10 @@ public class MainActivity extends Activity {
 				loginAlert.create().show();
 			} else if (operationResult == -1) {
 				error = "El usuario no es v‡lido";
+				loginAlert.setMessage(error);
+				loginAlert.create().show();
+			} else if (operationResult == -2) {
+				error = "El dispositivo no posee conexi—n. Por favor intente nuevamente.";
 				loginAlert.setMessage(error);
 				loginAlert.create().show();
 			} else {
@@ -220,5 +214,4 @@ public class MainActivity extends Activity {
 			return false;
 		}
 	}
-
 }

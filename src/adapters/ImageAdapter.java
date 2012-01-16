@@ -3,10 +3,7 @@ package adapters;
 import java.util.ArrayList;
 
 import com.publizar.publizaraldia.R;
-
 import domain.Promotion;
-
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +14,16 @@ import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 
-	private Activity activity;
+	private Context activity;
 	private String[] data;
 	private static LayoutInflater inflater = null;
 	public ImageLoader imageLoader;
 	private ArrayList<Promotion> promotions;
 
-	public ImageAdapter(Activity a, String[] d, ArrayList<Promotion> promotions) {
+	public ImageAdapter(Context applicationContext, String[] d,
+			ArrayList<Promotion> promotions) {
 		this.promotions = promotions;
-		activity = a;
+		activity = applicationContext;
 		data = d;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

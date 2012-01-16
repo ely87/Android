@@ -3,6 +3,7 @@ package com.publizar.publizaraldia;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -22,21 +23,25 @@ public class TabBarActivity extends TabActivity implements OnTabChangeListener {
 		Intent intent;
 
 		intent = new Intent().setClass(this, AllPromosActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		spec = tabHost.newTabSpec("Promociones").setIndicator("Promociones")
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, PreferencesTimelineActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		spec = tabHost.newTabSpec("Time").setIndicator("Timeline")
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, CalendarListActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		spec = tabHost.newTabSpec("Calendario").setIndicator("Calendario")
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, SettingsActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		spec = tabHost.newTabSpec("Preferencias").setIndicator("Preferencias")
 				.setContent(intent);
 		tabHost.addTab(spec);

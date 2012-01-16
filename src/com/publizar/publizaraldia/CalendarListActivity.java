@@ -122,4 +122,23 @@ public class CalendarListActivity extends Activity {
 		return promotionSelected;
 	}
 
+	public void onResume() {
+		PromotionServices promotionServices = new PromotionServices();
+		ArrayList<Promotion> promosByMonths = new ArrayList<Promotion>();
+		promotions = promotionServices.getPromosByMonths();
+		for (int i = 0; i < months.length; i++) {
+			promosByMonths = getPromotionsByMonths(months[i], promotions);
+			if (promosByMonths.size() > 0) {
+				CalendarAdapter listCalendar = new CalendarAdapter(this,
+						promosByMonths);
+				adapter.addSection(months[i], listCalendar);
+			}
+		}
+
+		calendarListView.setAdapter(adapter);
+
+		adapter.notifyDataSetChanged();
+		super.onResume();
+	}
+
 }

@@ -175,4 +175,15 @@ public class AllFavouritesActivity extends Activity {
 		super.onResume();
 	}
 
+	public void onStart() {
+		promotions = getPromotions();
+		list = (ListView) findViewById(R.id.imagelist1);
+
+		adapter = new FavouriteAdapter(this, promotions);
+
+		list.setAdapter(adapter);
+
+		adapter.notifyDataSetChanged();
+		super.onResume();
+	}
 }

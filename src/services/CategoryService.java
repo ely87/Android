@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,8 +84,8 @@ public class CategoryService {
 		return all;
 	}
 
-	public ArrayList<Promotion> getPromosByCategories(Category category) {
-		ArrayList<Promotion> promotions = new ArrayList<Promotion>();
+	public LinkedList<Promotion> getPromosByCategories(Category category) {
+		LinkedList<Promotion> promotions = new LinkedList<Promotion>();
 
 		String pref = category.getSlug().replace(" ", "%20");
 		String url = "http://www.publizar.com.ve/api/api.php?o=getpcategories&cat="
@@ -158,8 +159,8 @@ public class CategoryService {
 		return promotions;
 	}
 
-	public ArrayList<Promotion> getPromosByTags(Category category) {
-		ArrayList<Promotion> promotions = new ArrayList<Promotion>();
+	public LinkedList<Promotion> getPromosByTags(Category category) {
+		LinkedList<Promotion> promotions = new LinkedList<Promotion>();
 
 		String pref = category.getSlug().replace(" ", "%20");
 		String url = "http://www.publizar.com.ve/api/api.php?o=getptags&tag="

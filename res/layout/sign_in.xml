@@ -49,8 +49,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:inputType="textEmailAddress"
                     android:hint="Correo electronico"
+                    android:inputType="textEmailAddress"
                     android:text="khaterine.publizar@gmail.com" >
                 </EditText>
             </TableRow>

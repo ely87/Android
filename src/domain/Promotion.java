@@ -25,6 +25,15 @@ public class Promotion {
 	private String status;
 	private String day;
 	private String month;
+	private String post_date;
+
+	public String getPost_date() {
+		return post_date;
+	}
+
+	public void setPost_date(String post_date) {
+		this.post_date = post_date;
+	}
 
 	public String getMonth() {
 		return month;

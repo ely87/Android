@@ -4,12 +4,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ListView
+    <adapters.PullToRefreshListView
         android:id="@+id/imagelist"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:background="@drawable/list_selector" />
+        android:layout_height="fill_parent" />
 
     <SlidingDrawer
         android:id="@+id/slidingDrawer"

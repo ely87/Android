@@ -1,7 +1,6 @@
 package adapters;
 
-import java.util.ArrayList;
-
+import java.util.LinkedList;
 import com.publizar.publizaraldia.R;
 import domain.Promotion;
 import android.content.Context;
@@ -15,23 +14,23 @@ import android.widget.TextView;
 public class ImageAdapter extends BaseAdapter {
 
 	private Context activity;
-	private String[] data;
+	private LinkedList<Promotion> data;
 	private static LayoutInflater inflater = null;
 	public ImageLoader imageLoader;
-	private ArrayList<Promotion> promotions;
+	private LinkedList<Promotion> promotions;
 
-	public ImageAdapter(Context applicationContext, String[] d,
-			ArrayList<Promotion> promotions) {
-		this.promotions = promotions;
+	public ImageAdapter(Context applicationContext,
+			LinkedList<Promotion> mListItems, LinkedList<Promotion> promotions2) {
+		this.promotions = promotions2;
 		activity = applicationContext;
-		data = d;
+		data = mListItems;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageLoader = new ImageLoader(activity.getApplicationContext());
 	}
 
 	public int getCount() {
-		return data.length;
+		return data.size();
 	}
 
 	public Object getItem(int position) {
@@ -76,7 +75,7 @@ public class ImageAdapter extends BaseAdapter {
 
 		}
 		ImageView image = (ImageView) vi.findViewById(R.id.promo_image);
-		imageLoader.DisplayImage(data[position], image);
+		imageLoader.DisplayImage(data.get(position).getImage_url(), image);
 		return vi;
 	}
 

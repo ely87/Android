@@ -1,11 +1,8 @@
 package com.publizar.publizaraldia;
 
-import java.util.ArrayList;
-
+import java.util.LinkedList;
 import services.PromotionServices;
-
 import domain.Promotion;
-
 import adapters.ImageAdapter;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -19,7 +16,8 @@ public class TimelineActivity extends Activity {
 	private ListView list;
 	private ImageAdapter adapter;
 	private String[] mStrings = null;
-	private ArrayList<Promotion> promotions;
+	private LinkedList<Promotion> promotions;
+	private LinkedList<Promotion> mListItems;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +26,9 @@ public class TimelineActivity extends Activity {
 
 		mStrings = getPromotions(100);
 		list = (ListView) findViewById(R.id.imagelist);
-		adapter = new ImageAdapter(this, mStrings, promotions);
+		mListItems = new LinkedList<Promotion>();
+		mListItems.addAll(promotions);
+		adapter = new ImageAdapter(this, mListItems, promotions);
 		list.setAdapter(adapter);
 
 		// Button b = (Button) findViewById(R.id.button1);
@@ -47,7 +47,7 @@ public class TimelineActivity extends Activity {
 				+ quantity;
 		PromotionServices promotionServices = new PromotionServices();
 
-		promotions = new ArrayList<Promotion>();
+		promotions = new LinkedList<Promotion>();
 		promotions = promotionServices.getAllPromotions(searchUrl);
 
 		String[] promotionsResult = new String[promotions.size()];

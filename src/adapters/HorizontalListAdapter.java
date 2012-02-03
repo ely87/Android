@@ -1,19 +1,18 @@
 package adapters;
 
+import com.publizar.publizaraldia.R;
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
 
-public class GalleryAdapter extends BaseAdapter {
+public class HorizontalListAdapter extends BaseAdapter {
 	/** The parent context */
 	private Context myContext;
 	public ImageLoader imageLoader;
+	private static LayoutInflater inflater = null;
 
 	/** URL-Strings to some remote images. */
 	private String[] myRemoteImages = null;
@@ -21,20 +20,22 @@ public class GalleryAdapter extends BaseAdapter {
 	private String[] titles = null;
 
 	/** Simple Constructor saving the 'parent' context. */
-	public GalleryAdapter(Context c, String[] images, String[] title) {
+	public HorizontalListAdapter(Context c, String[] urls, String[] titles) {
 		this.myContext = c;
-		this.myRemoteImages = images;
-		this.titles = title;
+		this.myRemoteImages = urls;
+		this.titles = titles;
 		imageLoader = new ImageLoader(c);
+		inflater = (LayoutInflater) c
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public GalleryAdapter() {
+	public HorizontalListAdapter() {
 
 	}
 
 	/** Returns the amount of images we have defined. */
 	public int getCount() {
-		return this.myRemoteImages.length;
+		return 1;
 	}
 
 	/* Use the array-Positions as unique IDs */
@@ -51,31 +52,26 @@ public class GalleryAdapter extends BaseAdapter {
 	 * passed.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView i = new ImageView(this.myContext);
-		FrameLayout layout = new FrameLayout(myContext);
+		View vi = convertView;
 
-		imageLoader.DisplayImage(myRemoteImages[position], i);
-		/* Image should be scaled as width/height are set. */
-		i.setScaleType(ImageView.ScaleType.FIT_XY);
-		i.setBackgroundColor(Color.CYAN);
-		// i.setAdjustViewBounds(true);
-		i.setMinimumHeight(148);
-		i.setMinimumWidth(271);
+		if (convertView == null) {
+			vi = inflater.inflate(R.layout.horizontal_list, null);
 
-		TextView tvTitle = new TextView(myContext);
-		tvTitle.setMinimumHeight(74);
-		tvTitle.setMinimumWidth(271);
-		tvTitle.setText(" " + titles[position]);
-		tvTitle.setLayoutParams(new FrameLayout.LayoutParams(271, 40,
-				Gravity.BOTTOM));
-		tvTitle.setBackgroundColor(Color.BLACK);
-		tvTitle.setTextColor(Color.WHITE);
-		tvTitle.setTextSize(8);
-		tvTitle.setGravity(Gravity.TOP);
-		layout.addView(i);
-		layout.addView(tvTitle);
+		}
 
-		return layout;
+		HorizontalListView listview = (HorizontalListView) vi
+				.findViewById(R.id.listview);
+
+		// Gallery gallery = new Gallery(myContext);
+		GalleryAdapter ga = new GalleryAdapter(myContext, myRemoteImages,
+				titles);
+		// gallery.setAdapter(ga);
+
+		listview.setLayoutParams(new ListView.LayoutParams(
+				ListView.LayoutParams.FILL_PARENT, 140));
+		listview.setAdapter(ga);
+		return listview;
+
 	}
 
 	/**

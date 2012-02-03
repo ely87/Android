@@ -1,41 +1,39 @@
 package com.publizar.publizaraldia;
 
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 import domain.Preference;
 import domain.Promotion;
 import persistence.UserHelper;
 import services.PreferenceService;
-import adapters.GalleryAdapter;
+import services.PromotionServices;
+import adapters.HorizontalListAdapter;
+import adapters.SeparatedListAdapter;
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.AdapterView;
-import android.widget.Gallery;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class PreferencesTimelineActivity extends Activity {
 	private UserHelper userHelper = new UserHelper(this);
 	private String email;
 	private ArrayList<Promotion> promotions;
 	private String titles[] = null;
+	private ListView listTimeline;
+	private SeparatedListAdapter adapter;
+
+	// private Date date;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preferences_timeline);
-		setTablePreferences();
+		setContentView(R.layout.timeline_list);
+		adapter = new SeparatedListAdapter(this);
+		listTimeline = (ListView) findViewById(R.id.list_timeline);
+		// date = new Date(1987, 01, 01);
+		setPreferences();
+
 	}
 
 	@Override
@@ -46,7 +44,7 @@ public class PreferencesTimelineActivity extends Activity {
 
 	}
 
-	public TableLayout setTablePreferences() {
+	public void setPreferences() {
 
 		ArrayList<Preference> preferences = new ArrayList<Preference>();
 		ArrayList<Preference> preferencesChosen = new ArrayList<Preference>();
@@ -57,147 +55,29 @@ public class PreferencesTimelineActivity extends Activity {
 		email = c.getString(1);
 		userHelper.close();
 		preferences = preferenceService.getUserPreferences(email);
-		TableLayout table = null;
 
-		int count = 0;
 		for (int i = 0; i < preferences.size(); i++) {
 			Preference pref = new Preference();
 			pref = preferences.get(i);
 			if (pref.getSelection() == 1) {
-				count++;
 				preferencesChosen.add(pref);
 			}
 		}
 
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		for (int i = 0; i < preferencesChosen.size(); i++) {
 
-		for (int i = 0; i < count; i++) {
-			table = (TableLayout) findViewById(R.id.tableGallery);
-			// create a new TableRow
-			TableRow row = new TableRow(this);
-			Preference pref = new Preference();
-			pref = preferencesChosen.get(i);
-			final TextView t = new TextView(this);
-			if (pref.getSelection() == 1) {
-				// set the text to "text xx"
-				t.setText(pref.getName());
-				t.setTextColor(Color.WHITE);
-				t.setTextSize(14);
-				t.setBackgroundColor(Color.GRAY);
-				t.setId(i);
-				row.addView(t);
+			String urls[] = null;
+			urls = getPromotions(preferencesChosen.get(i));
 
-				TableRow rowGallery = new TableRow(this);
+			if (urls.length != 0) {
+				HorizontalListAdapter horizontal = null;
+				urls = getPromotions(preferences.get(i));
+				horizontal = new HorizontalListAdapter(this, urls, titles);
+				adapter.addSection(preferences.get(i).getName(), horizontal);
 
-				String urls[] = null;
-				urls = getPromotions(preferencesChosen.get(i));
-
-				if (urls.length != 0) {
-
-					final Gallery gallery = new Gallery(this);
-					gallery.setAdapter(new GalleryAdapter(this, urls, titles));
-					gallery.onFling(null, null, 1000, 0);
-					gallery.setBackgroundColor(Color.GRAY);
-					gallery.setMinimumHeight(155);
-					gallery.setId(i);
-					gallery.setSpacing(2);
-					gallery.setLayoutParams(new TableRow.LayoutParams(
-							LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-
-					gallery.setOnItemClickListener(new OnItemClickListener() {
-						public void onItemClick(AdapterView<?> parent, View v,
-								int position, long id) {
-
-							TextView textSelected = (TextView) findViewById(t
-									.getId());
-							Preference selectedPreference = new Preference();
-							selectedPreference.setName(textSelected.getText()
-									.toString());
-							ArrayList<Promotion> resultGallery = new ArrayList<Promotion>();
-							resultGallery = getArrayPromotions(selectedPreference);
-							Promotion promotion = new Promotion();
-							promotion = resultGallery.get(position);
-							Intent intent = new Intent(
-									PreferencesTimelineActivity.this,
-									DetailActivity.class);
-							intent.putExtra("Promo_id",
-									String.valueOf(promotion.getId()));
-							intent.putExtra("Promo_image",
-									promotion.getImage_url());
-							intent.putExtra("Promo_title", promotion.getTitle());
-							intent.putExtra("Promo_due",
-									promotion.getDue_date());
-							intent.putExtra("Promo_company",
-									promotion.getPromo_company());
-							intent.putExtra("Promo_comerce",
-									promotion.getComerce());
-							intent.putExtra("Promo_price",
-									promotion.getSaved_price());
-							intent.putExtra("Promo_original_price",
-									promotion.getOriginal_price());
-							intent.putExtra("Promo_discount",
-									promotion.getDiscount());
-							intent.putExtra("Promo_description",
-									promotion.getDescription());
-							intent.putExtra("Promo_website",
-									promotion.getPromo_complete_url());
-							intent.putExtra("Promo_excerpt",
-									promotion.getExcerpt());
-							intent.putExtra("Promo_idcomerce",
-									promotion.getId_comerce());
-							startActivity(intent);
-						}
-					});
-
-					int galleryWidth = dm.widthPixels;
-					int itemWidth = 271;
-					int spacing = 2;
-
-					// The offset is how much we will pull the gallery to the
-					// left
-					// in order
-					// to simulate
-					// left alignment of the first item
-					int offset;
-					if (galleryWidth <= itemWidth) {
-						offset = galleryWidth / 2 - itemWidth / 2 - spacing;
-					} else {
-						offset = galleryWidth - itemWidth - 2 * spacing;
-					}
-					// offset = 0;
-
-					// Now update the layout parameters of the gallery in order
-					// to
-					// set the
-					// left margin
-					MarginLayoutParams mlp = (MarginLayoutParams) gallery
-							.getLayoutParams();
-					mlp.setMargins(-offset, mlp.topMargin, mlp.rightMargin,
-							mlp.bottomMargin);
-
-					rowGallery.addView(gallery);
-
-					rowGallery.setMinimumHeight(148);
-					rowGallery.setOnClickListener(new OnClickListener() {
-
-						public void onClick(View v) {
-							v.setBackgroundColor(Color.GRAY);
-						}
-					});
-					table.addView(row,
-							new TableLayout.LayoutParams(
-									LayoutParams.FILL_PARENT,
-									LayoutParams.WRAP_CONTENT));
-					table.addView(rowGallery,
-							new TableLayout.LayoutParams(
-									LayoutParams.FILL_PARENT,
-									LayoutParams.WRAP_CONTENT));
-				}
 			}
 		}
-
-		return table;
+		listTimeline.setAdapter(adapter);
 	}
 
 	public String[] getPromotions(Preference preferences) {
@@ -223,5 +103,18 @@ public class PreferencesTimelineActivity extends Activity {
 		promotionsResult = prefService.getPromosByPreference(preferences);
 
 		return promotionsResult;
+	}
+
+	public LinkedList<Promotion> getRefreshPromotions(Preference preference,
+			String date) {
+		date = date.replace(" ", "%20");
+		// String searchUrl = ;
+
+		PromotionServices promotionServices = new PromotionServices();
+
+		LinkedList<Promotion> promotions = new LinkedList<Promotion>();
+		// promotions = promotionServices.getRefreshPromotion(searchUrl);
+
+		return promotions;
 	}
 }

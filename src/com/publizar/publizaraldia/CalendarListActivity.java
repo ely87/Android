@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import services.PromotionServices;
 import domain.Promotion;
+import adapters.ActionBar;
 import adapters.CalendarAdapter;
 import adapters.SeparatedListAdapter;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ public class CalendarListActivity extends Activity {
 	public final static String ITEM_CAPTION = "caption";
 	private ArrayList<Promotion> promotions;
 	private ListView calendarListView;
+	private ActionBar actionBar;
 	// SectionHeaders
 	private final static String[] months = new String[] { "Enero", "Febrero",
 			"Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
@@ -53,6 +57,22 @@ public class CalendarListActivity extends Activity {
 				adapter.addSection(months[i], listCalendar);
 			}
 		}
+
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Calendario");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.clock);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 
 		calendarListView.setAdapter(adapter);
 		calendarListView.setOnItemClickListener(new OnItemClickListener() {

@@ -8,5 +8,11 @@
     <color name="black">#171717</color>
     <color name="grey">#454545</color>
     <color name="grey_background">#C2C2C2</color>
+    <color name="actionbar_separator">#8B1A1A</color>
+    <color name="actionbar_title">#FFFFFF</color>
+    <color name="actionbar_background_start">#B2D235</color>
+    <color name="actionbar_background_end">#A2BF31</color>
+    <color name="actionbar_background_item_pressed_start">#FF7F00</color>
+    <color name="actionbar_background_item_pressed_end">#EE7600</color>
 
 </resources>

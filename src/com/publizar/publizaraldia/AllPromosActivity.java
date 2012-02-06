@@ -6,12 +6,15 @@ import services.CategoryService;
 import services.PromotionServices;
 import domain.Category;
 import domain.Promotion;
+import adapters.ActionBar;
 import adapters.CategoryAdapter;
 import adapters.ImageAdapter;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import adapters.PullToRefreshListView.OnRefreshListener;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -25,6 +28,7 @@ import android.widget.ListView;
 import adapters.PullToRefreshListView;
 
 public class AllPromosActivity extends Activity {
+
 	public Bitmap placeholder;
 	private LinkedList<Promotion> mListItems;
 	private ListView list;
@@ -34,20 +38,33 @@ public class AllPromosActivity extends Activity {
 	private ArrayList<Category> categories;
 	private ListView listCategory;
 	private CategoryAdapter adapterCategory;
-	private ProgressDialog promotionDialog;
 	private AlertDialog.Builder promotionAlert;
-
-	// private TextView appTitle;
+	private ActionBar actionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timeline);
+
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		// actionBar.setHomeAction(new IntentAction(this, createIntent(this),
+		// R.drawable.ic_title_home_demo));
+		actionBar.setTitle("Promociones");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
+
 		list = (ListView) findViewById(R.id.imagelist);
-		promotionDialog = new ProgressDialog(this);
-		promotionDialog.setIndeterminate(true);
-		promotionDialog.setTitle("Cargando promociones");
-		promotionDialog.setMessage("Espere un momento");
 
 		promotionAlert = new AlertDialog.Builder(this);
 		promotionAlert.setTitle("Promociones");
@@ -62,42 +79,7 @@ public class AllPromosActivity extends Activity {
 					}
 				});
 
-		mStrings = getPromotions(100);
-		mListItems = new LinkedList<Promotion>();
-		mListItems.addAll(promotions);
-		final ImageAdapter adapter = new ImageAdapter(this, mListItems,
-				promotions);
-
-		list.setAdapter(adapter);
-
 		final SlidingDrawer slider = (SlidingDrawer) findViewById(R.id.slidingDrawer);
-
-		list.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long duration) {
-				int pos = position - 1;
-				Promotion promotion = promotions.get(pos);
-				Intent intent = new Intent(AllPromosActivity.this,
-						DetailActivity.class);
-				intent.putExtra("Type", "Server");
-				intent.putExtra("Promo_id", String.valueOf(promotion.getId()));
-				intent.putExtra("Promo_image", promotion.getImage_url());
-				intent.putExtra("Promo_title", promotion.getTitle());
-				intent.putExtra("Promo_due", promotion.getDue_date());
-				intent.putExtra("Promo_company", promotion.getPromo_company());
-				intent.putExtra("Promo_comerce", promotion.getComerce());
-				intent.putExtra("Promo_price", promotion.getSaved_price());
-				intent.putExtra("Promo_original_price",
-						promotion.getOriginal_price());
-				intent.putExtra("Promo_discount", promotion.getDiscount());
-				intent.putExtra("Promo_description", promotion.getDescription());
-				intent.putExtra("Promo_website",
-						promotion.getPromo_complete_url());
-				intent.putExtra("Promo_excerpt", promotion.getExcerpt());
-				intent.putExtra("Promo_idcomerce", promotion.getId_comerce());
-				startActivity(intent);
-			}
-		});
 
 		categories = getCategories();
 		listCategory = (ListView) findViewById(R.id.categories_list);
@@ -134,6 +116,37 @@ public class AllPromosActivity extends Activity {
 			}
 		});
 
+		CallWebServiceTask task = new CallWebServiceTask();
+		task.applicationContext = AllPromosActivity.this;
+		task.execute();
+	}
+
+	public class CallWebServiceTask extends
+			AsyncTask<String, Void, ImageAdapter> {
+
+		protected Context applicationContext;
+		protected int result;
+
+		@Override
+		protected void onPreExecute() {
+			actionBar.setProgressBarVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected ImageAdapter doInBackground(String... params) {
+			mStrings = getPromotions(100);
+			mListItems = new LinkedList<Promotion>();
+			mListItems.addAll(promotions);
+			final ImageAdapter adapter = new ImageAdapter(applicationContext,
+					mListItems, promotions);
+			return adapter;
+		}
+
+		@Override
+		protected void onPostExecute(ImageAdapter adapter) {
+			actionBar.setProgressBarVisibility(View.GONE);
+			list.setAdapter(adapter);
+		}
 	}
 
 	public OnClickListener listener = new OnClickListener() {
@@ -167,8 +180,6 @@ public class AllPromosActivity extends Activity {
 				promotions.addFirst(promotionsRefresh.get(i));
 				mListItems.addFirst(promotionsRefresh.get(i));
 			}
-
-			((PullToRefreshListView) list).onRefreshComplete();
 
 			super.onPostExecute(result);
 		}

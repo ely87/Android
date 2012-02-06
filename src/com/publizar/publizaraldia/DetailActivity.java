@@ -7,7 +7,10 @@ import persistence.PromotionHelper;
 import persistence.UserHelper;
 import domain.Promotion;
 import services.PromotionServices;
+import adapters.ActionBar;
 import adapters.ImageLoader;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -86,13 +88,11 @@ public class DetailActivity extends Activity {
 	private Promotion initial_promotion;
 	double latitude = 10.478001, longitude = -66.924891;
 	Promotion promoResult;
+	private ActionBar actionBar;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.promo_detail);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar2);
 		Intent intent = getIntent();
 		fileDatabase = new FileDatabaseHelper();
 		promo_type = intent.getStringExtra("Type");
@@ -167,6 +167,28 @@ public class DetailActivity extends Activity {
 		button_save_promotion = (Button) findViewById(R.id.promo_favourite_promotion);
 
 		mapButton = (Button) findViewById(R.id.button_maps);
+
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		// actionBar.setHomeAction(new IntentAction(this, createIntent(this),
+		// R.drawable.ic_title_home_demo));
+		actionBar.setTitle("Promociones");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action promos = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.clock);
+		actionBar.addAction(promos);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 
 		RelativeLayout navigationBar2 = (RelativeLayout) findViewById(R.id.navigation_bar_share);
 		buttonShare = (ImageButton) navigationBar2.getChildAt(1);

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
+    <string name="hello">Hello World, ActionBarActivity!</string>
     <string name="app_name">Publizar Al Dia</string>
+    <string name="actionbar_activity_not_found">Failed to open intent...</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
     <string name="pull_to_refresh_release_label">Release to refresh...</string>
     <string name="pull_to_refresh_refreshing_label">Loading...</string>

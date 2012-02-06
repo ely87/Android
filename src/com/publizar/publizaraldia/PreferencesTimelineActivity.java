@@ -6,14 +6,18 @@ import domain.Preference;
 import domain.Promotion;
 import persistence.UserHelper;
 import services.PreferenceService;
-import services.PromotionServices;
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import adapters.HorizontalListAdapter;
 import adapters.SeparatedListAdapter;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ListView;
 
 public class PreferencesTimelineActivity extends Activity {
@@ -23,28 +27,62 @@ public class PreferencesTimelineActivity extends Activity {
 	private String titles[] = null;
 	private ListView listTimeline;
 	private SeparatedListAdapter adapter;
+	private ActionBar actionBar;
 
-	// private Date date;
-
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timeline_list);
+
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		// actionBar.setHomeAction(new IntentAction(this, createIntent(this),
+		// R.drawable.ic_title_home_demo));
+		actionBar.setTitle("Timeline");
+		final Action timeline = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.clock);
+		actionBar.addAction(timeline);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
+
 		adapter = new SeparatedListAdapter(this);
 		listTimeline = (ListView) findViewById(R.id.list_timeline);
-		// date = new Date(1987, 01, 01);
-		setPreferences();
-
+		// listTimeline = (ListView) findViewById(R.id.list_timeline);
+		CallWebServiceTask task = new CallWebServiceTask();
+		task.applicationContext = PreferencesTimelineActivity.this;
+		task.execute();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.navigation_menu, menu);
-		return true;
+	public class CallWebServiceTask extends
+			AsyncTask<String, Void, SeparatedListAdapter> {
 
+		protected Context applicationContext;
+		protected int result;
+
+		@Override
+		protected void onPreExecute() {
+			actionBar.setProgressBarVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected SeparatedListAdapter doInBackground(String... params) {
+			adapter = setPreferences();
+			return adapter;
+		}
+
+		@Override
+		protected void onPostExecute(SeparatedListAdapter adapter) {
+			actionBar.setProgressBarVisibility(View.GONE);
+			listTimeline.setAdapter(adapter);
+		}
 	}
 
-	public void setPreferences() {
+	public SeparatedListAdapter setPreferences() {
 
 		ArrayList<Preference> preferences = new ArrayList<Preference>();
 		ArrayList<Preference> preferencesChosen = new ArrayList<Preference>();
@@ -54,6 +92,7 @@ public class PreferencesTimelineActivity extends Activity {
 		Cursor c = userHelper.fetchUser(idUser);
 		email = c.getString(1);
 		userHelper.close();
+
 		preferences = preferenceService.getUserPreferences(email);
 
 		for (int i = 0; i < preferences.size(); i++) {
@@ -77,7 +116,7 @@ public class PreferencesTimelineActivity extends Activity {
 
 			}
 		}
-		listTimeline.setAdapter(adapter);
+		return adapter;
 	}
 
 	public String[] getPromotions(Preference preferences) {
@@ -110,11 +149,18 @@ public class PreferencesTimelineActivity extends Activity {
 		date = date.replace(" ", "%20");
 		// String searchUrl = ;
 
-		PromotionServices promotionServices = new PromotionServices();
+		// PromotionServices promotionServices = new PromotionServices();
 
 		LinkedList<Promotion> promotions = new LinkedList<Promotion>();
 		// promotions = promotionServices.getRefreshPromotion(searchUrl);
 
 		return promotions;
 	}
+
+	public static Intent createIntent(Context context) {
+		Intent i = new Intent(context, PreferencesTimelineActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		return i;
+	}
+
 }

@@ -49,7 +49,8 @@ public class MainActivity extends Activity {
 		user = prefs.getString("username", null);
 		pass = prefs.getString("password", null);
 		if (user != null) {
-			Intent intent = new Intent(MainActivity.this, TabBarActivity.class);
+			Intent intent = new Intent(MainActivity.this,
+					PreferencesTimelineActivity.class);
 			//
 			startActivity(intent);
 		} else {
@@ -90,7 +91,7 @@ public class MainActivity extends Activity {
 								&& password.getText().toString()
 										.equalsIgnoreCase(pass)) {
 							Intent intent = new Intent(MainActivity.this,
-									TabBarActivity.class);
+									PreferencesTimelineActivity.class);
 							startActivity(intent);
 						}
 					}
@@ -195,7 +196,7 @@ public class MainActivity extends Activity {
 				loginAlert.create().show();
 			} else {
 				Intent intent = new Intent(MainActivity.this,
-						TabBarActivity.class);
+						PreferencesTimelineActivity.class);
 				startActivity(intent);
 
 			}

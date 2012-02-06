@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <adapters.PullToRefreshListView
-        android:id="@+id/imagelist"
+    <adapters.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-    <SlidingDrawer
-        android:id="@+id/slidingDrawer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:content="@+id/content"
-        android:handle="@+id/handle" >
+        <adapters.PullToRefreshListView
+            android:id="@+id/imagelist"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
-        <ImageView
-            android:id="@id/handle"
-            android:layout_width="wrap_content"
-            android:layout_height="40px"
-            android:src="@drawable/sliding_drawer_handle_bottom" />
+        <SlidingDrawer
+            android:id="@+id/slidingDrawer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:content="@+id/content"
+            android:handle="@+id/handle" >
 
-        <include
-            android:id="@id/content"
-            layout="@layout/all_categories" />
-    </SlidingDrawer>
+            <ImageView
+                android:id="@id/handle"
+                android:layout_width="wrap_content"
+                android:layout_height="40px"
+                android:src="@drawable/sliding_drawer_handle_bottom" />
 
-</FrameLayout>
+            <include
+                android:id="@id/content"
+                layout="@layout/all_categories" />
+        </SlidingDrawer>
+    </FrameLayout>
+
+</LinearLayout>

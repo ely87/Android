@@ -4,13 +4,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <adapters.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+
     <com.google.android.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:apiKey="08MVll_J3l6_TEQ-6oGrGYPG_VEOBxywhUS2ssg"
         android:layout_marginBottom="80dp"
+        android:apiKey="08MVll_J3l6_TEQ-6oGrGYPG_VEOBxywhUS2ssg"
         android:clickable="true"
         android:enabled="true" />
 

@@ -2,6 +2,9 @@ package com.publizar.publizaraldia;
 
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,13 +17,29 @@ public class SettingsActivity extends Activity {
 
 	private UserHelper userHelper = new UserHelper(this);
 	private FileDatabaseHelper fileDatabase;
+	private ActionBar actionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preference_list);
+		setContentView(R.layout.settings);
 
 		fileDatabase = new FileDatabaseHelper();
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Preferencias");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.list);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(settings);
 
 		TableRow tablerow = (TableRow) findViewById(R.id.rowcontrasenas);
 		tablerow.setOnClickListener(new OnClickListener() {
@@ -71,4 +90,5 @@ public class SettingsActivity extends Activity {
 			}
 		});
 	}
+
 }

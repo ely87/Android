@@ -11,7 +11,9 @@ import adapters.SeparatedListAdapter;
 import adapters.ActionBar.Action;
 import adapters.ActionBar.IntentAction;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,18 +48,6 @@ public class CalendarListActivity extends Activity {
 		adapter = new SeparatedListAdapter(this);
 		calendarListView = (ListView) this.findViewById(R.id.list_months);
 
-		ArrayList<Promotion> promosByMonths = new ArrayList<Promotion>();
-		PromotionServices promotionServices = new PromotionServices();
-		promotions = promotionServices.getPromosByMonths();
-		for (int i = 0; i < months.length; i++) {
-			promosByMonths = getPromotionsByMonths(months[i], promotions);
-			if (promosByMonths.size() > 0) {
-				CalendarAdapter listCalendar = new CalendarAdapter(this,
-						promosByMonths);
-				adapter.addSection(months[i], listCalendar);
-			}
-		}
-
 		actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setTitle("Calendario");
 		actionBar
@@ -67,14 +57,13 @@ public class CalendarListActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		final Action calendar = new IntentAction(this, new Intent(this,
-				AllPromosActivity.class), R.drawable.clock);
+				AllPromosActivity.class), R.drawable.list);
 		actionBar.addAction(calendar);
 
 		final Action settings = new IntentAction(this, new Intent(this,
 				SettingsActivity.class), R.drawable.settings);
 		actionBar.addAction(settings);
 
-		calendarListView.setAdapter(adapter);
 		calendarListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long duration) {
@@ -106,7 +95,43 @@ public class CalendarListActivity extends Activity {
 
 			}
 		});
+		CallWebServiceTask task = new CallWebServiceTask();
+		task.applicationContext = CalendarListActivity.this;
+		task.execute();
+	}
 
+	public class CallWebServiceTask extends
+			AsyncTask<String, Void, SeparatedListAdapter> {
+
+		protected Context applicationContext;
+		protected int result;
+
+		@Override
+		protected void onPreExecute() {
+			actionBar.setProgressBarVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected SeparatedListAdapter doInBackground(String... params) {
+			ArrayList<Promotion> promosByMonths = new ArrayList<Promotion>();
+			PromotionServices promotionServices = new PromotionServices();
+			promotions = promotionServices.getPromosByMonths();
+			for (int i = 0; i < months.length; i++) {
+				promosByMonths = getPromotionsByMonths(months[i], promotions);
+				if (promosByMonths.size() > 0) {
+					CalendarAdapter listCalendar = new CalendarAdapter(
+							applicationContext, promosByMonths);
+					adapter.addSection(months[i], listCalendar);
+				}
+			}
+			return adapter;
+		}
+
+		@Override
+		protected void onPostExecute(SeparatedListAdapter adapter) {
+			actionBar.setProgressBarVisibility(View.GONE);
+			calendarListView.setAdapter(adapter);
+		}
 	}
 
 	public ArrayList<Promotion> getPromotionsByMonths(String month,

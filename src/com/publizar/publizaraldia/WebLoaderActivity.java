@@ -1,11 +1,13 @@
 package com.publizar.publizaraldia;
 
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -13,16 +15,34 @@ public class WebLoaderActivity extends Activity {
 	WebView mWebView;
 	ProgressDialog mProgress;
 	private String promo_website;
+	private ActionBar actionBar;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.web_view);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Favoritos");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action promos = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.list);
+		actionBar.addAction(promos);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 		Intent intent = getIntent();
 		// Get Web view
 		mWebView = (WebView) findViewById(R.id.webview); // This is the id you

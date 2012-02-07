@@ -8,6 +8,7 @@ import connection.VerifyConnection;
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
 import services.AuthenticateService;
+import adapters.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,7 +20,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
+//import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 	private String user;
 	private String pass;
 	private Button registerUser;
+	private ActionBar actionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,12 @@ public class MainActivity extends Activity {
 			//
 			startActivity(intent);
 		} else {
-			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+			// requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 			setContentView(R.layout.sign_in);
-			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-					R.layout.navigation_bar);
+			actionBar = (ActionBar) findViewById(R.id.actionbar);
+			actionBar.setTitle("Publizar");
+			// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+			// R.layout.navigation_bar);
 			fileDatabase = new FileDatabaseHelper();
 
 			email = (EditText) findViewById(R.id.loginEmail);

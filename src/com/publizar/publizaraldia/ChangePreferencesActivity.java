@@ -7,13 +7,16 @@ import persistence.UserHelper;
 import domain.Preference;
 
 import services.PreferenceService;
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TableRow.LayoutParams;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
@@ -27,14 +30,33 @@ public class ChangePreferencesActivity extends Activity {
 	private Button buttonPreferences;
 	private ArrayList<Preference> categories;
 	private String email;
+	private ActionBar actionBar;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.change_preferences);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
+
 		final TableLayout table = setTablePreferences();
+
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Cambiar preferencias");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action promos = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.list);
+		actionBar.addAction(promos);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 
 		buttonPreferences = (Button) findViewById(R.id.savePreferences);
 

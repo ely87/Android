@@ -66,6 +66,33 @@ public class AllPromosActivity extends Activity {
 
 		list = (ListView) findViewById(R.id.imagelist);
 
+		list.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long duration) {
+				int pos = position - 1;
+				Promotion promotion = promotions.get(pos);
+				Intent intent = new Intent(AllPromosActivity.this,
+						DetailActivity.class);
+				intent.putExtra("Type", "Server");
+				intent.putExtra("Promo_id", String.valueOf(promotion.getId()));
+				intent.putExtra("Promo_image", promotion.getImage_url());
+				intent.putExtra("Promo_title", promotion.getTitle());
+				intent.putExtra("Promo_due", promotion.getDue_date());
+				intent.putExtra("Promo_company", promotion.getPromo_company());
+				intent.putExtra("Promo_comerce", promotion.getComerce());
+				intent.putExtra("Promo_price", promotion.getSaved_price());
+				intent.putExtra("Promo_original_price",
+						promotion.getOriginal_price());
+				intent.putExtra("Promo_discount", promotion.getDiscount());
+				intent.putExtra("Promo_description", promotion.getDescription());
+				intent.putExtra("Promo_website",
+						promotion.getPromo_complete_url());
+				intent.putExtra("Promo_excerpt", promotion.getExcerpt());
+				intent.putExtra("Promo_idcomerce", promotion.getId_comerce());
+				startActivity(intent);
+			}
+		});
+
 		promotionAlert = new AlertDialog.Builder(this);
 		promotionAlert.setTitle("Promociones");
 		promotionAlert.setPositiveButton("Ok", null);
@@ -180,6 +207,8 @@ public class AllPromosActivity extends Activity {
 				promotions.addFirst(promotionsRefresh.get(i));
 				mListItems.addFirst(promotionsRefresh.get(i));
 			}
+
+			((PullToRefreshListView) list).onRefreshComplete();
 
 			super.onPostExecute(result);
 		}

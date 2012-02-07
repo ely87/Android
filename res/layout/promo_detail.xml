@@ -1,277 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ffffff"
+    android:gravity="center_vertical"
     android:orientation="vertical" >
 
     <adapters.ActionBar
         android:id="@+id/actionbar"
         style="@style/ActionBar" />
 
-    <ScrollView
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="60dp"
-        android:fillViewport="true" >
+        android:background="#ffffff"
+        android:orientation="vertical" >
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:layout_height="fill_parent"
+            android:fillViewport="true" >
 
-            <TextView
-                android:id="@+id/promo_detail_title"
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/promo_detail_image"
-                android:layout_toRightOf="@+id/promo_detail_image"
-                android:textColor="#00adef"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp" >
 
-            <TextView
-                android:id="@+id/promo_detail_due"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_title"
-                android:layout_gravity="fill_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/promo_detail_image"
-                android:gravity="left"
-                android:text="Expira en"
-                android:textColor="#454545"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/promo_detail_image"
+                    android:layout_toRightOf="@+id/promo_detail_image"
+                    android:textColor="#00adef"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_company"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_due"
-                android:layout_gravity="fill_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/promo_detail_image"
-                android:gravity="left"
-                android:text="Adquierela en"
-                android:textColor="#454545"
-                android:textSize="12dp"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_due"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_title"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/promo_detail_image"
+                    android:gravity="left"
+                    android:text="Expira en"
+                    android:textColor="#454545"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/promo_detail_image"
-                android:layout_width="150dip"
-                android:layout_height="100dip"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="5dp"
-                android:src="@color/black" />
+                <TextView
+                    android:id="@+id/promo_detail_company"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_due"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/promo_detail_image"
+                    android:gravity="left"
+                    android:text="Adquierela en"
+                    android:textColor="#454545"
+                    android:textSize="12dp"
+                    android:textStyle="normal" />
 
-            <Button
-                android:id="@+id/promo_detail_button_buy"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/promo_detail_image"
-                android:layout_below="@+id/promo_detail_image"
-                android:layout_marginTop="10dp"
-                android:text="Compralo por " />
+                <ImageView
+                    android:id="@+id/promo_detail_image"
+                    android:layout_width="150dip"
+                    android:layout_height="100dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@color/black" />
 
-            <Button
-                android:id="@+id/promo_favourite_promotion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/promo_detail_button_buy"
-                android:layout_below="@+id/promo_detail_button_buy"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="Agregar a mis favoritos" />
+                <Button
+                    android:id="@+id/promo_detail_button_buy"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/promo_detail_image"
+                    android:layout_below="@+id/promo_detail_image"
+                    android:layout_marginTop="10dp"
+                    android:text="Compralo por " />
 
-            <Button
-                android:id="@+id/promo_send_promotion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_favourite_promotion"
-                android:layout_alignBottom="@+id/promo_favourite_promotion"
-                android:layout_alignRight="@+id/promo_detail_button_buy"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="Enviar a mi correo" />
+                <Button
+                    android:id="@+id/promo_favourite_promotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/promo_detail_button_buy"
+                    android:layout_below="@+id/promo_detail_button_buy"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Agregar a mis favoritos" />
 
-            <TextView
-                android:id="@+id/promo_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_favourite_promotion"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="Precio original"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/promo_send_promotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/promo_favourite_promotion"
+                    android:layout_alignBottom="@+id/promo_favourite_promotion"
+                    android:layout_alignRight="@+id/promo_detail_button_buy"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Enviar a mi correo" />
 
-            <TextView
-                android:id="@+id/promo_detail_text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_detail_text"
-                android:layout_alignBottom="@+id/promo_detail_text"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:text="Descuento"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_favourite_promotion"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Precio original"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_text3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_detail_text"
-                android:layout_alignBottom="@+id/promo_detail_text"
-                android:layout_alignRight="@+id/promo_send_promotion"
-                android:layout_weight="1"
-                android:text="Te ahorras"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/promo_detail_text"
+                    android:layout_alignBottom="@+id/promo_detail_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:text="Descuento"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_op"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/promo_detail_text"
-                android:layout_below="@+id/promo_detail_text"
-                android:layout_marginTop="10dp"
-                android:textColor="#454545" />
+                <TextView
+                    android:id="@+id/promo_detail_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/promo_detail_text"
+                    android:layout_alignBottom="@+id/promo_detail_text"
+                    android:layout_alignRight="@+id/promo_send_promotion"
+                    android:layout_weight="1"
+                    android:text="Te ahorras"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/promo_detail_op"
-                android:layout_alignBottom="@+id/promo_detail_op"
-                android:layout_alignLeft="@+id/promo_detail_text2"
-                android:textColor="#454545" />
+                <TextView
+                    android:id="@+id/promo_detail_op"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/promo_detail_text"
+                    android:layout_below="@+id/promo_detail_text"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#454545" />
 
-            <TextView
-                android:id="@+id/promo_detail_sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/promo_detail_op"
-                android:layout_alignRight="@+id/promo_detail_text3"
-                android:textColor="#454545" />
+                <TextView
+                    android:id="@+id/promo_detail_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/promo_detail_op"
+                    android:layout_alignBottom="@+id/promo_detail_op"
+                    android:layout_alignLeft="@+id/promo_detail_text2"
+                    android:textColor="#454545" />
 
-            <TextView
-                android:id="@+id/promo_detail_name_comerce_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_op"
-                android:text="Nombre del comercio:"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/promo_detail_op"
+                    android:layout_alignRight="@+id/promo_detail_text3"
+                    android:textColor="#454545" />
 
-            <TextView
-                android:id="@+id/promo_detail_name_comerce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_op"
-                android:layout_toRightOf="@+id/promo_detail_name_comerce_text"
-                android:textColor="#454545"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_name_comerce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_op"
+                    android:text="Nombre del comercio:"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_tlf_comerce_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_name_comerce"
-                android:text="Telf:"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_name_comerce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_op"
+                    android:layout_toRightOf="@+id/promo_detail_name_comerce_text"
+                    android:textColor="#454545"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/promo_detail_tlf_comerce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_name_comerce"
-                android:layout_toRightOf="@+id/promo_detail_tlf_comerce_text"
-                android:textColor="#454545"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_tlf_comerce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_name_comerce"
+                    android:text="Telf:"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_email_comerce_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_tlf_comerce"
-                android:text="Correo:"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_tlf_comerce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_name_comerce"
+                    android:layout_toRightOf="@+id/promo_detail_tlf_comerce_text"
+                    android:textColor="#454545"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/promo_detail_email_comerce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_tlf_comerce"
-                android:layout_toRightOf="@+id/promo_detail_email_comerce_text"
-                android:textColor="#454545"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_email_comerce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_tlf_comerce"
+                    android:text="Correo:"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_twitter_comerce_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_email_comerce"
-                android:text="Twitter:"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_email_comerce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_tlf_comerce"
+                    android:layout_toRightOf="@+id/promo_detail_email_comerce_text"
+                    android:textColor="#454545"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/promo_detail_twitter_comerce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_email_comerce"
-                android:layout_toRightOf="@+id/promo_detail_twitter_comerce_text"
-                android:textColor="#454545"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_twitter_comerce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_email_comerce"
+                    android:text="Twitter:"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/promo_detail_facebook_comerce_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_twitter_comerce"
-                android:text="Facebook:"
-                android:textColor="#454545"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/promo_detail_twitter_comerce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_email_comerce"
+                    android:layout_toRightOf="@+id/promo_detail_twitter_comerce_text"
+                    android:textColor="#454545"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/promo_detail_facebook_comerce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/promo_detail_twitter_comerce"
-                android:layout_toRightOf="@+id/promo_detail_facebook_comerce_text"
-                android:textColor="#454545"
-                android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/promo_detail_facebook_comerce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_twitter_comerce"
+                    android:text="Facebook:"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/button_maps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/promo_detail_facebook_comerce"
-                android:text="Ver mapa" />
+                <TextView
+                    android:id="@+id/promo_detail_facebook_comerce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promo_detail_twitter_comerce"
+                    android:layout_toRightOf="@+id/promo_detail_facebook_comerce_text"
+                    android:textColor="#454545"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/promo_detail_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/button_maps"
-                android:text="Descripcion"
-                android:textColor="#454545" />
-        </RelativeLayout>
-    </ScrollView>
+                <Button
+                    android:id="@+id/button_maps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/promo_detail_facebook_comerce"
+                    android:layout_marginTop="5dp"
+                    android:text="Ver mapa" />
 
-    <LinearLayout
-        android:id="@+id/footer"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="#4d4f4e" >
-    </LinearLayout>
+                <Button
+                    android:id="@+id/button_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/promo_detail_facebook_comerce"
+                    android:layout_marginTop="5dp"
+                    android:text="Compartir" />
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/promo_detail_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button_maps"
+                    android:text="Descripcion"
+                    android:textColor="#454545" />
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>

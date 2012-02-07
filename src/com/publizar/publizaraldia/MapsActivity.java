@@ -10,6 +10,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import domain.LocationPromotion;
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -20,7 +23,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.RelativeLayout;
 
 public class MapsActivity extends MapActivity {
@@ -32,21 +34,38 @@ public class MapsActivity extends MapActivity {
 	private SitesOverlay sites = null;
 	private MyLocationOverlay me = null;
 	private ArrayList<LocationPromotion> allLocations;
+	private ActionBar actionBar;
 
 	protected LocationManager locationManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.location_map);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 
 		map = (MapView) findViewById(R.id.mapview);
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Mapas");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		final Action promos = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.list);
+		actionBar.addAction(promos);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 		Location location = showCurrentLocation();
 
 		latitude = location.getLatitude();

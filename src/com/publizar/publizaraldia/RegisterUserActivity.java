@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
 import services.UserService;
+import adapters.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -14,7 +15,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
+//import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,16 +33,19 @@ public class RegisterUserActivity extends Activity {
 	private String confirmPwd;
 	private String error = null;
 	private UserHelper userHelper = new UserHelper(this);
+	private ActionBar actionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		// requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.register);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
+		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+		// R.layout.navigation_bar);
 		fileDatabase = new FileDatabaseHelper();
 
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Registro de usuarios");
 		email = (EditText) findViewById(R.id.registerEmail);
 		password = (EditText) findViewById(R.id.registerPassword);
 		confirmPassword = (EditText) findViewById(R.id.registerConfirmPassword);

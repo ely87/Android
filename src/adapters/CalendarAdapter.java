@@ -3,7 +3,6 @@ package adapters;
 import java.util.ArrayList;
 import com.publizar.publizaraldia.R;
 import domain.Promotion;
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,14 @@ import android.widget.TextView;
 
 public class CalendarAdapter extends BaseAdapter {
 
-	private Activity activity;
+	private Context activity;
 	private static LayoutInflater inflater = null;
 	private ArrayList<Promotion> promotions;
 
-	public CalendarAdapter(Activity a,
+	public CalendarAdapter(Context applicationContext,
 			ArrayList<Promotion> promotions) {
 		this.promotions = promotions;
-		activity = a;
+		activity = applicationContext;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

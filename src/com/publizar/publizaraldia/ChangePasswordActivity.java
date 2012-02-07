@@ -3,12 +3,15 @@ package com.publizar.publizaraldia;
 import persistence.UserHelper;
 import services.UserService;
 
+import adapters.ActionBar;
+import adapters.ActionBar.Action;
+import adapters.ActionBar.IntentAction;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,13 +23,11 @@ public class ChangePasswordActivity extends Activity {
 	private Button savePassword;
 	private AlertDialog.Builder passwordAlert;
 	private UserHelper userHelper = new UserHelper(this);
+	private ActionBar actionBar;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.change_password);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.navigation_bar);
 
 		password1 = (EditText) findViewById(R.id.password1);
 		password2 = (EditText) findViewById(R.id.password2);
@@ -36,7 +37,25 @@ public class ChangePasswordActivity extends Activity {
 		passwordAlert.setTitle("Cambio de contrase–a");
 		passwordAlert.setPositiveButton("Ok", null);
 		passwordAlert.setCancelable(true);
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setTitle("Cambiar contrase–a");
+		actionBar
+				.setHomeAction(new IntentAction(this,
+						PreferencesTimelineActivity.createIntent(this),
+						R.drawable.home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		final Action promos = new IntentAction(this, new Intent(this,
+				AllPromosActivity.class), R.drawable.list);
+		actionBar.addAction(promos);
+
+		final Action calendar = new IntentAction(this, new Intent(this,
+				CalendarListActivity.class), R.drawable.calendar);
+		actionBar.addAction(calendar);
+
+		final Action settings = new IntentAction(this, new Intent(this,
+				SettingsActivity.class), R.drawable.settings);
+		actionBar.addAction(settings);
 		Button.OnClickListener savePasswordOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {

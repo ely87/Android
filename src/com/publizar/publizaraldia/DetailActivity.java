@@ -27,9 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.text.util.Linkify;
@@ -62,7 +60,6 @@ public class DetailActivity extends Activity {
 	private Button button_url;
 	private Button button_send;
 	private Button button_save_promotion;
-	private ImageButton buttonShare;
 	private Button mapButton;
 
 	private String title;
@@ -89,6 +86,7 @@ public class DetailActivity extends Activity {
 	double latitude = 10.478001, longitude = -66.924891;
 	Promotion promoResult;
 	private ActionBar actionBar;
+	private Button buttonShare;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,7 +169,7 @@ public class DetailActivity extends Activity {
 		actionBar = (ActionBar) findViewById(R.id.actionbar);
 		// actionBar.setHomeAction(new IntentAction(this, createIntent(this),
 		// R.drawable.ic_title_home_demo));
-		actionBar.setTitle("Promociones");
+		actionBar.setTitle("Detalle de promocion");
 		actionBar
 				.setHomeAction(new IntentAction(this,
 						PreferencesTimelineActivity.createIntent(this),
@@ -179,7 +177,7 @@ public class DetailActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		final Action promos = new IntentAction(this, new Intent(this,
-				AllPromosActivity.class), R.drawable.clock);
+				AllPromosActivity.class), R.drawable.list);
 		actionBar.addAction(promos);
 
 		final Action calendar = new IntentAction(this, new Intent(this,
@@ -190,8 +188,7 @@ public class DetailActivity extends Activity {
 				SettingsActivity.class), R.drawable.settings);
 		actionBar.addAction(settings);
 
-		RelativeLayout navigationBar2 = (RelativeLayout) findViewById(R.id.navigation_bar_share);
-		buttonShare = (ImageButton) navigationBar2.getChildAt(1);
+		buttonShare = (Button) findViewById(R.id.button_share);
 		Button.OnClickListener launchBrowserOnClickListener = new Button.OnClickListener() {
 
 			public void onClick(View v) {
@@ -269,6 +266,7 @@ public class DetailActivity extends Activity {
 				.setOnClickListener(saveFavouritePromotionOnClickListener);
 		mapButton.setOnClickListener(mapsOnClickListener);
 		buttonShare.setOnClickListener(shareButtonOnClickListener);
+		buttonShare.setVisibility(View.GONE);
 		mapButton.setVisibility(View.GONE);
 		new CallWebServiceTask().execute();
 
@@ -379,6 +377,7 @@ public class DetailActivity extends Activity {
 
 			promoResult = promo_result;
 			mapButton.setVisibility(View.VISIBLE);
+			buttonShare.setVisibility(View.VISIBLE);
 
 		}
 	}

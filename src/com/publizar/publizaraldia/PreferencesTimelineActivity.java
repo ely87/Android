@@ -39,7 +39,7 @@ public class PreferencesTimelineActivity extends Activity {
 		// R.drawable.ic_title_home_demo));
 		actionBar.setTitle("Timeline");
 		final Action timeline = new IntentAction(this, new Intent(this,
-				AllPromosActivity.class), R.drawable.clock);
+				AllPromosActivity.class), R.drawable.list);
 		actionBar.addAction(timeline);
 
 		final Action calendar = new IntentAction(this, new Intent(this,

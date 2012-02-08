@@ -52,6 +52,35 @@ public class PreferencesTimelineActivity extends Activity {
 
 		adapter = new SeparatedListAdapter(this);
 		listTimeline = (ListView) findViewById(R.id.list_timeline);
+
+		// listTimeline.setOnItemClickListener(new ItemClickListener() {
+		// public void onItemClick(AdapterView<?> parent, View v,
+		// int position, long id) {
+
+		/*
+		 * Preference selectedPreference = new Preference();
+		 * selectedPreference.setName(textSelected.getText() .toString());
+		 * ArrayList<Promotion> resultGallery = new ArrayList<Promotion>();
+		 * resultGallery = getArrayPromotions(selectedPreference); Promotion
+		 * promotion = new Promotion(); promotion = resultGallery.get(position);
+		 * Intent intent = new Intent( PreferencesTimelineActivity.this,
+		 * DetailActivity.class); intent.putExtra("Promo_id",
+		 * String.valueOf(promotion.getId())); intent.putExtra("Promo_image",
+		 * promotion.getImage_url()); intent.putExtra("Promo_title",
+		 * promotion.getTitle()); intent.putExtra("Promo_due",
+		 * promotion.getDue_date()); intent.putExtra("Promo_company",
+		 * promotion.getPromo_company()); intent.putExtra("Promo_comerce",
+		 * promotion.getComerce()); intent.putExtra("Promo_price",
+		 * promotion.getSaved_price()); intent.putExtra("Promo_original_price",
+		 * promotion.getOriginal_price()); intent.putExtra("Promo_discount",
+		 * promotion.getDiscount()); intent.putExtra("Promo_description",
+		 * promotion.getDescription()); intent.putExtra("Promo_website",
+		 * promotion.getPromo_complete_url()); intent.putExtra("Promo_excerpt",
+		 * promotion.getExcerpt()); intent.putExtra("Promo_idcomerce",
+		 * promotion.getId_comerce()); startActivity(intent);
+		 */
+		// }
+		// });
 		// listTimeline = (ListView) findViewById(R.id.list_timeline);
 		CallWebServiceTask task = new CallWebServiceTask();
 		task.applicationContext = PreferencesTimelineActivity.this;

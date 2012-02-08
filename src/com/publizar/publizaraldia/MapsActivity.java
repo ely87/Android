@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -71,7 +70,7 @@ public class MapsActivity extends MapActivity {
 		latitude = location.getLatitude();
 		longitude = location.getLongitude();
 		map.getController().setCenter(getPoint(latitude, longitude));
-		map.getController().setZoom(14);
+		map.getController().setZoom(10);
 		map.setBuiltInZoomControls(true);
 		map.setSatellite(false);
 
@@ -109,13 +108,17 @@ public class MapsActivity extends MapActivity {
 	private class SitesOverlay extends ItemizedOverlay<CustomItem> {
 		private Drawable heart = null;
 		private List<CustomItem> items = new ArrayList<CustomItem>();
-		private Context context = getApplicationContext();
 
 		public SitesOverlay(String latitude, String longitude) {
 			super(null);
 
+			CustomItem custom = new CustomItem(getPoint(
+					Double.valueOf(latitude), Double.valueOf(longitude)),
+					longitude, latitude, getMarker(R.drawable.google_pin),
+					heart);
 			LocationServices locationServices = new LocationServices();
 
+			items.add(custom);
 			if (foursquare.contains(" ")) {
 				foursquare = foursquare.replace(" ", "%20");
 			}
@@ -125,7 +128,7 @@ public class MapsActivity extends MapActivity {
 					+ ","
 					+ longitude
 					+ "&oauth_token=GXH3U5SYQ0RNQNVATDT1FM5T1VMBI12FBYOX3RPYBV04VVRF"
-					+ "&v=20111212&query='" + foursquare + "'&radius=5000";
+					+ "&v=20111212&query='" + foursquare + "'&radius=100 000";
 			allLocations = new ArrayList<LocationPromotion>();
 			allLocations = locationServices.getLocationVenue(url);
 
@@ -152,32 +155,6 @@ public class MapsActivity extends MapActivity {
 		public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 			super.draw(canvas, mapView, shadow);
 
-		}
-
-		@Override
-		public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-			// ---when user lifts his finger---
-			if (event.getAction() == 1) {
-				GeoPoint p = mapView.getProjection().fromPixels(
-						(int) event.getX(), (int) event.getY());
-				sites = new SitesOverlay(
-						String.valueOf(p.getLatitudeE6() / 1E6),
-						String.valueOf(p.getLongitudeE6() / 1E6));
-				map.getOverlays().add(sites);
-
-				me = new MyLocationOverlay(context, map);
-				map.getOverlays().add(me);
-			}
-			return false;
-		}
-
-		@Override
-		protected boolean onTap(int i) {
-			// OverlayItem item = getItem(i);
-			// GeoPoint geo = item.getPoint();
-			// Point pt = map.getProjection().toPixels(geo, null);
-
-			return (true);
 		}
 
 		@Override

@@ -13,26 +13,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="80dp"
         android:apiKey="08MVll_J3l6_TEQ-6oGrGYPG_VEOBxywhUS2ssg"
         android:clickable="true"
         android:enabled="true" />
-
-    <Button
-        android:id="@+id/satelite_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mapview"
-        android:layout_marginLeft="131dp"
-        android:text="Vista satelite" />
-
-    <Button
-        android:id="@+id/street_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mapview"
-        android:layout_marginRight="290dp"
-        android:layout_toRightOf="@+id/satelite_button"
-        android:text="Vista calle" />
 
 </RelativeLayout>

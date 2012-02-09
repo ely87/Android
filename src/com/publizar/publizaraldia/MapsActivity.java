@@ -20,9 +20,11 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class MapsActivity extends MapActivity {
 
@@ -67,10 +69,15 @@ public class MapsActivity extends MapActivity {
 		actionBar.addAction(settings);
 		Location location = showCurrentLocation();
 
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
+		if (location != null) {
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+		} else {
+			latitude = 10.48;
+			longitude = -66.85;
+		}
 		map.getController().setCenter(getPoint(latitude, longitude));
-		map.getController().setZoom(10);
+		map.getController().setZoom(14);
 		map.setBuiltInZoomControls(true);
 		map.setSatellite(false);
 
@@ -79,9 +86,6 @@ public class MapsActivity extends MapActivity {
 		sites = new SitesOverlay(String.valueOf(latitude),
 				String.valueOf(longitude));
 		map.getOverlays().add(sites);
-
-		me = new MyLocationOverlay(this, map);
-		map.getOverlays().add(me);
 
 	}
 
@@ -128,7 +132,7 @@ public class MapsActivity extends MapActivity {
 					+ ","
 					+ longitude
 					+ "&oauth_token=GXH3U5SYQ0RNQNVATDT1FM5T1VMBI12FBYOX3RPYBV04VVRF"
-					+ "&v=20111212&query='" + foursquare + "'&radius=100 000";
+					+ "&v=20111212&query='" + foursquare + "'&radius=100000";
 			allLocations = new ArrayList<LocationPromotion>();
 			allLocations = locationServices.getLocationVenue(url);
 

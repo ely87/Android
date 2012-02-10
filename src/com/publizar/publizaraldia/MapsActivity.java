@@ -7,7 +7,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import domain.LocationPromotion;
 import adapters.ActionBar;
@@ -20,11 +19,9 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class MapsActivity extends MapActivity {
 
@@ -33,7 +30,6 @@ public class MapsActivity extends MapActivity {
 	private Double longitude;
 	private String foursquare;
 	private SitesOverlay sites = null;
-	private MyLocationOverlay me = null;
 	private ArrayList<LocationPromotion> allLocations;
 	private ActionBar actionBar;
 

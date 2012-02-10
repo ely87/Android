@@ -2,7 +2,6 @@ package com.publizar.publizaraldia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import connection.VerifyConnection;
 import persistence.FileDatabaseHelper;
 import persistence.UserHelper;
@@ -10,15 +9,19 @@ import services.AuthenticateService;
 import adapters.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,7 +30,6 @@ public class SignInActivity extends Activity {
 	private EditText email;
 	private EditText password;
 	private Button login;
-	private ProgressDialog loginDialog;
 	private String username;
 	private String userpwd;
 	private AlertDialog.Builder loginAlert;
@@ -61,10 +63,6 @@ public class SignInActivity extends Activity {
 		password = (EditText) findViewById(R.id.loginPassword);
 		login = (Button) findViewById(R.id.loginButton);
 		registerUser = (Button) findViewById(R.id.registerButton);
-		loginDialog = new ProgressDialog(this);
-		loginDialog.setIndeterminate(true);
-		loginDialog.setTitle("Iniciando sesi—n");
-		loginDialog.setMessage("Espere un momento");
 
 		loginAlert = new AlertDialog.Builder(this);
 		loginAlert.setTitle("Inicio sesi—n");
@@ -120,7 +118,7 @@ public class SignInActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			loginDialog.show();
+			showDialog(1);
 		}
 
 		@Override
@@ -176,7 +174,7 @@ public class SignInActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Integer operationResult) {
-			loginDialog.cancel();
+			showDialog(0);
 			if (operationResult == 0) {
 				error = "La contrase–a o el correo electr—nico no son v‡lidos";
 				loginAlert.setMessage(error);
@@ -197,6 +195,27 @@ public class SignInActivity extends Activity {
 			}
 		}
 	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case 1:
+			final Dialog dialog = new Dialog(this,
+					android.R.style.Theme_Translucent);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.progress_dialog);
+			dialog.setCancelable(true);
+			dialog.setOnCancelListener(new OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					// onBackPressed();
+				}
+			});
+			return dialog;
+
+		default:
+			return null;
+		}
+	};
 
 	public boolean checkEmailCorrect(String Email) {
 
